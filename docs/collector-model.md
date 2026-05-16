@@ -73,29 +73,27 @@ inference:
 
 unknown:
   no bundle relationship found
-````
+```
 
 ## Classification
 
 Initial classifications:
 
 - Apple system component,
-    
+
 - Apple application,
-    
+
 - user application,
-    
+
 - helper tool,
-    
+
 - command-line tool,
-    
+
 - MacPorts tool,
-    
+
 - developer build,
-    
+
 - unknown.
-    
+
 
 Classification must remain descriptive, not judgmental.
-
-

@@ -4,7 +4,7 @@
 
 It records process and application lifecycle observations that Leopard normally exposes only temporarily or spreads across separate tools.
 
-> LeoCol is not a process monitor.  
+> LeoCol is not a process monitor.
 > LeoCol is a small system memory for Leopard.
 
 ## Purpose
@@ -51,7 +51,7 @@ LeoColResolver
 
 LeoCol.app
   Native Cocoa viewer and controller for collected history.
-````
+```
 
 ## Current status
 
@@ -61,12 +61,7 @@ The first implementation target is a small, reliable V1 that records process lif
 
 ## Documents
 
-- Scope
-    
-- Architecture
-    
-- Collector Model
-    
-- Data Model  
-    
-
+- [Scope](docs/scope.md)
+- [Architecture](docs/architecture.md)
+- [Collector Model](docs/collector-model.md)
+- [Data Model](docs/data-model.md)

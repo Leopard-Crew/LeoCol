@@ -28,7 +28,7 @@ LeoColResolver
 LeoCol.app
   Native Cocoa viewer.
   Shows history, process details, classifications, and safe actions.
-````
+```
 
 ## Data flow
 
@@ -53,23 +53,23 @@ LeoCol.app
 LeoCol should prefer Leopard-native mechanisms:
 
 - POSIX process inspection where appropriate,
-    
+
 - sysctl where appropriate,
-    
+
 - launchd and launchctl-visible information,
-    
+
 - bundle Info.plist metadata,
-    
+
 - LaunchServices identity,
-    
+
 - Finder paths,
-    
+
 - Spotlight metadata only where useful and cheap,
-    
+
 - Apple Events for polite application quit,
-    
+
 - signals only as explicit fallback actions.
-    
+
 
 ## Action doctrine
 
@@ -78,12 +78,10 @@ LeoCol actions must be conservative.
 Preferred order for ending an application:
 
 1. polite application quit where possible,
-    
+
 2. terminate process,
-    
+
 3. force kill only when explicitly requested.
-    
+
 
 LeoCol must never silently clean, kill, disable, quarantine, or modify system behavior.
-
-

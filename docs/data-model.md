@@ -27,7 +27,7 @@ CREATE TABLE process_observation (
     cpu_percent REAL,
     resident_size INTEGER
 );
-````
+```
 
 ### process_lifecycle
 
@@ -94,11 +94,10 @@ Example:
 Every stored value must be either:
 
 - directly observed,
-    
+
 - derived from a named resolver,
-    
+
 - or marked unknown.
-    
+
 
 LeoCol must not hide guesses inside authoritative-looking fields.
-

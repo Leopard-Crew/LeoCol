@@ -80,4 +80,3 @@ LeoCol must be useful even when it only tells the truth it can actually observe.
 Unknown is an acceptable result.
 
 Guessing is not.
-
