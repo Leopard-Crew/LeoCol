@@ -190,6 +190,7 @@ leocol_read_executable_hint(pid_t pid, char *buffer, size_t buffer_size)
     char *exec_path;
     size_t exec_path_max;
     size_t exec_path_len;
+    long arg_max;
 
     if (buffer == NULL || buffer_size == 0) {
         errno = EINVAL;
@@ -198,29 +199,31 @@ leocol_read_executable_hint(pid_t pid, char *buffer, size_t buffer_size)
 
     buffer[0] = '\0';
 
-    mib[0] = CTL_KERN;
-    mib[1] = KERN_PROCARGS2;
-    mib[2] = pid;
+    arg_max = sysconf(_SC_ARG_MAX);
 
-    length = 0;
-
-    if (sysctl(mib, 3, NULL, &length, NULL, 0) != 0) {
-        return -1;
+    if (arg_max < 4096 || arg_max > 1024 * 1024) {
+        arg_max = 262144;
     }
 
-    if (length <= sizeof(int)) {
-        errno = EINVAL;
-        return -1;
-    }
-
-    args = (char *)malloc(length);
+    length = (size_t)arg_max;
+    args = (char *)calloc(1, length);
 
     if (args == NULL) {
         return -1;
     }
 
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_PROCARGS2;
+    mib[2] = pid;
+
     if (sysctl(mib, 3, args, &length, NULL, 0) != 0) {
         free(args);
+        return -1;
+    }
+
+    if (length <= sizeof(int)) {
+        free(args);
+        errno = EINVAL;
         return -1;
     }
 
