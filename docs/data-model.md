@@ -2,11 +2,42 @@
 
 ## Storage principle
 
-LeoCol uses a small explicit SQLite journal.
+LeoCol uses a small explicit SQLite journal. The journal may be accessed directly during early probes and through LeoRM once LeoColStore becomes a stable storage brick.
 
 The schema should be boring, stable, and understandable.
 
-No magic ORM is required for V1.
+No heavy ORM is required for V1. LeoRM may be used as a small Leopard-native Repository/DAO layer, but it must not own LeoCol's domain model or hide LeoCol's schema.
+
+## LeoRM boundary
+
+LeoRM is allowed below LeoColStore.
+
+    LeoCol.app / LeoColAgent
+      -> LeoColStore
+        -> LeoRM
+          -> SQLite / libsqlite3
+
+LeoColStore remains responsible for:
+
+- the LeoCol schema,
+- lifecycle aggregation rules,
+- process identity storage,
+- launch hints,
+- collector-specific integrity checks,
+- and the meaning of stored observations.
+
+LeoRM may provide:
+
+- database open and close handling,
+- prepared statements,
+- Foundation value binding,
+- result row access,
+- explicit transactions,
+- migration running,
+- schema metadata helpers,
+- and NSError-shaped SQLite failures.
+
+LeoRM must not generate hidden LeoCol schemas, own LeoCol domain objects, or turn LeoCol into a generic database framework.
 
 ## Initial tables
 
@@ -78,6 +109,14 @@ CREATE TABLE launch_hint (
     FOREIGN KEY (lifecycle_id) REFERENCES process_lifecycle(id)
 );
 ```
+
+## Leopard SQLite compatibility note
+
+The first schema draft may declare relationships with `FOREIGN KEY` clauses for readability, but V1 must not rely on SQLite enforcing them on Mac OS X 10.5.8's system SQLite.
+
+LeoColStore must preserve referential discipline explicitly in repository code and tests.
+
+If a later build uses a newer SQLite, foreign key enforcement may be enabled and verified by LeoRM, but that must be treated as an optional strengthening, not as the V1 correctness foundation.
 
 ## Timestamp format
 
