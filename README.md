@@ -65,3 +65,4 @@ The first implementation target is a small, reliable V1 that records process lif
 - [Architecture](docs/architecture.md)
 - [Collector Model](docs/collector-model.md)
 - [Data Model](docs/data-model.md)
+- [V1 Roadmap](docs/v1-roadmap.md)
