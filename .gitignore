@@ -78,3 +78,6 @@ Probe/results/*.sqlite
 *.mode2v3
 *.perspectivev3
 xcuserdata/
+
+# Xcode build output
+App/build/
