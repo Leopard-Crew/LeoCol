@@ -17,6 +17,6 @@ if [ "${CC:-}" = "" ]; then
     fi
 fi
 
-"$CC" -Wall -Wextra -std=c99 -pedantic -o "$OUT" "$SRC_MAIN" -lsqlite3
+"$CC" -Wall -Wextra -std=c99 -pedantic -o "$OUT" "$SRC_MAIN" -lsqlite3 -framework CoreFoundation
 
 echo "Built $OUT"

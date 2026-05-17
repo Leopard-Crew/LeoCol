@@ -2,11 +2,13 @@
  * LeoCol identity resolver probe.
  *
  * This probe resolves conservative process identities from recorded
- * process_lifecycle rows using executable paths only.
+ * process_lifecycle rows using executable paths and native CoreFoundation
+ * bundle metadata where an enclosing .app bundle can be derived.
  *
  * It does not use LaunchServices, Spotlight, code signing, or live process state.
  */
 
+#include <CoreFoundation/CoreFoundation.h>
 #include <sqlite3.h>
 
 #include <errno.h>
@@ -20,6 +22,9 @@
 
 typedef struct LeoColIdentityResult {
     char bundle_path[1024];
+    char bundle_identifier[256];
+    char bundle_name[256];
+    char bundle_version[128];
     char classification[64];
     char confidence[64];
     char notes[256];
@@ -71,6 +76,46 @@ leocol_copy_string(char *dst, size_t dst_size, const char *src)
     }
 
     dst[i] = '\0';
+}
+
+static int
+leocol_copy_cfstring(char *dst, size_t dst_size, CFStringRef value)
+{
+    if (dst == NULL || dst_size == 0) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    dst[0] = '\0';
+
+    if (value == NULL) {
+        return 0;
+    }
+
+    if (!CFStringGetCString(value, dst, dst_size, kCFStringEncodingUTF8)) {
+        dst[0] = '\0';
+        return -1;
+    }
+
+    return 0;
+}
+
+static CFStringRef
+leocol_get_bundle_info_string(CFBundleRef bundle, CFStringRef key)
+{
+    CFTypeRef value;
+
+    if (bundle == NULL || key == NULL) {
+        return NULL;
+    }
+
+    value = CFBundleGetValueForInfoDictionaryKey(bundle, key);
+
+    if (value == NULL || CFGetTypeID(value) != CFStringGetTypeID()) {
+        return NULL;
+    }
+
+    return (CFStringRef)value;
 }
 
 static int
@@ -248,6 +293,61 @@ leocol_classify_path(const char *executable_path, LeoColIdentityResult *result)
 }
 
 static void
+leocol_enrich_bundle_metadata(LeoColIdentityResult *result)
+{
+    CFURLRef bundle_url;
+    CFBundleRef bundle;
+    CFStringRef identifier;
+    CFStringRef name;
+    CFStringRef short_version;
+    CFStringRef bundle_version;
+
+    if (result == NULL || result->bundle_path[0] == '\0') {
+        return;
+    }
+
+    bundle_url = CFURLCreateFromFileSystemRepresentation(kCFAllocatorDefault,
+                                                         (const UInt8 *)result->bundle_path,
+                                                         strlen(result->bundle_path),
+                                                         true);
+
+    if (bundle_url == NULL) {
+        return;
+    }
+
+    bundle = CFBundleCreate(kCFAllocatorDefault, bundle_url);
+    CFRelease(bundle_url);
+
+    if (bundle == NULL) {
+        return;
+    }
+
+    identifier = CFBundleGetIdentifier(bundle);
+    name = leocol_get_bundle_info_string(bundle, CFSTR("CFBundleName"));
+    short_version = leocol_get_bundle_info_string(bundle, CFSTR("CFBundleShortVersionString"));
+    bundle_version = leocol_get_bundle_info_string(bundle, CFSTR("CFBundleVersion"));
+
+    leocol_copy_cfstring(result->bundle_identifier,
+                         sizeof(result->bundle_identifier),
+                         identifier);
+    leocol_copy_cfstring(result->bundle_name,
+                         sizeof(result->bundle_name),
+                         name);
+
+    if (short_version != NULL) {
+        leocol_copy_cfstring(result->bundle_version,
+                             sizeof(result->bundle_version),
+                             short_version);
+    } else {
+        leocol_copy_cfstring(result->bundle_version,
+                             sizeof(result->bundle_version),
+                             bundle_version);
+    }
+
+    CFRelease(bundle);
+}
+
+static void
 leocol_resolve_identity(const char *executable_path, LeoColIdentityResult *result)
 {
     if (result == NULL) {
@@ -260,9 +360,19 @@ leocol_resolve_identity(const char *executable_path, LeoColIdentityResult *resul
     leocol_detect_app_bundle(executable_path, result);
 
     if (result->bundle_path[0] != '\0') {
-        leocol_copy_string(result->notes,
-                           sizeof(result->notes),
-                           "Derived containing .app bundle from executable path.");
+        leocol_enrich_bundle_metadata(result);
+
+        if (result->bundle_identifier[0] != '\0' ||
+            result->bundle_name[0] != '\0' ||
+            result->bundle_version[0] != '\0') {
+            leocol_copy_string(result->notes,
+                               sizeof(result->notes),
+                               "Derived containing .app bundle and CoreFoundation metadata from executable path.");
+        } else {
+            leocol_copy_string(result->notes,
+                               sizeof(result->notes),
+                               "Derived containing .app bundle from executable path.");
+        }
     }
 }
 
@@ -291,7 +401,7 @@ leocol_insert_identity(sqlite3 *db,
                             "    classification,"
                             "    confidence,"
                             "    notes"
-                            ") VALUES (?, ?, NULL, NULL, NULL, ?, ?, ?);",
+                            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
                             -1,
                             &stmt,
                             NULL);
@@ -310,15 +420,27 @@ leocol_insert_identity(sqlite3 *db,
     }
 
     if (rc == SQLITE_OK) {
-        rc = leocol_bind_text_or_null(stmt, 3, identity->classification);
+        rc = leocol_bind_text_or_null(stmt, 3, identity->bundle_identifier);
     }
 
     if (rc == SQLITE_OK) {
-        rc = leocol_bind_text_or_null(stmt, 4, identity->confidence);
+        rc = leocol_bind_text_or_null(stmt, 4, identity->bundle_name);
     }
 
     if (rc == SQLITE_OK) {
-        rc = leocol_bind_text_or_null(stmt, 5, identity->notes);
+        rc = leocol_bind_text_or_null(stmt, 5, identity->bundle_version);
+    }
+
+    if (rc == SQLITE_OK) {
+        rc = leocol_bind_text_or_null(stmt, 6, identity->classification);
+    }
+
+    if (rc == SQLITE_OK) {
+        rc = leocol_bind_text_or_null(stmt, 7, identity->confidence);
+    }
+
+    if (rc == SQLITE_OK) {
+        rc = leocol_bind_text_or_null(stmt, 8, identity->notes);
     }
 
     if (rc != SQLITE_OK) {
