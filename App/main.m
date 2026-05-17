@@ -7,9 +7,71 @@
     NSTableView *_tableView;
     NSMutableArray *_rows;
     NSTextField *_statusField;
+    NSString *_sortKey;
+    BOOL _sortAscending;
 }
 - (void)reloadData:(id)sender;
 @end
+
+
+typedef struct LeoColSortContext {
+    NSString *key;
+    BOOL ascending;
+} LeoColSortContext;
+
+static NSComparisonResult
+LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
+{
+    LeoColSortContext *context;
+    NSDictionary *leftRow;
+    NSDictionary *rightRow;
+    id leftValue;
+    id rightValue;
+    NSComparisonResult result;
+
+    context = (LeoColSortContext *)contextPointer;
+    leftRow = (NSDictionary *)leftObject;
+    rightRow = (NSDictionary *)rightObject;
+
+    leftValue = [leftRow objectForKey:context->key];
+    rightValue = [rightRow objectForKey:context->key];
+
+    if ([context->key isEqualToString:@"pid"]) {
+        int leftPID;
+        int rightPID;
+
+        leftPID = leftValue != nil ? [leftValue intValue] : -1;
+        rightPID = rightValue != nil ? [rightValue intValue] : -1;
+
+        if (leftPID < rightPID) {
+            result = NSOrderedAscending;
+        } else if (leftPID > rightPID) {
+            result = NSOrderedDescending;
+        } else {
+            result = NSOrderedSame;
+        }
+    } else {
+        NSString *leftString;
+        NSString *rightString;
+
+        leftString = leftValue != nil ? [leftValue description] : @"";
+        rightString = rightValue != nil ? [rightValue description] : @"";
+
+        result = [leftString caseInsensitiveCompare:rightString];
+    }
+
+    if (!context->ascending) {
+        if (result == NSOrderedAscending) {
+            return NSOrderedDescending;
+        }
+
+        if (result == NSOrderedDescending) {
+            return NSOrderedAscending;
+        }
+    }
+
+    return result;
+}
 
 @implementation LeoColAppDelegate
 
@@ -193,6 +255,10 @@
 
     [self loadRowsFromDatabase];
 
+    if (_sortKey != nil) {
+        [self sortRowsByKey:_sortKey ascending:_sortAscending];
+    }
+
     if (_tableView != nil) {
         [_tableView reloadData];
     }
@@ -268,45 +334,26 @@
     nameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"name"] autorelease];
     [[nameColumn headerCell] setStringValue:@"Process"];
     [nameColumn setWidth:180.0];
-    [nameColumn setSortDescriptorPrototype:
-        [[[NSSortDescriptor alloc] initWithKey:@"name"
-                                     ascending:YES
-                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:nameColumn];
 
     pidColumn = [[[NSTableColumn alloc] initWithIdentifier:@"pid"] autorelease];
     [[pidColumn headerCell] setStringValue:@"PID"];
     [pidColumn setWidth:70.0];
-    [pidColumn setSortDescriptorPrototype:
-        [[[NSSortDescriptor alloc] initWithKey:@"pid"
-                                     ascending:YES] autorelease]];
     [_tableView addTableColumn:pidColumn];
 
     bundleColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundle"] autorelease];
     [[bundleColumn headerCell] setStringValue:@"Bundle Identifier"];
     [bundleColumn setWidth:260.0];
-    [bundleColumn setSortDescriptorPrototype:
-        [[[NSSortDescriptor alloc] initWithKey:@"bundle"
-                                     ascending:YES
-                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:bundleColumn];
 
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
     [[kindColumn headerCell] setStringValue:@"Classification"];
     [kindColumn setWidth:220.0];
-    [kindColumn setSortDescriptorPrototype:
-        [[[NSSortDescriptor alloc] initWithKey:@"kind"
-                                     ascending:YES
-                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:kindColumn];
 
     confidenceColumn = [[[NSTableColumn alloc] initWithIdentifier:@"confidence"] autorelease];
     [[confidenceColumn headerCell] setStringValue:@"Confidence"];
     [confidenceColumn setWidth:180.0];
-    [confidenceColumn setSortDescriptorPrototype:
-        [[[NSSortDescriptor alloc] initWithKey:@"confidence"
-                                     ascending:YES
-                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:confidenceColumn];
 
     [scrollView setDocumentView:_tableView];
@@ -317,20 +364,38 @@
     [_window makeKeyAndOrderFront:nil];
 }
 
-- (void)tableView:(NSTableView *)tableView
-sortDescriptorsDidChange:(NSArray *)oldDescriptors
+- (void)sortRowsByKey:(NSString *)key ascending:(BOOL)ascending
 {
-    NSArray *sortDescriptors;
+    LeoColSortContext context;
 
-    (void)oldDescriptors;
-
-    sortDescriptors = [tableView sortDescriptors];
-
-    if ([sortDescriptors count] == 0) {
+    if (key == nil) {
         return;
     }
 
-    [_rows sortUsingDescriptors:sortDescriptors];
+    context.key = key;
+    context.ascending = ascending;
+
+    [_rows sortUsingFunction:LeoColCompareRows context:&context];
+}
+
+- (void)tableView:(NSTableView *)tableView
+didClickTableColumn:(NSTableColumn *)tableColumn
+{
+    NSString *clickedKey;
+
+    clickedKey = [tableColumn identifier];
+
+    if (_sortKey != nil && [_sortKey isEqualToString:clickedKey]) {
+        _sortAscending = !_sortAscending;
+    } else {
+        [_sortKey release];
+        _sortKey = [clickedKey copy];
+        _sortAscending = YES;
+    }
+
+    [self sortRowsByKey:_sortKey ascending:_sortAscending];
+
+    [tableView setHighlightedTableColumn:tableColumn];
     [tableView reloadData];
 }
 
@@ -361,6 +426,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 - (void)dealloc
 {
+    [_sortKey release];
     [_rows release];
     [_window release];
 
