@@ -37,7 +37,7 @@ process_identity rows: 67
 Apple system component / path-app-contained   9
 Apple system component / path-prefix          4
 command-line tool / path-cli                  9
-developer build / path-app-contained          1
+developer tool / path-app-contained          1
 unknown / path-app-contained                  1
 unknown / unknown                            42
 user application / path-app-contained         1
@@ -97,7 +97,7 @@ The resolver is path-only.
 
 It does not yet read Info.plist metadata, bundle identifiers, bundle versions, LaunchServices records, Spotlight metadata, or code signatures.
 
-The current `developer build` classification is based only on `/Developer/` path prefix and may later be renamed or refined to distinguish developer tools from project build products.
+The current `developer tool` classification is based only on `/Developer/` path prefix and may later be renamed or refined to distinguish developer tools from project build products.
 
 ## Phase 4a status
 

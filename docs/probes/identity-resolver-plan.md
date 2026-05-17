@@ -116,7 +116,7 @@ Paths below:
 
 without an enclosing `.app` bundle.
 
-### Developer build
+### Developer tool
 
 Paths below:
 

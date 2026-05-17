@@ -195,7 +195,7 @@ leocol_classify_path(const char *executable_path, LeoColIdentityResult *result)
     if (leocol_string_starts_with(executable_path, "/Developer/")) {
         leocol_copy_string(result->classification,
                            sizeof(result->classification),
-                           "developer build");
+                           "developer tool");
         leocol_copy_string(result->confidence,
                            sizeof(result->confidence),
                            "path-prefix");
