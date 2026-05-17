@@ -27,3 +27,15 @@ CREATE TABLE IF NOT EXISTS process_lifecycle (
     process_name TEXT,
     exit_observed INTEGER NOT NULL DEFAULT 0
 );
+
+CREATE TABLE IF NOT EXISTS process_identity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lifecycle_id INTEGER NOT NULL,
+    bundle_path TEXT,
+    bundle_identifier TEXT,
+    bundle_name TEXT,
+    bundle_version TEXT,
+    classification TEXT,
+    confidence TEXT NOT NULL DEFAULT 'unknown',
+    notes TEXT
+);
