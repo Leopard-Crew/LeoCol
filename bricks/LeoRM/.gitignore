@@ -1,0 +1,143 @@
+# LeoRM .gitignore
+#
+# Rule:
+# Ignore generated files, local editor state, and build products.
+# Do not ignore project source files, documentation, Makefiles, Xcode projects,
+# or deliberately maintained Leopard-Crew project assets.
+
+# ---------------------------------------------------------------------------
+# macOS / Finder local files
+# ---------------------------------------------------------------------------
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ---------------------------------------------------------------------------
+# Editor / temporary files
+# ---------------------------------------------------------------------------
+
+*~
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.orig
+*.rej
+
+# ---------------------------------------------------------------------------
+# Logs
+# ---------------------------------------------------------------------------
+
+*.log
+
+# ---------------------------------------------------------------------------
+# Build directories
+#
+# These are anchored to the repository root on purpose.
+# Do not use unanchored build-* patterns, because they also match paths such as:
+# docs/build-notes/
+# ---------------------------------------------------------------------------
+
+/Build/
+/build/
+/build-*/
+/DerivedData/
+
+# ---------------------------------------------------------------------------
+# Compiler dependency and object files
+# ---------------------------------------------------------------------------
+
+*.d
+*.o
+*.obj
+*.lo
+*.slo
+
+# ---------------------------------------------------------------------------
+# Generated precompiled-header artifacts
+#
+# Do not ignore *.pch.
+# In Xcode projects, .pch files may be maintained source files.
+# ---------------------------------------------------------------------------
+
+*.gch
+
+# ---------------------------------------------------------------------------
+# Libraries and linker outputs
+# ---------------------------------------------------------------------------
+
+*.a
+*.la
+*.lai
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.ilk
+
+# ---------------------------------------------------------------------------
+# Executables and application build products
+# ---------------------------------------------------------------------------
+
+*.exe
+*.out
+*.app
+
+# ---------------------------------------------------------------------------
+# Debug information
+# ---------------------------------------------------------------------------
+
+*.pdb
+*.dSYM/
+*.dwo
+
+# ---------------------------------------------------------------------------
+# Xcode local user state
+#
+# Keep .xcodeproj project files trackable.
+# Ignore only user-local state.
+# ---------------------------------------------------------------------------
+
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+*.xcuserstate
+
+# ---------------------------------------------------------------------------
+# CMake generated files
+#
+# LeoRM does not currently use CMake as its primary build path.
+# If CMake is used experimentally, generated files should stay out of source.
+# Project Makefiles are source files in Leopard-Crew projects and must remain
+# trackable.
+# ---------------------------------------------------------------------------
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# ---------------------------------------------------------------------------
+# Test runtime output
+# ---------------------------------------------------------------------------
+
+/test.sqlite
+/test.sqlite-journal
+/test.sqlite-wal
+/test.sqlite-shm
+/Tests/tmp/
+/Testing/
+.cache/
+
+# ---------------------------------------------------------------------------
+# Package-manager / external build caches
+# ---------------------------------------------------------------------------
+
+vcpkg_installed/

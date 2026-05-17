@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>Methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMMigration/applyToDatabase:error:" target="doc">-applyToDatabase:error: </a></tt></dt>
+<dd>Applies this migration's SQL statements to an open database.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMMigration/fromVersion" target="doc">-fromVersion</a></tt></dt>
+<dd>Returns the source schema version.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMMigration/initFromVersion:toVersion:SQLStatements:" target="doc">-initFromVersion:toVersion:SQLStatements: </a></tt></dt>
+<dd>Initializes a migration step.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/clm/LRMMigration/migrationFromVersion:toVersion:SQLStatements:" target="doc">+migrationFromVersion:toVersion:SQLStatements:</a></tt></dt>
+<dd>Creates an autoreleased migration step.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMMigration/SQLStatements" target="doc">-SQLStatements</a></tt></dt>
+<dd>Returns the ordered SQL statements for this migration.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMMigration/toVersion" target="doc">-toVersion</a></tt></dt>
+<dd>Returns the target schema version.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMMigration/applyToDatabase:error:;  name=LRMMigration::applyToDatabase:error: --><a name="//apple_ref/occ/instm/LRMMigration/applyToDatabase:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="applyToDatabase:error:">applyToDatabase:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Applies this migration's SQL statements to an open database.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/applyToDatabase //apple_ref/occ/clm/applyToDatabase //apple_ref/occ/intfcm/applyToDatabase //apple_ref/occ/intfm/applyToDatabase //apple_ref/occ/func/applyToDatabase //apple_ref/occ/ftmplt/applyToDatabase //apple_ref/occ/defn/applyToDatabase //apple_ref/occ/macro/applyToDatabase" --><span class="function">applyToDatabase</span><!-- /a -->:(<a href="../../../../../raw/LRMDatabase/Classes/LRMDatabase_/index.html#//apple_ref/occ/cl/LRMDatabase" logicalPath="//apple_ref/occ/cl/LRMDatabase" target="_top"><span class="type">LRMDatabase</span></a> <span class="type">*</span>)<span class="param">database</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>database </code></dt>
+<dd>Open LRMDatabase. Must not be nil and must be open.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled on invalid migration data,
+invalid database state, prepare failure, or execution failure.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES when all SQL statements execute successfully, NO on the
+first failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This method does not start or commit a transaction. LRMMigrationRunner owns
+transaction boundaries for normal migration execution.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMMigration/fromVersion;  name=LRMMigration::fromVersion --><a name="//apple_ref/occ/instm/LRMMigration/fromVersion"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="fromVersion">fromVersion</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the source schema version.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">fromVersion</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Source version for this migration step.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMMigration/initFromVersion:toVersion:SQLStatements:;  name=LRMMigration::initFromVersion:toVersion:SQLStatements: --><a name="//apple_ref/occ/instm/LRMMigration/initFromVersion:toVersion:SQLStatements:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="initFromVersion:toVersion:SQLStatements:">initFromVersion:toVersion:SQLStatements: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Initializes a migration step.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/initFromVersion //apple_ref/occ/clm/initFromVersion //apple_ref/occ/intfcm/initFromVersion //apple_ref/occ/intfm/initFromVersion //apple_ref/occ/func/initFromVersion //apple_ref/occ/ftmplt/initFromVersion //apple_ref/occ/defn/initFromVersion //apple_ref/occ/macro/initFromVersion" --><span class="function">initFromVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">fromVersion</span> <!-- a logicalPath="//apple_ref/occ/instm/toVersion //apple_ref/occ/clm/toVersion //apple_ref/occ/intfcm/toVersion //apple_ref/occ/intfm/toVersion //apple_ref/occ/func/toVersion //apple_ref/occ/ftmplt/toVersion //apple_ref/occ/defn/toVersion //apple_ref/occ/macro/toVersion" --><span class="function">toVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">toVersion</span> <!-- a logicalPath="//apple_ref/occ/instm/SQLStatements //apple_ref/occ/clm/SQLStatements //apple_ref/occ/intfcm/SQLStatements //apple_ref/occ/intfm/SQLStatements //apple_ref/occ/func/SQLStatements //apple_ref/occ/ftmplt/SQLStatements //apple_ref/occ/defn/SQLStatements //apple_ref/occ/macro/SQLStatements" --><span class="function">SQLStatements</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSArray //apple_ref/occ/tdef/NSArray //apple_ref/occ/tag/NSArray //apple_ref/occ/econst/NSArray //apple_ref/occ/struct/NSArray //apple_ref/occ/clconst/NSArray //apple_ref/occ/intf/NSArray" --><span class="type">NSArray</span><!-- /a --> <span class="type">*</span>)<span class="var">SQLStatements</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>fromVersion </code></dt>
+<dd>Source schema version.</dd>
+<dt><code>toVersion </code></dt>
+<dd>Target schema version.</dd>
+<dt><code>SQLStatements </code></dt>
+<dd>Ordered array of SQL statements. The array is copied.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an owned LRMMigration.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Validation of SQL statement contents happens when the migration is applied.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=clm;  uid=//apple_ref/occ/clm/LRMMigration/migrationFromVersion:toVersion:SQLStatements:;  name=LRMMigration::migrationFromVersion:toVersion:SQLStatements: --><a name="//apple_ref/occ/clm/LRMMigration/migrationFromVersion:toVersion:SQLStatements:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="migrationFromVersion:toVersion:SQLStatements:">migrationFromVersion:toVersion:SQLStatements:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates an autoreleased migration step.
+<!-- end abstract --></p>
+<p></p>
+<pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/migrationFromVersion //apple_ref/occ/clm/migrationFromVersion //apple_ref/occ/intfcm/migrationFromVersion //apple_ref/occ/intfm/migrationFromVersion //apple_ref/occ/func/migrationFromVersion //apple_ref/occ/ftmplt/migrationFromVersion //apple_ref/occ/defn/migrationFromVersion //apple_ref/occ/macro/migrationFromVersion" --><span class="function">migrationFromVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">fromVersion</span> <!-- a logicalPath="//apple_ref/occ/instm/toVersion //apple_ref/occ/clm/toVersion //apple_ref/occ/intfcm/toVersion //apple_ref/occ/intfm/toVersion //apple_ref/occ/func/toVersion //apple_ref/occ/ftmplt/toVersion //apple_ref/occ/defn/toVersion //apple_ref/occ/macro/toVersion" --><span class="function">toVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">toVersion</span> <!-- a logicalPath="//apple_ref/occ/instm/SQLStatements //apple_ref/occ/clm/SQLStatements //apple_ref/occ/intfcm/SQLStatements //apple_ref/occ/intfm/SQLStatements //apple_ref/occ/func/SQLStatements //apple_ref/occ/ftmplt/SQLStatements //apple_ref/occ/defn/SQLStatements //apple_ref/occ/macro/SQLStatements" --><span class="function">SQLStatements</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSArray //apple_ref/occ/tdef/NSArray //apple_ref/occ/tag/NSArray //apple_ref/occ/econst/NSArray //apple_ref/occ/struct/NSArray //apple_ref/occ/clconst/NSArray //apple_ref/occ/intf/NSArray" --><span class="type">NSArray</span><!-- /a --> <span class="type">*</span>)<span class="var">SQLStatements</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>fromVersion </code></dt>
+<dd>Source schema version.</dd>
+<dt><code>toVersion </code></dt>
+<dd>Target schema version. Must be greater than fromVersion
+when the migration is applied.</dd>
+<dt><code>SQLStatements </code></dt>
+<dd>Ordered array of non-empty NSString SQL statements.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased LRMMigration.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMMigration/SQLStatements;  name=LRMMigration::SQLStatements --><a name="//apple_ref/occ/instm/LRMMigration/SQLStatements"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="SQLStatements">SQLStatements</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the ordered SQL statements for this migration.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSArray //apple_ref/occ/tdef/NSArray //apple_ref/occ/tag/NSArray //apple_ref/occ/econst/NSArray //apple_ref/occ/struct/NSArray //apple_ref/occ/clconst/NSArray //apple_ref/occ/intf/NSArray" --><span class="type">NSArray</span><!-- /a --> <span class="type">*</span>)<span class="var">SQLStatements</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the copied SQL statement array. The caller does not own the
+returned object.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMMigration/toVersion;  name=LRMMigration::toVersion --><a name="//apple_ref/occ/instm/LRMMigration/toVersion"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="toVersion">toVersion</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the target schema version.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">toVersion</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Target version for this migration step.
+ 
+<!-- end return value --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

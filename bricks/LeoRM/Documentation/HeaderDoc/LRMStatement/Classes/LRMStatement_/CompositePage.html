@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LRMStatement </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/class/LRMStatement" title="LRMStatement "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LRMStatement">LRMStatement </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract --> Explicit wrapper around one prepared SQLite statement.
+<!-- end abstract --></p>
+<p><b>Superclass:</b> <!-- a logicalPath="//apple_ref/occ/cl/NSObject" -->NSObject<!-- /a --><br><b>Declared In:</b> <a href="../../index.html" target="_top">LRMStatement </a><br></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->
+LRMStatement owns one sqlite3_stmt prepared from visible SQL. It supports
+Foundation value binding, update execution, query execution, resetting, and
+explicit finalization.<br>
+LRMStatement does not generate SQL, own transactions, map rows into domain
+objects, or hide SQLite semantics. SQL remains visible through the sql
+accessor for debugging and error reporting.<br>
+Instances use manual retain/release. Statements should be finalized
+explicitly with finalizeStatement when no longer needed. dealloc performs
+defensive cleanup.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMStatement/bindObject:atIndex:error:" target="_top">-bindObject:atIndex:error: </a></tt></dt>
+<dd>Binds a Foundation value to a SQLite parameter index.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMStatement/executeQuery:" target="_top">-executeQuery: </a></tt></dt>
+<dd>Creates a result set for row-returning SQL.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMStatement/executeUpdate:" target="_top">-executeUpdate: </a></tt></dt>
+<dd>Executes a statement that is expected to finish with SQLITE_DONE.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMStatement/finalizeStatement" target="_top">-finalizeStatement </a></tt></dt>
+<dd>Finalizes the underlying sqlite3_stmt.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMStatement/reset" target="_top">-reset </a></tt></dt>
+<dd>Resets the prepared statement and clears bindings.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMStatement/sql" target="_top">-sql</a></tt></dt>
+<dd>Returns the SQL string used to prepare this statement.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMStatement/bindObject:atIndex:error:;  name=LRMStatement::bindObject:atIndex:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMStatement/bindObject:atIndex:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="bindObject:atIndex:error:">bindObject:atIndex:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Binds a Foundation value to a SQLite parameter index.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/bindObject //apple_ref/occ/clm/bindObject //apple_ref/occ/intfcm/bindObject //apple_ref/occ/intfm/bindObject //apple_ref/occ/func/bindObject //apple_ref/occ/ftmplt/bindObject //apple_ref/occ/defn/bindObject //apple_ref/occ/macro/bindObject" --><span class="function">bindObject</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<span class="param">value</span> <!-- a logicalPath="//apple_ref/occ/instm/atIndex //apple_ref/occ/clm/atIndex //apple_ref/occ/intfcm/atIndex //apple_ref/occ/intfm/atIndex //apple_ref/occ/func/atIndex //apple_ref/occ/ftmplt/atIndex //apple_ref/occ/defn/atIndex //apple_ref/occ/macro/atIndex" --><span class="function">atIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">index</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>value </code></dt>
+<dd>Value to bind. Supported values are NSString, NSNumber, NSData,
+nil, and NSNull.</dd>
+<dt><code>index </code></dt>
+<dd>SQLite parameter index. SQLite bind indexes start at 1.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled on invalid state, unsupported
+value class, invalid index, or SQLite bind failure.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES on success, NO on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->NSNumber values are bound as integer or double based on Objective-C type
+encoding. NSString values are bound as UTF-8 text. NSData values are bound as
+blobs. nil and NSNull are bound as SQL NULL.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMStatement/executeQuery:;  name=LRMStatement::executeQuery: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMStatement/executeQuery:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="executeQuery:">executeQuery: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates a result set for row-returning SQL.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<a href="../../../../raw/LRMResultSet/Classes/LRMResultSet_/index.html#//apple_ref/occ/cl/LRMResultSet" logicalPath="//apple_ref/occ/cl/LRMResultSet" target="_top"><span class="type">LRMResultSet</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/executeQuery //apple_ref/occ/clm/executeQuery //apple_ref/occ/intfcm/executeQuery //apple_ref/occ/intfm/executeQuery //apple_ref/occ/func/executeQuery //apple_ref/occ/ftmplt/executeQuery //apple_ref/occ/defn/executeQuery //apple_ref/occ/macro/executeQuery" --><span class="function">executeQuery</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled if the statement has already
+been finalized.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased LRMResultSet, or nil on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The returned result set retains this statement and owns the stepping process.
+Closing the result set finalizes the underlying statement.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMStatement/executeUpdate:;  name=LRMStatement::executeUpdate: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMStatement/executeUpdate:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="executeUpdate:">executeUpdate: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Executes a statement that is expected to finish with SQLITE_DONE.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/executeUpdate //apple_ref/occ/clm/executeUpdate //apple_ref/occ/intfcm/executeUpdate //apple_ref/occ/intfm/executeUpdate //apple_ref/occ/func/executeUpdate //apple_ref/occ/ftmplt/executeUpdate //apple_ref/occ/defn/executeUpdate //apple_ref/occ/macro/executeUpdate" --><span class="function">executeUpdate</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>error </code></dt>
+<dd>Optional NSError output.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES when sqlite3_step returns SQLITE_DONE, NO otherwise.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Use this for CREATE, INSERT, UPDATE, DELETE, and other non-row-returning SQL.
+The statement is not automatically reset after execution.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMStatement/finalizeStatement;  name=LRMStatement::finalizeStatement --><a name="//apple_ref/doc/compositePage/occ/instm/LRMStatement/finalizeStatement"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="finalizeStatement">finalizeStatement </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Finalizes the underlying sqlite3_stmt.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<span class="var">finalizeStatement</span>; </pre>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This method is idempotent. After finalization, binding and execution methods
+fail. Result sets that own a statement call this when closed.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMStatement/reset;  name=LRMStatement::reset --><a name="//apple_ref/doc/compositePage/occ/instm/LRMStatement/reset"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="reset">reset </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Resets the prepared statement and clears bindings.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<span class="var">reset</span>; </pre>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This calls sqlite3_reset and sqlite3_clear_bindings when the statement is
+still active. Calling reset after finalization has no effect.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMStatement/sql;  name=LRMStatement::sql --><a name="//apple_ref/doc/compositePage/occ/instm/LRMStatement/sql"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="sql">sql</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the SQL string used to prepare this statement.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">sql</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the SQL string. The caller does not own the returned object.
+ 
+<!-- end return value --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

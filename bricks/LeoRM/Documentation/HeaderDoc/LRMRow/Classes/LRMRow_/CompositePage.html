@@ -1,0 +1,336 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LRMRow </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/class/LRMRow" title="LRMRow "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LRMRow">LRMRow </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract --> Foundation-shaped access to the current SQLite result row.
+<!-- end abstract --></p>
+<p><b>Superclass:</b> <!-- a logicalPath="//apple_ref/occ/cl/NSObject" -->NSObject<!-- /a --><br><b>Declared In:</b> <a href="../../index.html" target="_top">LRMRow </a><br></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->
+LRMRow reads values from the current sqlite3_stmt row state. It does not own
+the SQLite statement and does not remain valid independently of the
+LRMResultSet that created it.<br>
+Rows are lightweight views over the current result row. The caller should
+read needed values before advancing or closing the result set.<br>
+LRMRow does not map values into domain objects. Domain mapping belongs in a
+repository or domain store above LeoRM.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/columnCount" target="_top">-columnCount</a></tt></dt>
+<dd>Returns the number of columns in the current row.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/columnNameAtIndex:" target="_top">-columnNameAtIndex:</a></tt></dt>
+<dd>Returns a column name by zero-based index.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/dataAtIndex:" target="_top">-dataAtIndex:</a></tt></dt>
+<dd>Returns NSData for a BLOB column by zero-based index.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/dataForColumn:" target="_top">-dataForColumn:</a></tt></dt>
+<dd>Returns NSData for a BLOB column by name.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/initWithStatement:" target="_top">-initWithStatement: </a></tt></dt>
+<dd>Initializes a row view for the current SQLite statement state.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/isNullAtIndex:" target="_top">-isNullAtIndex:</a></tt></dt>
+<dd>Reports whether a column is SQL NULL.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/isNullForColumn:" target="_top">-isNullForColumn:</a></tt></dt>
+<dd>Reports whether a named column is SQL NULL.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/numberAtIndex:" target="_top">-numberAtIndex:</a></tt></dt>
+<dd>Returns an NSNumber value by zero-based index.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/numberForColumn:" target="_top">-numberForColumn:</a></tt></dt>
+<dd>Returns an NSNumber value by column name.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/objectAtIndex:" target="_top">-objectAtIndex: </a></tt></dt>
+<dd>Returns a Foundation object for a column by zero-based index.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/objectForColumn:" target="_top">-objectForColumn:</a></tt></dt>
+<dd>Returns a Foundation object for a column by name.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/stringAtIndex:" target="_top">-stringAtIndex:</a></tt></dt>
+<dd>Returns a string value by zero-based index.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMRow/stringForColumn:" target="_top">-stringForColumn:</a></tt></dt>
+<dd>Returns a string value by column name.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/columnCount;  name=LRMRow::columnCount --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/columnCount"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="columnCount">columnCount</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the number of columns in the current row.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">columnCount</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the SQLite column count, or 0 if the row has no statement.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/columnNameAtIndex:;  name=LRMRow::columnNameAtIndex: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/columnNameAtIndex:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="columnNameAtIndex:">columnNameAtIndex:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns a column name by zero-based index.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/columnNameAtIndex //apple_ref/occ/clm/columnNameAtIndex //apple_ref/occ/intfcm/columnNameAtIndex //apple_ref/occ/intfm/columnNameAtIndex //apple_ref/occ/func/columnNameAtIndex //apple_ref/occ/ftmplt/columnNameAtIndex //apple_ref/occ/defn/columnNameAtIndex //apple_ref/occ/macro/columnNameAtIndex" --><span class="function">columnNameAtIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">index</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>index </code></dt>
+<dd>Zero-based column index.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased NSString, or nil if the index is invalid.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/dataAtIndex:;  name=LRMRow::dataAtIndex: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/dataAtIndex:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="dataAtIndex:">dataAtIndex:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns NSData for a BLOB column by zero-based index.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSData //apple_ref/occ/tdef/NSData //apple_ref/occ/tag/NSData //apple_ref/occ/econst/NSData //apple_ref/occ/struct/NSData //apple_ref/occ/clconst/NSData //apple_ref/occ/intf/NSData" --><span class="type">NSData</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/dataAtIndex //apple_ref/occ/clm/dataAtIndex //apple_ref/occ/intfcm/dataAtIndex //apple_ref/occ/intfm/dataAtIndex //apple_ref/occ/func/dataAtIndex //apple_ref/occ/ftmplt/dataAtIndex //apple_ref/occ/defn/dataAtIndex //apple_ref/occ/macro/dataAtIndex" --><span class="function">dataAtIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">index</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>index </code></dt>
+<dd>Zero-based column index.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSData, or nil when the value is not a BLOB or unavailable.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/dataForColumn:;  name=LRMRow::dataForColumn: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/dataForColumn:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="dataForColumn:">dataForColumn:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns NSData for a BLOB column by name.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSData //apple_ref/occ/tdef/NSData //apple_ref/occ/tag/NSData //apple_ref/occ/econst/NSData //apple_ref/occ/struct/NSData //apple_ref/occ/clconst/NSData //apple_ref/occ/intf/NSData" --><span class="type">NSData</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/dataForColumn //apple_ref/occ/clm/dataForColumn //apple_ref/occ/intfcm/dataForColumn //apple_ref/occ/intfm/dataForColumn //apple_ref/occ/func/dataForColumn //apple_ref/occ/ftmplt/dataForColumn //apple_ref/occ/defn/dataForColumn //apple_ref/occ/macro/dataForColumn" --><span class="function">dataForColumn</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">name</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Column name. Must not be nil.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSData, or nil when the value is not a BLOB or unavailable.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/initWithStatement:;  name=LRMRow::initWithStatement: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/initWithStatement:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="initWithStatement:">initWithStatement: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Initializes a row view for the current SQLite statement state.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/initWithStatement //apple_ref/occ/clm/initWithStatement //apple_ref/occ/intfcm/initWithStatement //apple_ref/occ/intfm/initWithStatement //apple_ref/occ/func/initWithStatement //apple_ref/occ/ftmplt/initWithStatement //apple_ref/occ/defn/initWithStatement //apple_ref/occ/macro/initWithStatement" --><span class="function">initWithStatement</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a --> <span class="type">*</span>)<span class="var">statement</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>statement </code></dt>
+<dd>Internal sqlite3_stmt pointer as an opaque value. Must point
+to a statement currently positioned on SQLITE_ROW.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an owned LRMRow.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This initializer is intended for LeoRM internals. The row does not own or
+finalize the statement.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/isNullAtIndex:;  name=LRMRow::isNullAtIndex: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/isNullAtIndex:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="isNullAtIndex:">isNullAtIndex:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Reports whether a column is SQL NULL.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/isNullAtIndex //apple_ref/occ/clm/isNullAtIndex //apple_ref/occ/intfcm/isNullAtIndex //apple_ref/occ/intfm/isNullAtIndex //apple_ref/occ/func/isNullAtIndex //apple_ref/occ/ftmplt/isNullAtIndex //apple_ref/occ/defn/isNullAtIndex //apple_ref/occ/macro/isNullAtIndex" --><span class="function">isNullAtIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">index</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>index </code></dt>
+<dd>Zero-based column index.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES for SQL NULL, invalid index, or invalid state.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/isNullForColumn:;  name=LRMRow::isNullForColumn: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/isNullForColumn:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="isNullForColumn:">isNullForColumn:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Reports whether a named column is SQL NULL.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/isNullForColumn //apple_ref/occ/clm/isNullForColumn //apple_ref/occ/intfcm/isNullForColumn //apple_ref/occ/intfm/isNullForColumn //apple_ref/occ/func/isNullForColumn //apple_ref/occ/ftmplt/isNullForColumn //apple_ref/occ/defn/isNullForColumn //apple_ref/occ/macro/isNullForColumn" --><span class="function">isNullForColumn</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">name</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Column name. Must not be nil.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES for SQL NULL, missing column, or invalid state.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/numberAtIndex:;  name=LRMRow::numberAtIndex: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/numberAtIndex:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="numberAtIndex:">numberAtIndex:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns an NSNumber value by zero-based index.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSNumber //apple_ref/occ/tdef/NSNumber //apple_ref/occ/tag/NSNumber //apple_ref/occ/econst/NSNumber //apple_ref/occ/struct/NSNumber //apple_ref/occ/clconst/NSNumber //apple_ref/occ/intf/NSNumber" --><span class="type">NSNumber</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/numberAtIndex //apple_ref/occ/clm/numberAtIndex //apple_ref/occ/intfcm/numberAtIndex //apple_ref/occ/intfm/numberAtIndex //apple_ref/occ/func/numberAtIndex //apple_ref/occ/ftmplt/numberAtIndex //apple_ref/occ/defn/numberAtIndex //apple_ref/occ/macro/numberAtIndex" --><span class="function">numberAtIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">index</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>index </code></dt>
+<dd>Zero-based column index.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSNumber, or nil when the value is not numeric or unavailable.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/numberForColumn:;  name=LRMRow::numberForColumn: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/numberForColumn:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="numberForColumn:">numberForColumn:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns an NSNumber value by column name.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSNumber //apple_ref/occ/tdef/NSNumber //apple_ref/occ/tag/NSNumber //apple_ref/occ/econst/NSNumber //apple_ref/occ/struct/NSNumber //apple_ref/occ/clconst/NSNumber //apple_ref/occ/intf/NSNumber" --><span class="type">NSNumber</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/numberForColumn //apple_ref/occ/clm/numberForColumn //apple_ref/occ/intfcm/numberForColumn //apple_ref/occ/intfm/numberForColumn //apple_ref/occ/func/numberForColumn //apple_ref/occ/ftmplt/numberForColumn //apple_ref/occ/defn/numberForColumn //apple_ref/occ/macro/numberForColumn" --><span class="function">numberForColumn</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">name</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Column name. Must not be nil.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSNumber, or nil when the value is not numeric or unavailable.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/objectAtIndex:;  name=LRMRow::objectAtIndex: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/objectAtIndex:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="objectAtIndex:">objectAtIndex: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns a Foundation object for a column by zero-based index.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/objectAtIndex //apple_ref/occ/clm/objectAtIndex //apple_ref/occ/intfcm/objectAtIndex //apple_ref/occ/intfm/objectAtIndex //apple_ref/occ/func/objectAtIndex //apple_ref/occ/ftmplt/objectAtIndex //apple_ref/occ/defn/objectAtIndex //apple_ref/occ/macro/objectAtIndex" --><span class="function">objectAtIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">index</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>index </code></dt>
+<dd>Zero-based column index.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSString, NSNumber, NSData, or nil for SQL NULL / invalid
+index.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->SQLITE_TEXT becomes NSString, SQLITE_INTEGER and SQLITE_FLOAT become
+NSNumber, SQLITE_BLOB becomes NSData, and SQLITE_NULL becomes nil.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/objectForColumn:;  name=LRMRow::objectForColumn: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/objectForColumn:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="objectForColumn:">objectForColumn:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns a Foundation object for a column by name.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/objectForColumn //apple_ref/occ/clm/objectForColumn //apple_ref/occ/intfcm/objectForColumn //apple_ref/occ/intfm/objectForColumn //apple_ref/occ/func/objectForColumn //apple_ref/occ/ftmplt/objectForColumn //apple_ref/occ/defn/objectForColumn //apple_ref/occ/macro/objectForColumn" --><span class="function">objectForColumn</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">name</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Column name. Must not be nil.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSString, NSNumber, NSData, or nil for SQL NULL, missing
+column, or invalid state.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/stringAtIndex:;  name=LRMRow::stringAtIndex: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/stringAtIndex:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="stringAtIndex:">stringAtIndex:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns a string value by zero-based index.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/stringAtIndex //apple_ref/occ/clm/stringAtIndex //apple_ref/occ/intfcm/stringAtIndex //apple_ref/occ/intfm/stringAtIndex //apple_ref/occ/func/stringAtIndex //apple_ref/occ/ftmplt/stringAtIndex //apple_ref/occ/defn/stringAtIndex //apple_ref/occ/macro/stringAtIndex" --><span class="function">stringAtIndex</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">index</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>index </code></dt>
+<dd>Zero-based column index.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSString, converted stringValue for NSNumber-like values, or
+nil when unavailable.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMRow/stringForColumn:;  name=LRMRow::stringForColumn: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMRow/stringForColumn:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="stringForColumn:">stringForColumn:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns a string value by column name.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/stringForColumn //apple_ref/occ/clm/stringForColumn //apple_ref/occ/intfcm/stringForColumn //apple_ref/occ/intfm/stringForColumn //apple_ref/occ/func/stringForColumn //apple_ref/occ/ftmplt/stringForColumn //apple_ref/occ/defn/stringForColumn //apple_ref/occ/macro/stringForColumn" --><span class="function">stringForColumn</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">name</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Column name. Must not be nil.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns NSString, converted stringValue for NSNumber-like values, or
+nil when unavailable.
+ 
+<!-- end return value --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>Methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMMigrationRunner/migrateDatabase:schema:error:" target="doc">-migrateDatabase:schema:error: </a></tt></dt>
+<dd>Migrates an open database to a schema's target version.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMMigrationRunner/migrateDatabase:schema:error:;  name=LRMMigrationRunner::migrateDatabase:schema:error: --><a name="//apple_ref/occ/instm/LRMMigrationRunner/migrateDatabase:schema:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="migrateDatabase:schema:error:">migrateDatabase:schema:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Migrates an open database to a schema's target version.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/migrateDatabase //apple_ref/occ/clm/migrateDatabase //apple_ref/occ/intfcm/migrateDatabase //apple_ref/occ/intfm/migrateDatabase //apple_ref/occ/func/migrateDatabase //apple_ref/occ/ftmplt/migrateDatabase //apple_ref/occ/defn/migrateDatabase //apple_ref/occ/macro/migrateDatabase" --><span class="function">migrateDatabase</span><!-- /a -->:(<a href="../../../../../raw/LRMDatabase/Classes/LRMDatabase_/index.html#//apple_ref/occ/cl/LRMDatabase" logicalPath="//apple_ref/occ/cl/LRMDatabase" target="_top"><span class="type">LRMDatabase</span></a> <span class="type">*</span>)<span class="param">database</span> <!-- a logicalPath="//apple_ref/occ/instm/schema //apple_ref/occ/clm/schema //apple_ref/occ/intfcm/schema //apple_ref/occ/intfm/schema //apple_ref/occ/func/schema //apple_ref/occ/ftmplt/schema //apple_ref/occ/defn/schema //apple_ref/occ/macro/schema" --><span class="function">schema</span><!-- /a -->:(<a href="../../../../../raw/LRMSchema/Classes/LRMSchema_/index.html#//apple_ref/occ/cl/LRMSchema" logicalPath="//apple_ref/occ/cl/LRMSchema" target="_top"><span class="type">LRMSchema</span></a> <span class="type">*</span>)<span class="param">schema</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>;</pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>database </code></dt>
+<dd>Open LRMDatabase. Must not be nil and must be open.</dd>
+<dt><code>schema </code></dt>
+<dd>Schema description. Must not be nil.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled on invalid input, missing
+migration step, invalid version state, transaction failure, migration
+failure, or metadata update failure.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES when the database is at the target version, NO on
+failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->If the current version already equals the target version, this method returns
+YES without applying migrations. If the current version is newer than the
+target version, the method returns NO.
+ <!-- end discussion --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

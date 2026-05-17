@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>Methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMResultSet/close" target="doc">-close </a></tt></dt>
+<dd>Closes the result set and finalizes the underlying statement.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMResultSet/currentRow" target="doc">-currentRow </a></tt></dt>
+<dd>Returns the current row.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMResultSet/initWithStatement:" target="doc">-initWithStatement: </a></tt></dt>
+<dd>Initializes a result set with a prepared statement.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMResultSet/isClosed" target="doc">-isClosed</a></tt></dt>
+<dd>Reports whether the result set has been closed.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/LRMResultSet/next:" target="doc">-next: </a></tt></dt>
+<dd>Advances to the next row.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMResultSet/close;  name=LRMResultSet::close --><a name="//apple_ref/occ/instm/LRMResultSet/close"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="close">close </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Closes the result set and finalizes the underlying statement.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<span class="var">close</span>; </pre>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This method is idempotent. After close, currentRow returns nil and next:
+returns NO.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMResultSet/currentRow;  name=LRMResultSet::currentRow --><a name="//apple_ref/occ/instm/LRMResultSet/currentRow"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="currentRow">currentRow </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the current row.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<a href="../../../../../raw/LRMRow/Classes/LRMRow_/index.html#//apple_ref/occ/cl/LRMRow" logicalPath="//apple_ref/occ/cl/LRMRow" target="_top"><span class="type">LRMRow</span></a> <span class="type">*</span>)<span class="var">currentRow</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the current LRMRow, or nil before next: succeeds, after the
+result set is closed, or after iteration finishes.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The caller does not own the returned row. The row is valid only until the
+result set advances, closes, or is deallocated.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMResultSet/initWithStatement:;  name=LRMResultSet::initWithStatement: --><a name="//apple_ref/occ/instm/LRMResultSet/initWithStatement:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="initWithStatement:">initWithStatement: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Initializes a result set with a prepared statement.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/initWithStatement //apple_ref/occ/clm/initWithStatement //apple_ref/occ/intfcm/initWithStatement //apple_ref/occ/intfm/initWithStatement //apple_ref/occ/func/initWithStatement //apple_ref/occ/ftmplt/initWithStatement //apple_ref/occ/defn/initWithStatement //apple_ref/occ/macro/initWithStatement" --><span class="function">initWithStatement</span><!-- /a -->:(<a href="../../../../../raw/LRMStatement/Classes/LRMStatement_/index.html#//apple_ref/occ/cl/LRMStatement" logicalPath="//apple_ref/occ/cl/LRMStatement" target="_top"><span class="type">LRMStatement</span></a> <span class="type">*</span>)<span class="var">statement</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>statement </code></dt>
+<dd>Prepared statement to iterate. Must not be nil.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an owned LRMResultSet.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The result set retains the statement. Closing the result set finalizes the
+underlying SQLite statement through LRMStatement.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMResultSet/isClosed;  name=LRMResultSet::isClosed --><a name="//apple_ref/occ/instm/LRMResultSet/isClosed"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="isClosed">isClosed</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Reports whether the result set has been closed.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<span class="var">isClosed</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES after close or after iteration reaches SQLITE_DONE.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/LRMResultSet/next:;  name=LRMResultSet::next: --><a name="//apple_ref/occ/instm/LRMResultSet/next:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="next:">next: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Advances to the next row.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/next //apple_ref/occ/clm/next //apple_ref/occ/intfcm/next //apple_ref/occ/intfm/next //apple_ref/occ/func/next //apple_ref/occ/ftmplt/next //apple_ref/occ/defn/next //apple_ref/occ/macro/next" --><span class="function">next</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled when sqlite3_step fails.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES when a row is available, NO when there are no more rows
+or when an error occurs.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->On SQLITE_ROW, currentRow returns the row for the current statement state.
+On SQLITE_DONE, the result set closes itself and returns NO. On SQLite
+failure, the result set closes itself, fills error, and returns NO.
+ <!-- end discussion --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

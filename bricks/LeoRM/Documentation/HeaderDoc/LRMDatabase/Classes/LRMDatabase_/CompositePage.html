@@ -1,0 +1,406 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LRMDatabase </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/class/LRMDatabase" title="LRMDatabase "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LRMDatabase">LRMDatabase </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract --> Explicit SQLite database connection wrapper.
+<!-- end abstract --></p>
+<p><b>Superclass:</b> <!-- a logicalPath="//apple_ref/occ/cl/NSObject" -->NSObject<!-- /a --><br><b>Declared In:</b> <a href="../../index.html" target="_top">LRMDatabase </a><br></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->
+LRMDatabase owns one SQLite database connection. It stores the database path,
+opens and closes the sqlite3 handle explicitly, prepares statements, begins
+transactions, and provides small metadata helpers used by migrations.<br>
+LRMDatabase does not define domain schemas, hide SQL, act as a global
+singleton, or replace Core Data. The database file and SQL schema remain
+owned by the application or domain store above LeoRM.<br>
+Instances use manual retain/release. Factory methods return autoreleased
+objects. Callers should close databases explicitly; dealloc performs
+defensive cleanup.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/beginTransaction:" target="_top">-beginTransaction: </a></tt></dt>
+<dd>Begins an explicit SQLite transaction.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/close" target="_top">-close </a></tt></dt>
+<dd>Closes the SQLite database connection if open.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/clm/LRMDatabase/databaseWithPath:error:" target="_top">+databaseWithPath:error: </a></tt></dt>
+<dd>Creates an autoreleased database object for a path.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/ensureMetadataTable:" target="_top">-ensureMetadataTable: </a></tt></dt>
+<dd>Ensures that LeoRM's small metadata table exists.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/getSchemaVersion:forSchemaName:error:" target="_top">-getSchemaVersion:forSchemaName:error: </a></tt></dt>
+<dd>Reads the stored schema version for a named schema.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/initWithPath:error:" target="_top">-initWithPath:error: </a></tt></dt>
+<dd>Initializes a database object for a path.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/isOpen" target="_top">-isOpen</a></tt></dt>
+<dd>Reports whether the SQLite handle is currently open.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/metadataValueForKey:error:" target="_top">-metadataValueForKey:error: </a></tt></dt>
+<dd>Reads a metadata value.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/open:" target="_top">-open: </a></tt></dt>
+<dd>Opens the SQLite database connection.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/path" target="_top">-path </a></tt></dt>
+<dd>Returns the SQLite database path.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/prepareStatement:error:" target="_top">-prepareStatement:error: </a></tt></dt>
+<dd>Prepares SQL as an LRMStatement.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/setMetadataValue:forKey:error:" target="_top">-setMetadataValue:forKey:error: </a></tt></dt>
+<dd>Writes or deletes a metadata value.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMDatabase/setSchemaVersion:forSchemaName:error:" target="_top">-setSchemaVersion:forSchemaName:error: </a></tt></dt>
+<dd>Stores the schema version for a named schema.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/beginTransaction:;  name=LRMDatabase::beginTransaction: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/beginTransaction:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="beginTransaction:">beginTransaction: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Begins an explicit SQLite transaction.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<a href="../../../../raw/LRMTransaction/Classes/LRMTransaction_/index.html#//apple_ref/occ/cl/LRMTransaction" logicalPath="//apple_ref/occ/cl/LRMTransaction" target="_top"><span class="type">LRMTransaction</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/beginTransaction //apple_ref/occ/clm/beginTransaction //apple_ref/occ/intfcm/beginTransaction //apple_ref/occ/intfm/beginTransaction //apple_ref/occ/func/beginTransaction //apple_ref/occ/ftmplt/beginTransaction //apple_ref/occ/defn/beginTransaction //apple_ref/occ/macro/beginTransaction" --><span class="function">beginTransaction</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled when the database is closed or
+the transaction cannot be started.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased active LRMTransaction, or nil on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Nested transactions are not part of LeoRM V1. Call commit: or rollback: on
+the returned transaction to end it.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/close;  name=LRMDatabase::close --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/close"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="close">close </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Closes the SQLite database connection if open.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<span class="var">close</span>; </pre>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This method is idempotent for already closed databases. If SQLite refuses to
+close because statements are still active, the internal handle is kept so
+that later cleanup can still happen. Callers should close result sets and
+finalize statements before closing the database.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=clm;  uid=//apple_ref/doc/compositePage/occ/clm/LRMDatabase/databaseWithPath:error:;  name=LRMDatabase::databaseWithPath:error: --><a name="//apple_ref/doc/compositePage/occ/clm/LRMDatabase/databaseWithPath:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="databaseWithPath:error:">databaseWithPath:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates an autoreleased database object for a path.
+<!-- end abstract --></p>
+<p></p>
+<pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/databaseWithPath //apple_ref/occ/clm/databaseWithPath //apple_ref/occ/intfcm/databaseWithPath //apple_ref/occ/intfm/databaseWithPath //apple_ref/occ/func/databaseWithPath //apple_ref/occ/ftmplt/databaseWithPath //apple_ref/occ/defn/databaseWithPath //apple_ref/occ/macro/databaseWithPath" --><span class="function">databaseWithPath</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">path</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>path </code></dt>
+<dd>SQLite database path. Must not be nil or empty. The special
+SQLite path ":memory:" is valid.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled when the path is invalid.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased LRMDatabase, or nil on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This method does not open the SQLite connection. Call open: explicitly.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/ensureMetadataTable:;  name=LRMDatabase::ensureMetadataTable: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/ensureMetadataTable:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="ensureMetadataTable:">ensureMetadataTable: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Ensures that LeoRM's small metadata table exists.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/ensureMetadataTable //apple_ref/occ/clm/ensureMetadataTable //apple_ref/occ/intfcm/ensureMetadataTable //apple_ref/occ/intfm/ensureMetadataTable //apple_ref/occ/func/ensureMetadataTable //apple_ref/occ/ftmplt/ensureMetadataTable //apple_ref/occ/defn/ensureMetadataTable //apple_ref/occ/macro/ensureMetadataTable" --><span class="function">ensureMetadataTable</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>error </code></dt>
+<dd>Optional NSError output.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES on success, NO on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The metadata table is named lrm_metadata and stores string key/value pairs.
+It is LeoRM-owned housekeeping data, not a private store format.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/getSchemaVersion:forSchemaName:error:;  name=LRMDatabase::getSchemaVersion:forSchemaName:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/getSchemaVersion:forSchemaName:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="getSchemaVersion:forSchemaName:error:">getSchemaVersion:forSchemaName:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Reads the stored schema version for a named schema.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/getSchemaVersion //apple_ref/occ/clm/getSchemaVersion //apple_ref/occ/intfcm/getSchemaVersion //apple_ref/occ/intfm/getSchemaVersion //apple_ref/occ/func/getSchemaVersion //apple_ref/occ/ftmplt/getSchemaVersion //apple_ref/occ/defn/getSchemaVersion //apple_ref/occ/macro/getSchemaVersion" --><span class="function">getSchemaVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a --> <span class="type">*</span>)<span class="param">version</span> <!-- a logicalPath="//apple_ref/occ/instm/forSchemaName //apple_ref/occ/clm/forSchemaName //apple_ref/occ/intfcm/forSchemaName //apple_ref/occ/intfm/forSchemaName //apple_ref/occ/func/forSchemaName //apple_ref/occ/ftmplt/forSchemaName //apple_ref/occ/defn/forSchemaName //apple_ref/occ/macro/forSchemaName" --><span class="function">forSchemaName</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">schemaName</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>version </code></dt>
+<dd>Output pointer receiving the schema version. Must not be NULL.</dd>
+<dt><code>schemaName </code></dt>
+<dd>Schema name. Must not be nil or empty.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES on success, NO on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Missing schema versions read as 0. This is used by LRMMigrationRunner to
+start migration from an empty database.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/initWithPath:error:;  name=LRMDatabase::initWithPath:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/initWithPath:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="initWithPath:error:">initWithPath:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Initializes a database object for a path.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/initWithPath //apple_ref/occ/clm/initWithPath //apple_ref/occ/intfcm/initWithPath //apple_ref/occ/intfm/initWithPath //apple_ref/occ/func/initWithPath //apple_ref/occ/ftmplt/initWithPath //apple_ref/occ/defn/initWithPath //apple_ref/occ/macro/initWithPath" --><span class="function">initWithPath</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">path</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>path </code></dt>
+<dd>SQLite database path. Must not be nil or empty. The special
+SQLite path ":memory:" is valid.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled when the path is invalid.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an initialized owned LRMDatabase, or nil on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This initializer copies the path but does not open the SQLite connection.
+Call open: explicitly.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/isOpen;  name=LRMDatabase::isOpen --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/isOpen"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="isOpen">isOpen</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Reports whether the SQLite handle is currently open.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<span class="var">isOpen</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES when the database has an active sqlite3 handle.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/metadataValueForKey:error:;  name=LRMDatabase::metadataValueForKey:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/metadataValueForKey:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="metadataValueForKey:error:">metadataValueForKey:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Reads a metadata value.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/metadataValueForKey //apple_ref/occ/clm/metadataValueForKey //apple_ref/occ/intfcm/metadataValueForKey //apple_ref/occ/intfm/metadataValueForKey //apple_ref/occ/func/metadataValueForKey //apple_ref/occ/ftmplt/metadataValueForKey //apple_ref/occ/defn/metadataValueForKey //apple_ref/occ/macro/metadataValueForKey" --><span class="function">metadataValueForKey</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">key</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>key </code></dt>
+<dd>Metadata key. Must not be nil or empty.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased NSString value, or nil when the key is not
+present or when an error occurs.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->A missing key is not treated as an error. Because nil can mean either
+"missing" or "failure", callers that need to distinguish those cases should
+inspect the supplied NSError pointer.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/open:;  name=LRMDatabase::open: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/open:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="open:">open: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Opens the SQLite database connection.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/open //apple_ref/occ/clm/open //apple_ref/occ/intfcm/open //apple_ref/occ/intfm/open //apple_ref/occ/func/open //apple_ref/occ/ftmplt/open //apple_ref/occ/defn/open //apple_ref/occ/macro/open" --><span class="function">open</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled when sqlite3_open fails.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES on success, NO on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Calling open: on an already open database returns YES. SQLite failures are
+reported through LRMSQLiteErrorMake. The database remains closed on failure.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/path;  name=LRMDatabase::path --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/path"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="path">path </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the SQLite database path.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">path</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the path copied during initialization.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The caller does not own the returned object.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/prepareStatement:error:;  name=LRMDatabase::prepareStatement:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/prepareStatement:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="prepareStatement:error:">prepareStatement:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Prepares SQL as an LRMStatement.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<a href="../../../../raw/LRMStatement/Classes/LRMStatement_/index.html#//apple_ref/occ/cl/LRMStatement" logicalPath="//apple_ref/occ/cl/LRMStatement" target="_top"><span class="type">LRMStatement</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/prepareStatement //apple_ref/occ/clm/prepareStatement //apple_ref/occ/intfcm/prepareStatement //apple_ref/occ/intfm/prepareStatement //apple_ref/occ/func/prepareStatement //apple_ref/occ/ftmplt/prepareStatement //apple_ref/occ/defn/prepareStatement //apple_ref/occ/macro/prepareStatement" --><span class="function">prepareStatement</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">sql</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>sql </code></dt>
+<dd>SQL string to prepare. Must not be nil or empty.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled on invalid state or SQLite
+prepare failure.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased LRMStatement, or nil on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The database must be open. SQL remains visible to the caller and is not
+generated or hidden by LeoRM.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/setMetadataValue:forKey:error:;  name=LRMDatabase::setMetadataValue:forKey:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/setMetadataValue:forKey:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="setMetadataValue:forKey:error:">setMetadataValue:forKey:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Writes or deletes a metadata value.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/setMetadataValue //apple_ref/occ/clm/setMetadataValue //apple_ref/occ/intfcm/setMetadataValue //apple_ref/occ/intfm/setMetadataValue //apple_ref/occ/func/setMetadataValue //apple_ref/occ/ftmplt/setMetadataValue //apple_ref/occ/defn/setMetadataValue //apple_ref/occ/macro/setMetadataValue" --><span class="function">setMetadataValue</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">value</span> <!-- a logicalPath="//apple_ref/occ/instm/forKey //apple_ref/occ/clm/forKey //apple_ref/occ/intfcm/forKey //apple_ref/occ/intfm/forKey //apple_ref/occ/func/forKey //apple_ref/occ/ftmplt/forKey //apple_ref/occ/defn/forKey //apple_ref/occ/macro/forKey" --><span class="function">forKey</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">key</span> 
+        <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>value </code></dt>
+<dd>Metadata value. Passing nil deletes the key.</dd>
+<dt><code>key </code></dt>
+<dd>Metadata key. Must not be nil or empty.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES on success, NO on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Values are stored as TEXT. Domain data should not be stored in LeoRM
+metadata.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMDatabase/setSchemaVersion:forSchemaName:error:;  name=LRMDatabase::setSchemaVersion:forSchemaName:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMDatabase/setSchemaVersion:forSchemaName:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="setSchemaVersion:forSchemaName:error:">setSchemaVersion:forSchemaName:error: </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Stores the schema version for a named schema.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL //apple_ref/occ/intf/BOOL" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/setSchemaVersion //apple_ref/occ/clm/setSchemaVersion //apple_ref/occ/intfcm/setSchemaVersion //apple_ref/occ/intfm/setSchemaVersion //apple_ref/occ/func/setSchemaVersion //apple_ref/occ/ftmplt/setSchemaVersion //apple_ref/occ/defn/setSchemaVersion //apple_ref/occ/macro/setSchemaVersion" --><span class="function">setSchemaVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">version</span> <!-- a logicalPath="//apple_ref/occ/instm/forSchemaName //apple_ref/occ/clm/forSchemaName //apple_ref/occ/intfcm/forSchemaName //apple_ref/occ/intfm/forSchemaName //apple_ref/occ/func/forSchemaName //apple_ref/occ/ftmplt/forSchemaName //apple_ref/occ/defn/forSchemaName //apple_ref/occ/macro/forSchemaName" --><span class="function">forSchemaName</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">schemaName</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>version </code></dt>
+<dd>Schema version. Must not be negative.</dd>
+<dt><code>schemaName </code></dt>
+<dd>Schema name. Must not be nil or empty.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns YES on success, NO on failure.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Migration code should update the schema version only after the corresponding
+migration step has succeeded.
+ <!-- end discussion --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

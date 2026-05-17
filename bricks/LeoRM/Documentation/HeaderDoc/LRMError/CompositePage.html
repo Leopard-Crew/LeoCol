@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LRMError </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/header/LRMError.h" title="LRMError "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LRMError">LRMError </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->NSError support for LeoRM.
+<!-- end abstract --></p>
+<p></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->LeoRM reports public failures through NSError. This header defines the
+LeoRM error domain, common error codes, userInfo keys, and helper functions
+used to build Cocoa-shaped errors from SQLite failures.<br>
+SQLite errors should preserve enough context to be useful without stepping
+into LeoRM internals: SQLite result code, SQLite message, SQL string where
+available, and database path where available.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Functions</h2>
+<a name="HeaderDoc_functions"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/LRMErrorMake" target="_top">LRMErrorMake </a></tt></dt>
+<dd>Creates a basic LeoRM NSError.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/LRMErrorMakeWithUserInfo" target="_top">LRMErrorMakeWithUserInfo </a></tt></dt>
+<dd>Creates a LeoRM NSError with additional userInfo entries.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/LRMSQLiteErrorMake" target="_top">LRMSQLiteErrorMake </a></tt></dt>
+<dd>Creates a LeoRM NSError from a SQLite failure.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/LRMErrorMake;  name=LRMErrorMake --><a name="//apple_ref/doc/compositePage/c/func/LRMErrorMake"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorMake">LRMErrorMake </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates a basic LeoRM NSError.
+<!-- end abstract --></p>
+<p></p>
+<pre><!-- a logicalPath="//apple_ref/c/cl/NSError //apple_ref/c/tdef/NSError //apple_ref/c/tag/NSError //apple_ref/c/econst/NSError //apple_ref/c/struct/NSError //apple_ref/c/clconst/NSError //apple_ref/c/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><a href="../../raw/LRMError/index.html?Functions/Functions.html#//apple_ref/c/func/LRMErrorMake" logicalPath="//apple_ref/c/instm/LRMErrorMake //apple_ref/c/clm/LRMErrorMake //apple_ref/c/intfcm/LRMErrorMake //apple_ref/c/intfm/LRMErrorMake //apple_ref/c/func/LRMErrorMake" target="_top"><span class="function">LRMErrorMake</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/NSInteger //apple_ref/c/tdef/NSInteger //apple_ref/c/tag/NSInteger //apple_ref/c/econst/NSInteger //apple_ref/c/struct/NSInteger //apple_ref/c/clconst/NSInteger //apple_ref/c/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a --> <span class="param">code</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> *<span class="param">message</span>);  </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>code </code></dt>
+<dd>LeoRM error code.</dd>
+<dt><code>message </code></dt>
+<dd>Human-readable error message. If nil or empty, a default
+message is used.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased NSError using LRMErrorDomain.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Use this helper for LeoRM-level errors that are not direct SQLite failures,
+for example invalid arguments or invalid object lifecycle state.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/LRMErrorMakeWithUserInfo;  name=LRMErrorMakeWithUserInfo --><a name="//apple_ref/doc/compositePage/c/func/LRMErrorMakeWithUserInfo"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorMakeWithUserInfo">LRMErrorMakeWithUserInfo </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates a LeoRM NSError with additional userInfo entries.
+<!-- end abstract --></p>
+<p></p>
+<pre><!-- a logicalPath="//apple_ref/c/cl/NSError //apple_ref/c/tdef/NSError //apple_ref/c/tag/NSError //apple_ref/c/econst/NSError //apple_ref/c/struct/NSError //apple_ref/c/clconst/NSError //apple_ref/c/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><a href="../../raw/LRMError/index.html?Functions/Functions.html#//apple_ref/c/func/LRMErrorMakeWithUserInfo" logicalPath="//apple_ref/c/instm/LRMErrorMakeWithUserInfo //apple_ref/c/clm/LRMErrorMakeWithUserInfo //apple_ref/c/intfcm/LRMErrorMakeWithUserInfo //apple_ref/c/intfm/LRMErrorMakeWithUserInfo //apple_ref/c/func/LRMErrorMakeWithUserInfo" target="_top"><span class="function">LRMErrorMakeWithUserInfo</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/NSInteger //apple_ref/c/tdef/NSInteger //apple_ref/c/tag/NSInteger //apple_ref/c/econst/NSInteger //apple_ref/c/struct/NSInteger //apple_ref/c/clconst/NSInteger //apple_ref/c/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a --> <span class="param">code</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> *<span class="param">message</span>,
+    <!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/econst/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/clconst/NSDictionary //apple_ref/c/intf/NSDictionary" --><span class="type">NSDictionary</span><!-- /a --> *<span class="param">extraUserInfo</span>);  </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>code </code></dt>
+<dd>LeoRM error code.</dd>
+<dt><code>message </code></dt>
+<dd>Human-readable error message. If nil or empty, a default
+message is used.</dd>
+<dt><code>extraUserInfo </code></dt>
+<dd>Optional dictionary merged into the returned error's
+userInfo.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased NSError using LRMErrorDomain.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->Values in extraUserInfo are added after the localized description is set.
+Passing nil for extraUserInfo is valid.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/LRMSQLiteErrorMake;  name=LRMSQLiteErrorMake --><a name="//apple_ref/doc/compositePage/c/func/LRMSQLiteErrorMake"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMSQLiteErrorMake">LRMSQLiteErrorMake </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates a LeoRM NSError from a SQLite failure.
+<!-- end abstract --></p>
+<p></p>
+<pre><!-- a logicalPath="//apple_ref/c/cl/NSError //apple_ref/c/tdef/NSError //apple_ref/c/tag/NSError //apple_ref/c/econst/NSError //apple_ref/c/struct/NSError //apple_ref/c/clconst/NSError //apple_ref/c/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><a href="../../raw/LRMError/index.html?Functions/Functions.html#//apple_ref/c/func/LRMSQLiteErrorMake" logicalPath="//apple_ref/c/instm/LRMSQLiteErrorMake //apple_ref/c/clm/LRMSQLiteErrorMake //apple_ref/c/intfcm/LRMSQLiteErrorMake //apple_ref/c/intfm/LRMSQLiteErrorMake //apple_ref/c/func/LRMSQLiteErrorMake" target="_top"><span class="function">LRMSQLiteErrorMake</span></a>(
+    <span class="keyword">struct</span> <!-- a logicalPath="//apple_ref/c/cl/sqlite3 //apple_ref/c/tdef/sqlite3 //apple_ref/c/tag/sqlite3 //apple_ref/c/econst/sqlite3 //apple_ref/c/struct/sqlite3 //apple_ref/c/clconst/sqlite3 //apple_ref/c/intf/sqlite3" --><span class="type">sqlite3</span><!-- /a --> *<span class="param">database</span>, 
+    <!-- a logicalPath="//apple_ref/c/cl/int //apple_ref/c/tdef/int //apple_ref/c/tag/int //apple_ref/c/econst/int //apple_ref/c/struct/int //apple_ref/c/clconst/int //apple_ref/c/intf/int" --><span class="type">int</span><!-- /a --> <span class="param">sqliteCode</span>, 
+    <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> *<span class="param">sql</span>, 
+    <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> *<span class="param">databasePath</span>);  </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>database </code></dt>
+<dd>SQLite database handle. May be NULL, but when provided it is
+used to retrieve sqlite3_errmsg().</dd>
+<dt><code>sqliteCode </code></dt>
+<dd>Raw SQLite result code.</dd>
+<dt><code>sql </code></dt>
+<dd>Optional SQL string related to the failure.</dd>
+<dt><code>databasePath </code></dt>
+<dd>Optional database path related to the failure.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased NSError using LRMErrorDomain and code
+LRMErrorSQLite.
+
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The returned error includes LRMErrorSQLiteCodeKey and
+LRMErrorSQLiteMessageKey. It includes LRMErrorSQLKey and
+LRMErrorDatabasePathKey only when those values are available.
+ <!-- end discussion --></p>
+<p></p>
+<h2>Constants</h2>
+<hr>
+<!-- headerDoc=data;  uid=//apple_ref/doc/compositePage/c/data/LRMErrorDatabasePathKey;  name=LRMErrorDatabasePathKey --><a name="//apple_ref/doc/compositePage/c/data/LRMErrorDatabasePathKey"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorDatabasePathKey">LRMErrorDatabasePathKey </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->userInfo key for the database path related to the failure.
+<!-- end abstract --></p>
+<p></p>
+<pre><span class="keyword">extern</span> <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span> <span class="keyword">const</span> <span class="var">LRMErrorDatabasePathKey</span>;  </pre>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This key is present only when the failing operation had a database path
+available.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=data;  uid=//apple_ref/doc/compositePage/c/data/LRMErrorDomain;  name=LRMErrorDomain --><a name="//apple_ref/doc/compositePage/c/data/LRMErrorDomain"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorDomain">LRMErrorDomain</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->NSError domain used by LeoRM.
+ <!-- end abstract --></p>
+<p></p>
+<pre><span class="keyword">extern</span> <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span> <span class="keyword">const</span> <span class="var">LRMErrorDomain</span>;  </pre>
+<p></p>
+<hr>
+<!-- headerDoc=data;  uid=//apple_ref/doc/compositePage/c/data/LRMErrorSQLiteCodeKey;  name=LRMErrorSQLiteCodeKey --><a name="//apple_ref/doc/compositePage/c/data/LRMErrorSQLiteCodeKey"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorSQLiteCodeKey">LRMErrorSQLiteCodeKey</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->userInfo key for the raw SQLite result code as an NSNumber.
+ <!-- end abstract --></p>
+<p></p>
+<pre><span class="keyword">extern</span> <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span> <span class="keyword">const</span> <span class="var">LRMErrorSQLiteCodeKey</span>;  </pre>
+<p></p>
+<hr>
+<!-- headerDoc=data;  uid=//apple_ref/doc/compositePage/c/data/LRMErrorSQLiteMessageKey;  name=LRMErrorSQLiteMessageKey --><a name="//apple_ref/doc/compositePage/c/data/LRMErrorSQLiteMessageKey"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorSQLiteMessageKey">LRMErrorSQLiteMessageKey</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->userInfo key for the raw SQLite error message as an NSString.
+ <!-- end abstract --></p>
+<p></p>
+<pre><span class="keyword">extern</span> <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span> <span class="keyword">const</span> <span class="var">LRMErrorSQLiteMessageKey</span>;  </pre>
+<p></p>
+<hr>
+<!-- headerDoc=data;  uid=//apple_ref/doc/compositePage/c/data/LRMErrorSQLKey;  name=LRMErrorSQLKey --><a name="//apple_ref/doc/compositePage/c/data/LRMErrorSQLKey"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LRMErrorSQLKey">LRMErrorSQLKey </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->userInfo key for the SQL string related to the failure.
+<!-- end abstract --></p>
+<p></p>
+<pre><span class="keyword">extern</span> <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span> <span class="keyword">const</span> <span class="var">LRMErrorSQLKey</span>;  </pre>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This key is present only when the failing operation had a meaningful SQL
+string available.
+ <!-- end discussion --></p>
+<p></p>
+<h2>Enumerations</h2>
+<hr>
+<!-- headerDoc=tag;  uid=//apple_ref/doc/compositePage/c/tag/LeoRM;  name=LeoRM --><a name="//apple_ref/doc/compositePage/c/tag/LeoRM"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LeoRM">LeoRM</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Public LeoRM error codes.
+<!-- end abstract --></p>
+<p></p>
+<pre><span class="keyword">enum</span> { 
+    <a href="../../raw/LRMError/index.html?Enums/Enums.html#//apple_ref/c/econst/LRMErrorUnknown" logicalPath="//apple_ref/c/cl/LRMErrorUnknown //apple_ref/c/tdef/LRMErrorUnknown //apple_ref/c/tag/LRMErrorUnknown //apple_ref/c/econst/LRMErrorUnknown" target="_top"><span class="type">LRMErrorUnknown</span></a> = <span class="number">1</span>, 
+    <a href="../../raw/LRMError/index.html?Enums/Enums.html#//apple_ref/c/econst/LRMErrorInvalidArgument" logicalPath="//apple_ref/c/cl/LRMErrorInvalidArgument //apple_ref/c/tdef/LRMErrorInvalidArgument //apple_ref/c/tag/LRMErrorInvalidArgument //apple_ref/c/econst/LRMErrorInvalidArgument" target="_top"><span class="type">LRMErrorInvalidArgument</span></a> = <span class="number">2</span>, 
+    <a href="../../raw/LRMError/index.html?Enums/Enums.html#//apple_ref/c/econst/LRMErrorSQLite" logicalPath="//apple_ref/c/cl/LRMErrorSQLite //apple_ref/c/tdef/LRMErrorSQLite //apple_ref/c/tag/LRMErrorSQLite //apple_ref/c/econst/LRMErrorSQLite" target="_top"><span class="type">LRMErrorSQLite</span></a> = <span class="number">100</span> 
+};  </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Constants</font></h5>
+<blockquote>
+<dl>
+<dt><code>LRMErrorUnknown </code></dt>
+<dd>Generic fallback error.</dd>
+<dt><code>LRMErrorInvalidArgument </code></dt>
+<dd>Invalid caller input or invalid API state.</dd>
+<dt><code>LRMErrorSQLite </code></dt>
+<dd>SQLite operation failure. The raw SQLite code is
+stored under LRMErrorSQLiteCodeKey.</dd>
+</dl>
+</blockquote>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->error codes<!-- end discussion --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LRMSchema </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/class/LRMSchema" title="LRMSchema "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LRMSchema">LRMSchema </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract --> Named schema description for migration execution.
+<!-- end abstract --></p>
+<p><b>Superclass:</b> <!-- a logicalPath="//apple_ref/occ/cl/NSObject" -->NSObject<!-- /a --><br><b>Declared In:</b> <a href="../../index.html" target="_top">LRMSchema </a><br></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->
+LRMSchema groups a schema name, a target version, and an ordered set of
+LRMMigration objects. It does not create tables by itself. It is input for
+LRMMigrationRunner.<br>
+A schema name identifies the version stored in LeoRM metadata. Domain stores
+should choose stable schema names.<br>
+Instances are immutable after initialization and use manual retain/release.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMSchema/initWithName:targetVersion:migrations:error:" target="_top">-initWithName:targetVersion:migrations:error:</a></tt></dt>
+<dd>Initializes a schema description.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMSchema/migrations" target="_top">-migrations</a></tt></dt>
+<dd>Returns the migration list.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMSchema/name" target="_top">-name</a></tt></dt>
+<dd>Returns the schema name.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/clm/LRMSchema/schemaWithName:targetVersion:migrations:error:" target="_top">+schemaWithName:targetVersion:migrations:error:</a></tt></dt>
+<dd>Creates an autoreleased schema description.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LRMSchema/targetVersion" target="_top">-targetVersion</a></tt></dt>
+<dd>Returns the target schema version.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMSchema/initWithName:targetVersion:migrations:error:;  name=LRMSchema::initWithName:targetVersion:migrations:error: --><a name="//apple_ref/doc/compositePage/occ/instm/LRMSchema/initWithName:targetVersion:migrations:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="initWithName:targetVersion:migrations:error:">initWithName:targetVersion:migrations:error:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Initializes a schema description.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/initWithName //apple_ref/occ/clm/initWithName //apple_ref/occ/intfcm/initWithName //apple_ref/occ/intfm/initWithName //apple_ref/occ/func/initWithName //apple_ref/occ/ftmplt/initWithName //apple_ref/occ/defn/initWithName //apple_ref/occ/macro/initWithName" --><span class="function">initWithName</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">name</span> <!-- a logicalPath="//apple_ref/occ/instm/targetVersion //apple_ref/occ/clm/targetVersion //apple_ref/occ/intfcm/targetVersion //apple_ref/occ/intfm/targetVersion //apple_ref/occ/func/targetVersion //apple_ref/occ/ftmplt/targetVersion //apple_ref/occ/defn/targetVersion //apple_ref/occ/macro/targetVersion" --><span class="function">targetVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">targetVersion</span> <!-- a logicalPath="//apple_ref/occ/instm/migrations //apple_ref/occ/clm/migrations //apple_ref/occ/intfcm/migrations //apple_ref/occ/intfm/migrations //apple_ref/occ/func/migrations //apple_ref/occ/ftmplt/migrations //apple_ref/occ/defn/migrations //apple_ref/occ/macro/migrations" --><span class="function">migrations</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSArray //apple_ref/occ/tdef/NSArray //apple_ref/occ/tag/NSArray //apple_ref/occ/econst/NSArray //apple_ref/occ/struct/NSArray //apple_ref/occ/clconst/NSArray //apple_ref/occ/intf/NSArray" --><span class="type">NSArray</span><!-- /a --> <span class="type">*</span>)<span class="param">migrations</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Schema name. Must not be nil or empty.</dd>
+<dt><code>targetVersion </code></dt>
+<dd>Target schema version. Must not be negative.</dd>
+<dt><code>migrations </code></dt>
+<dd>Array containing only LRMMigration objects. The array is
+copied.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled on invalid input.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an owned LRMSchema, or nil on failure.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMSchema/migrations;  name=LRMSchema::migrations --><a name="//apple_ref/doc/compositePage/occ/instm/LRMSchema/migrations"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="migrations">migrations</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the migration list.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSArray //apple_ref/occ/tdef/NSArray //apple_ref/occ/tag/NSArray //apple_ref/occ/econst/NSArray //apple_ref/occ/struct/NSArray //apple_ref/occ/clconst/NSArray //apple_ref/occ/intf/NSArray" --><span class="type">NSArray</span><!-- /a --> <span class="type">*</span>)<span class="var">migrations</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the copied migration array. The caller does not own the
+returned object.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMSchema/name;  name=LRMSchema::name --><a name="//apple_ref/doc/compositePage/occ/instm/LRMSchema/name"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="name">name</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the schema name.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">name</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns the copied schema name. The caller does not own the returned
+object.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=clm;  uid=//apple_ref/doc/compositePage/occ/clm/LRMSchema/schemaWithName:targetVersion:migrations:error:;  name=LRMSchema::schemaWithName:targetVersion:migrations:error: --><a name="//apple_ref/doc/compositePage/occ/clm/LRMSchema/schemaWithName:targetVersion:migrations:error:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="schemaWithName:targetVersion:migrations:error:">schemaWithName:targetVersion:migrations:error:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Creates an autoreleased schema description.
+<!-- end abstract --></p>
+<p></p>
+<pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id //apple_ref/occ/intf/id" --><span class="type">id</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/schemaWithName //apple_ref/occ/clm/schemaWithName //apple_ref/occ/intfcm/schemaWithName //apple_ref/occ/intfm/schemaWithName //apple_ref/occ/func/schemaWithName //apple_ref/occ/ftmplt/schemaWithName //apple_ref/occ/defn/schemaWithName //apple_ref/occ/macro/schemaWithName" --><span class="function">schemaWithName</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">name</span> <!-- a logicalPath="//apple_ref/occ/instm/targetVersion //apple_ref/occ/clm/targetVersion //apple_ref/occ/intfcm/targetVersion //apple_ref/occ/intfm/targetVersion //apple_ref/occ/func/targetVersion //apple_ref/occ/ftmplt/targetVersion //apple_ref/occ/defn/targetVersion //apple_ref/occ/macro/targetVersion" --><span class="function">targetVersion</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="param">targetVersion</span> <!-- a logicalPath="//apple_ref/occ/instm/migrations //apple_ref/occ/clm/migrations //apple_ref/occ/intfcm/migrations //apple_ref/occ/intfm/migrations //apple_ref/occ/func/migrations //apple_ref/occ/ftmplt/migrations //apple_ref/occ/defn/migrations //apple_ref/occ/macro/migrations" --><span class="function">migrations</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSArray //apple_ref/occ/tdef/NSArray //apple_ref/occ/tag/NSArray //apple_ref/occ/econst/NSArray //apple_ref/occ/struct/NSArray //apple_ref/occ/clconst/NSArray //apple_ref/occ/intf/NSArray" --><span class="type">NSArray</span><!-- /a --> <span class="type">*</span>)<span class="param">migrations</span> <!-- a logicalPath="//apple_ref/occ/instm/error //apple_ref/occ/clm/error //apple_ref/occ/intfcm/error //apple_ref/occ/intfm/error //apple_ref/occ/func/error //apple_ref/occ/ftmplt/error //apple_ref/occ/defn/error //apple_ref/occ/macro/error" --><span class="function">error</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/econst/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/clconst/NSError //apple_ref/occ/intf/NSError" --><span class="type">NSError</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">error</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>name </code></dt>
+<dd>Schema name. Must not be nil or empty.</dd>
+<dt><code>targetVersion </code></dt>
+<dd>Target schema version. Must not be negative.</dd>
+<dt><code>migrations </code></dt>
+<dd>Array containing only LRMMigration objects.</dd>
+<dt><code>error </code></dt>
+<dd>Optional NSError output. Filled on invalid input.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Returns an autoreleased LRMSchema, or nil on failure.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LRMSchema/targetVersion;  name=LRMSchema::targetVersion --><a name="//apple_ref/doc/compositePage/occ/instm/LRMSchema/targetVersion"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="targetVersion">targetVersion</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the target schema version.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSInteger //apple_ref/occ/tdef/NSInteger //apple_ref/occ/tag/NSInteger //apple_ref/occ/econst/NSInteger //apple_ref/occ/struct/NSInteger //apple_ref/occ/clconst/NSInteger //apple_ref/occ/intf/NSInteger" --><span class="type">NSInteger</span><!-- /a -->)<span class="var">targetVersion</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->Target version for the schema.
+ 
+<!-- end return value --></p>
+<p></p>
+<p>Last Updated: Friday, May 15, 2026
+</p>
+</body>
+</html>

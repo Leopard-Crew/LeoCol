@@ -1,0 +1,63 @@
+LeoRM Release Manifest
+======================
+
+Release tag:
+  v0.1.2-quality-gates
+
+Public version:
+  0.1.2
+
+Package name:
+  LeoRM-0.1.2-Leopard-PPC
+
+Commit:
+  d0f8f3b5ff7cc57c540d62ca4258d9265ac5f736
+
+Short commit:
+  d0f8f3b
+
+Target platform:
+  Mac OS X 10.5.8 Leopard
+  PowerPC
+  MacOSX10.5.sdk
+  Xcode 3.1.4-compatible toolchain
+  Foundation.framework
+  libsqlite3
+  manual retain/release
+
+Required verification path:
+  make clean
+  make
+  make smoke
+  make apidocs
+
+Leak verification path:
+  make leaks-check
+
+Included:
+  README.md
+  Makefile
+  Sources/
+  Tests/
+  Examples/
+  Tools/
+  docs/
+  Documentation/HeaderDoc/
+  RELEASE-MANIFEST.txt
+
+External release artifact:
+  LeoRM-0.1.2-Leopard-PPC.tar.gz.sha256
+
+Excluded:
+  .git/
+  Build/*.o
+  Build/libLeoRM.a
+  local test databases
+  temporary build products
+  user-local editor or Xcode state
+
+Notes:
+  Generated HeaderDoc HTML is included in this release archive.
+  Generated HeaderDoc HTML is intentionally not committed to main.
+  The static library is intentionally not included as a prebuilt binary artifact.
+  Consumers should build from source on the target platform.
