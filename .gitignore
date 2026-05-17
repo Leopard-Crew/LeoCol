@@ -71,3 +71,10 @@ Testing/
 # LeoCol local probe databases
 Probe/results/*.db
 Probe/results/*.sqlite
+
+# Xcode user state
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
