@@ -69,21 +69,49 @@ leocol_bind_text_or_null(sqlite3_stmt *stmt, int index, const char *text)
 static int
 leocol_create_schema(sqlite3 *db)
 {
-    const char *schema_sql =
-        "CREATE TABLE IF NOT EXISTS process_observation ("
-        "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "    observed_at TEXT NOT NULL,"
-        "    pid INTEGER NOT NULL,"
-        "    ppid INTEGER,"
-        "    uid INTEGER,"
-        "    process_name TEXT,"
-        "    executable_path TEXT,"
-        "    command_line TEXT,"
-        "    cpu_percent REAL,"
-        "    resident_size INTEGER"
-        ");";
+    if (leocol_exec_sql(db,
+                        "CREATE TABLE IF NOT EXISTS snapshot_run ("
+                        "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        "    observed_at TEXT NOT NULL,"
+                        "    source TEXT NOT NULL"
+                        ");",
+                        "snapshot_run schema creation") != 0) {
+        return -1;
+    }
 
-    return leocol_exec_sql(db, schema_sql, "schema creation");
+    if (leocol_exec_sql(db,
+                        "CREATE TABLE IF NOT EXISTS process_observation ("
+                        "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        "    snapshot_id INTEGER,"
+                        "    observed_at TEXT NOT NULL,"
+                        "    pid INTEGER NOT NULL,"
+                        "    ppid INTEGER,"
+                        "    uid INTEGER,"
+                        "    process_name TEXT,"
+                        "    executable_path TEXT,"
+                        "    command_line TEXT,"
+                        "    cpu_percent REAL,"
+                        "    resident_size INTEGER"
+                        ");",
+                        "process_observation schema creation") != 0) {
+        return -1;
+    }
+
+    if (leocol_exec_sql(db,
+                        "CREATE TABLE IF NOT EXISTS process_lifecycle ("
+                        "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        "    pid INTEGER NOT NULL,"
+                        "    first_seen_at TEXT NOT NULL,"
+                        "    last_seen_at TEXT NOT NULL,"
+                        "    executable_path TEXT,"
+                        "    process_name TEXT,"
+                        "    exit_observed INTEGER NOT NULL DEFAULT 0"
+                        ");",
+                        "process_lifecycle schema creation") != 0) {
+        return -1;
+    }
+
+    return 0;
 }
 
 static int
