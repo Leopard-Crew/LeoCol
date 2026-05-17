@@ -67,3 +67,7 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# LeoCol local probe databases
+Probe/results/*.db
+Probe/results/*.sqlite
