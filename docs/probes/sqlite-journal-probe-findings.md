@@ -97,3 +97,24 @@ The SQLite journal probe is successful.
 
 LeoCol can now collect and persist process observations on Leopard/PPC.  
 
+
+## Snapshot run linkage
+
+A later journal probe update confirmed that raw process observations can be grouped by a `snapshot_run`.
+
+Confirmed behavior:
+
+- one `snapshot_run` row is created per journal probe run,
+- every `process_observation` row receives the current `snapshot_id`,
+- grouped observation counts match the inserted row count.
+
+Observed successful test:
+
+```text
+snapshot_run count: 1
+process_observation rows with snapshot_id: 63
+grouped snapshot_id count: 1 -> 63
+````
+
+This prepares lifecycle aggregation because LeoCol can now compare complete sampled runs instead of interpreting loose observations.  
+
