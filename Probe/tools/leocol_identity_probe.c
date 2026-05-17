@@ -348,6 +348,34 @@ leocol_enrich_bundle_metadata(LeoColIdentityResult *result)
 }
 
 static void
+leocol_refine_classification_from_bundle_metadata(LeoColIdentityResult *result)
+{
+    if (result == NULL) {
+        return;
+    }
+
+    if (strcmp(result->classification, "user application") != 0) {
+        return;
+    }
+
+    if (!leocol_string_starts_with(result->bundle_identifier, "com.apple.")) {
+        return;
+    }
+
+    leocol_copy_string(result->classification,
+                       sizeof(result->classification),
+                       "Apple application");
+
+    leocol_copy_string(result->confidence,
+                       sizeof(result->confidence),
+                       "bundle-identifier");
+
+    leocol_copy_string(result->notes,
+                       sizeof(result->notes),
+                       "Classified as Apple application by com.apple bundle identifier.");
+}
+
+static void
 leocol_resolve_identity(const char *executable_path, LeoColIdentityResult *result)
 {
     if (result == NULL) {
@@ -373,6 +401,8 @@ leocol_resolve_identity(const char *executable_path, LeoColIdentityResult *resul
                                sizeof(result->notes),
                                "Derived containing .app bundle from executable path.");
         }
+
+        leocol_refine_classification_from_bundle_metadata(result);
     }
 }
 
