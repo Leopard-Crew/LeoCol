@@ -45,7 +45,7 @@
 {
     [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Finder", @"name",
-        @"-", @"pid",
+        [NSNumber numberWithInt:-1], @"pid",
         @"com.apple.finder", @"bundle",
         @"Apple system component", @"kind",
         @"path-app-contained", @"confidence",
@@ -53,7 +53,7 @@
 
     [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Dock", @"name",
-        @"-", @"pid",
+        [NSNumber numberWithInt:-1], @"pid",
         @"com.apple.dock", @"bundle",
         @"Apple system component", @"kind",
         @"path-app-contained", @"confidence",
@@ -61,7 +61,7 @@
 
     [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Terminal", @"name",
-        @"-", @"pid",
+        [NSNumber numberWithInt:-1], @"pid",
         @"com.apple.Terminal", @"bundle",
         @"Apple application", @"kind",
         @"bundle-identifier", @"confidence",
@@ -162,7 +162,7 @@
 
         [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
             displayName, @"name",
-            pid != nil ? [pid stringValue] : @"-", @"pid",
+            pid != nil ? [pid stringValue] : [NSNumber numberWithInt:-1], @"pid",
             bundleIdentifier != nil ? bundleIdentifier : @"-", @"bundle",
             classification != nil ? classification : @"unknown", @"kind",
             confidence != nil ? confidence : @"unknown", @"confidence",
@@ -268,26 +268,45 @@
     nameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"name"] autorelease];
     [[nameColumn headerCell] setStringValue:@"Process"];
     [nameColumn setWidth:180.0];
+    [nameColumn setSortDescriptorPrototype:
+        [[[NSSortDescriptor alloc] initWithKey:@"name"
+                                     ascending:YES
+                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:nameColumn];
 
     pidColumn = [[[NSTableColumn alloc] initWithIdentifier:@"pid"] autorelease];
     [[pidColumn headerCell] setStringValue:@"PID"];
     [pidColumn setWidth:70.0];
+    [pidColumn setSortDescriptorPrototype:
+        [[[NSSortDescriptor alloc] initWithKey:@"pid"
+                                     ascending:YES] autorelease]];
     [_tableView addTableColumn:pidColumn];
 
     bundleColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundle"] autorelease];
     [[bundleColumn headerCell] setStringValue:@"Bundle Identifier"];
     [bundleColumn setWidth:260.0];
+    [bundleColumn setSortDescriptorPrototype:
+        [[[NSSortDescriptor alloc] initWithKey:@"bundle"
+                                     ascending:YES
+                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:bundleColumn];
 
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
     [[kindColumn headerCell] setStringValue:@"Classification"];
     [kindColumn setWidth:220.0];
+    [kindColumn setSortDescriptorPrototype:
+        [[[NSSortDescriptor alloc] initWithKey:@"kind"
+                                     ascending:YES
+                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:kindColumn];
 
     confidenceColumn = [[[NSTableColumn alloc] initWithIdentifier:@"confidence"] autorelease];
     [[confidenceColumn headerCell] setStringValue:@"Confidence"];
     [confidenceColumn setWidth:180.0];
+    [confidenceColumn setSortDescriptorPrototype:
+        [[[NSSortDescriptor alloc] initWithKey:@"confidence"
+                                     ascending:YES
+                                      selector:@selector(caseInsensitiveCompare:)] autorelease]];
     [_tableView addTableColumn:confidenceColumn];
 
     [scrollView setDocumentView:_tableView];
@@ -296,6 +315,23 @@
     [self reloadData:nil];
 
     [_window makeKeyAndOrderFront:nil];
+}
+
+- (void)tableView:(NSTableView *)tableView
+sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+    NSArray *sortDescriptors;
+
+    (void)oldDescriptors;
+
+    sortDescriptors = [tableView sortDescriptors];
+
+    if ([sortDescriptors count] == 0) {
+        return;
+    }
+
+    [_rows sortUsingDescriptors:sortDescriptors];
+    [tableView reloadData];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
