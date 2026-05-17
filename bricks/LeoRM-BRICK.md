@@ -50,3 +50,26 @@ LeoRM is present as a brick, but the active probes still use raw C, sqlite3, and
 This is intentional.
 
 The next LeoRM step should be a small Objective-C `LeoColStore` experiment, not a rewrite of the existing probes.
+
+## Embedded smoke test
+
+LeoRM was successfully smoke-tested as an embedded brick inside the LeoCol repository on Mac OS X 10.5.8 PowerPC.
+
+Confirmed smoke targets included:
+
+- database,
+- error bridge,
+- statement,
+- query,
+- transaction,
+- metadata,
+- migration,
+- repository,
+- NotesStore example,
+- failure paths,
+- constraint errors,
+- migration rollback,
+- edge cases,
+- file database.
+
+This confirms that LeoRM can serve as a viable storage brick candidate for a later Objective-C LeoColStore layer.
