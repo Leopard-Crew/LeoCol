@@ -21,6 +21,7 @@
 typedef struct LeoColJournalContext {
     sqlite3 *db;
     sqlite3_stmt *insert_stmt;
+    sqlite_int64 snapshot_id;
     int inserted_rows;
 } LeoColJournalContext;
 
@@ -119,6 +120,7 @@ leocol_prepare_insert(sqlite3 *db, sqlite3_stmt **stmt)
 {
     const char *insert_sql =
         "INSERT INTO process_observation ("
+        "    snapshot_id,"
         "    observed_at,"
         "    pid,"
         "    ppid,"
@@ -128,7 +130,7 @@ leocol_prepare_insert(sqlite3 *db, sqlite3_stmt **stmt)
         "    command_line,"
         "    cpu_percent,"
         "    resident_size"
-        ") VALUES (?, ?, ?, ?, ?, ?, NULL, NULL, NULL);";
+        ") VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL);";
 
     if (stmt == NULL) {
         errno = EINVAL;
@@ -143,6 +145,67 @@ leocol_prepare_insert(sqlite3 *db, sqlite3_stmt **stmt)
                 sqlite3_errmsg(db));
         return -1;
     }
+
+    return 0;
+}
+
+static int
+leocol_ensure_snapshot_run(LeoColJournalContext *journal, const char *observed_at)
+{
+    sqlite3_stmt *stmt;
+    int rc;
+
+    if (journal == NULL || journal->db == NULL || observed_at == NULL) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    if (journal->snapshot_id != 0) {
+        return 0;
+    }
+
+    stmt = NULL;
+
+    rc = sqlite3_prepare_v2(journal->db,
+                            "INSERT INTO snapshot_run (observed_at, source) VALUES (?, ?);",
+                            -1,
+                            &stmt,
+                            NULL);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr,
+                "leocol_journal_probe: prepare snapshot_run failed: %s\n",
+                sqlite3_errmsg(journal->db));
+        return -1;
+    }
+
+    rc = sqlite3_bind_text(stmt, 1, observed_at, -1, SQLITE_TRANSIENT);
+
+    if (rc == SQLITE_OK) {
+        rc = sqlite3_bind_text(stmt, 2, "leocol_journal_probe", -1, SQLITE_TRANSIENT);
+    }
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr,
+                "leocol_journal_probe: bind snapshot_run failed: %s\n",
+                sqlite3_errmsg(journal->db));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    rc = sqlite3_step(stmt);
+
+    if (rc != SQLITE_DONE) {
+        fprintf(stderr,
+                "leocol_journal_probe: insert snapshot_run failed: %s\n",
+                sqlite3_errmsg(journal->db));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    sqlite3_finalize(stmt);
+
+    journal->snapshot_id = sqlite3_last_insert_rowid(journal->db);
 
     return 0;
 }
@@ -163,32 +226,41 @@ leocol_insert_snapshot_row(const LeoColProcessSnapshotRow *row, void *context)
     sqlite3_reset(journal->insert_stmt);
     sqlite3_clear_bindings(journal->insert_stmt);
 
-    rc = sqlite3_bind_text(journal->insert_stmt, 1, row->observed_at, -1, SQLITE_TRANSIENT);
+    if (leocol_ensure_snapshot_run(journal, row->observed_at) != 0) {
+        return -1;
+    }
+
+    rc = sqlite3_bind_int64(journal->insert_stmt, 1, journal->snapshot_id);
     if (rc != SQLITE_OK) {
         goto bind_failed;
     }
 
-    rc = sqlite3_bind_int(journal->insert_stmt, 2, (int)row->pid);
+    rc = sqlite3_bind_text(journal->insert_stmt, 2, row->observed_at, -1, SQLITE_TRANSIENT);
     if (rc != SQLITE_OK) {
         goto bind_failed;
     }
 
-    rc = sqlite3_bind_int(journal->insert_stmt, 3, (int)row->ppid);
+    rc = sqlite3_bind_int(journal->insert_stmt, 3, (int)row->pid);
     if (rc != SQLITE_OK) {
         goto bind_failed;
     }
 
-    rc = sqlite3_bind_int(journal->insert_stmt, 4, (int)row->uid);
+    rc = sqlite3_bind_int(journal->insert_stmt, 4, (int)row->ppid);
     if (rc != SQLITE_OK) {
         goto bind_failed;
     }
 
-    rc = leocol_bind_text_or_null(journal->insert_stmt, 5, row->process_name);
+    rc = sqlite3_bind_int(journal->insert_stmt, 5, (int)row->uid);
     if (rc != SQLITE_OK) {
         goto bind_failed;
     }
 
-    rc = leocol_bind_text_or_null(journal->insert_stmt, 6, row->executable_hint);
+    rc = leocol_bind_text_or_null(journal->insert_stmt, 6, row->process_name);
+    if (rc != SQLITE_OK) {
+        goto bind_failed;
+    }
+
+    rc = leocol_bind_text_or_null(journal->insert_stmt, 7, row->executable_hint);
     if (rc != SQLITE_OK) {
         goto bind_failed;
     }
