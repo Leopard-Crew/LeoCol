@@ -2,6 +2,7 @@
 #import "LCString.h"
 #import "LCPresentation.h"
 #import "LCProcessStore.h"
+#import "LCDateFormatting.h"
 
 
 typedef struct LeoColSortContext {
@@ -225,74 +226,6 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     return LCPresentationStringForValue([row objectForKey:key], key, YES);
 }
 
-- (NSString *)displayCompactTimestampString:(NSString *)timestamp
-{
-    NSDateFormatter *parser;
-    NSDateFormatter *displayFormatter;
-    NSDate *date;
-    NSString *result;
-
-    if (timestamp == nil || [timestamp length] == 0 || [timestamp isEqualToString:@"-"]) {
-        return @"";
-    }
-
-    parser = [[NSDateFormatter alloc] init];
-    [parser setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [parser setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
-    [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-
-    date = [parser dateFromString:timestamp];
-    [parser release];
-
-    if (date == nil) {
-        return timestamp;
-    }
-
-    displayFormatter = [[NSDateFormatter alloc] init];
-    [displayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [displayFormatter setDateStyle:NSDateFormatterShortStyle];
-    [displayFormatter setTimeStyle:NSDateFormatterShortStyle];
-
-    result = [[displayFormatter stringFromDate:date] retain];
-    [displayFormatter release];
-
-    return [result autorelease];
-}
-
-- (NSString *)displayTimestampString:(NSString *)timestamp
-{
-    NSDateFormatter *parser;
-    NSDateFormatter *displayFormatter;
-    NSDate *date;
-    NSString *result;
-
-    if (timestamp == nil || [timestamp length] == 0 || [timestamp isEqualToString:@"-"]) {
-        return @"-";
-    }
-
-    parser = [[NSDateFormatter alloc] init];
-    [parser setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [parser setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
-    [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-
-    date = [parser dateFromString:timestamp];
-    [parser release];
-
-    if (date == nil) {
-        return timestamp;
-    }
-
-    displayFormatter = [[NSDateFormatter alloc] init];
-    [displayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-    [displayFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [displayFormatter setTimeStyle:NSDateFormatterMediumStyle];
-
-    result = [[displayFormatter stringFromDate:date] retain];
-    [displayFormatter release];
-
-    return [result autorelease];
-}
-
 - (NSString *)detailContinuationIndentWithWidth:(NSUInteger)width
 {
     NSMutableString *indent;
@@ -421,10 +354,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                               value:[self displayStringForRow:row key:@"executable"]
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.FirstSeen")
-                              value:[self displayTimestampString:[self displayStringForRow:row key:@"firstSeen"]]
+                              value:LCDisplayTimestampString([self displayStringForRow:row key:@"firstSeen"])
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.LastSeen")
-                              value:[self displayTimestampString:[self displayStringForRow:row key:@"lastSeen"]]
+                              value:LCDisplayTimestampString([self displayStringForRow:row key:@"lastSeen"])
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.ExecutablePath")
                               value:[self displayStringForRow:row key:@"executablePath"]
@@ -657,7 +590,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     value = [row objectForKey:identifier];
 
     if ([identifier isEqualToString:@"observed"]) {
-        return [self displayCompactTimestampString:(value != nil ? [value description] : nil)];
+        return LCDisplayCompactTimestampString((value != nil ? [value description] : nil));
     }
 
     return LCPresentationStringForValue(value, identifier, NO);
