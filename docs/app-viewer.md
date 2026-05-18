@@ -223,3 +223,38 @@ The UI presents them as:
 - Directory / Ordner
 
 The wording avoids vague states such as "unknown" in the user interface.
+
+## Localized viewer state wording
+
+The Cocoa viewer keeps canonical technical values in the database and maps them to localized presentation strings.
+
+Classification values are displayed through `Localizable.strings`.
+
+Known display values include:
+
+- Apple system component
+- Apple application
+- command-line tool
+- user application
+- developer tool
+- MacPorts tool
+- observed only
+
+Executable state values are also presentation-level only.
+
+The UI presents them as:
+
+- Present / Vorhanden
+- Not present / Nicht vorhanden
+- Not reported / Nicht gemeldet
+- Directory / Ordner
+
+The viewer avoids vague wording such as `unknown` in user-facing UI.
+
+## Localization layout rule
+
+LeoCol uses one viewer layout for all supported languages.
+
+Localized strings must not introduce language-specific window sizes, column positions, or UI structure.
+
+If a localized string does not fit, the default layout should be improved for all languages.
