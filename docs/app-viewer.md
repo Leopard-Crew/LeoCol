@@ -190,3 +190,36 @@ The full values remain available in the Process Details inspector:
 - Last Seen / Zuletzt gesehen
 
 This keeps the overview concrete while preserving the full technical detail in the inspector.
+
+## Localized classification display
+
+Classification values are stored as canonical technical values in the database.
+
+The Cocoa viewer maps known canonical classification values to localized display strings.
+
+Examples:
+
+- Apple system component
+- Apple application
+- command-line tool
+- user application
+- developer tool
+- MacPorts tool
+- observed only
+
+This keeps the database stable while allowing the UI to present system-appropriate wording in English and German.
+
+## Executable wording
+
+Executable state wording is presentation-level only.
+
+Canonical internal values remain technical.
+
+The UI presents them as:
+
+- Present / Vorhanden
+- Not present / Nicht vorhanden
+- Not reported / Nicht gemeldet
+- Directory / Ordner
+
+The wording avoids vague states such as "unknown" in the user interface.
