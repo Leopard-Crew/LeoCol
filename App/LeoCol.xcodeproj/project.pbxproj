@@ -241,6 +241,14 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		A40000000000000000000002 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A40000000000000000000003 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */

@@ -6,7 +6,7 @@ LCString(NSString *key)
 {
     return [[NSBundle mainBundle] localizedStringForKey:key
                                                   value:key
-                                                  table:nil];
+                                                  table:@"Localizable"];
 }
 
 
