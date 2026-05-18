@@ -324,7 +324,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         return YES;
     }
 
-    keys = [NSArray arrayWithObjects:@"name", @"pid", @"observed", @"executable", @"bundle", @"kind", @"confidence", nil];
+    keys = [NSArray arrayWithObjects:@"name", @"pid", @"bundleName", @"observed", @"executable", @"bundle", @"kind", @"confidence", nil];
     enumerator = [keys objectEnumerator];
 
     while ((key = [enumerator nextObject]) != nil) {
@@ -631,6 +631,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
     NSTableColumn *pidColumn;
+    NSTableColumn *bundleNameColumn;
     NSTableColumn *observedColumn;
     NSTableColumn *executableColumn;
     NSTableColumn *kindColumn;
@@ -716,27 +717,32 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     nameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"name"] autorelease];
     [[nameColumn headerCell] setStringValue:@"Process"];
-    [nameColumn setWidth:240.0];
+    [nameColumn setWidth:210.0];
     [_tableView addTableColumn:nameColumn];
 
     pidColumn = [[[NSTableColumn alloc] initWithIdentifier:@"pid"] autorelease];
     [[pidColumn headerCell] setStringValue:@"PID"];
-    [pidColumn setWidth:70.0];
+    [pidColumn setWidth:60.0];
     [_tableView addTableColumn:pidColumn];
+
+    bundleNameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundleName"] autorelease];
+    [[bundleNameColumn headerCell] setStringValue:@"Bundle Name"];
+    [bundleNameColumn setWidth:190.0];
+    [_tableView addTableColumn:bundleNameColumn];
 
     observedColumn = [[[NSTableColumn alloc] initWithIdentifier:@"observed"] autorelease];
     [[observedColumn headerCell] setStringValue:@"Observed"];
-    [observedColumn setWidth:130.0];
+    [observedColumn setWidth:120.0];
     [_tableView addTableColumn:observedColumn];
 
     executableColumn = [[[NSTableColumn alloc] initWithIdentifier:@"executable"] autorelease];
     [[executableColumn headerCell] setStringValue:@"Executable"];
-    [executableColumn setWidth:100.0];
+    [executableColumn setWidth:90.0];
     [_tableView addTableColumn:executableColumn];
 
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
     [[kindColumn headerCell] setStringValue:@"Classification"];
-    [kindColumn setWidth:270.0];
+    [kindColumn setWidth:260.0];
     [_tableView addTableColumn:kindColumn];
 
     [scrollView setDocumentView:_tableView];
