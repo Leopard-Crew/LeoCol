@@ -409,6 +409,40 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     return [value description];
 }
 
+- (NSString *)displayTimestampString:(NSString *)timestamp
+{
+    NSDateFormatter *parser;
+    NSDateFormatter *displayFormatter;
+    NSDate *date;
+    NSString *result;
+
+    if (timestamp == nil || [timestamp length] == 0 || [timestamp isEqualToString:@"-"]) {
+        return @"-";
+    }
+
+    parser = [[NSDateFormatter alloc] init];
+    [parser setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [parser setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
+    [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+
+    date = [parser dateFromString:timestamp];
+    [parser release];
+
+    if (date == nil) {
+        return timestamp;
+    }
+
+    displayFormatter = [[NSDateFormatter alloc] init];
+    [displayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [displayFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [displayFormatter setTimeStyle:NSDateFormatterMediumStyle];
+
+    result = [[displayFormatter stringFromDate:date] retain];
+    [displayFormatter release];
+
+    return [result autorelease];
+}
+
 - (void)updateDetailView
 {
     NSInteger selectedRow;
@@ -436,8 +470,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [detail appendFormat:@"Bundle Name:      %@\n", [self displayStringForRow:row key:@"bundleName"]];
     [detail appendFormat:@"Classification:   %@\n", [self displayStringForRow:row key:@"kind"]];
     [detail appendFormat:@"Confidence:       %@\n", [self displayStringForRow:row key:@"confidence"]];
-    [detail appendFormat:@"First Seen:       %@\n", [self displayStringForRow:row key:@"firstSeen"]];
-    [detail appendFormat:@"Last Seen:        %@\n", [self displayStringForRow:row key:@"lastSeen"]];
+    [detail appendFormat:@"First Seen:       %@\n", [self displayTimestampString:[self displayStringForRow:row key:@"firstSeen"]]];
+    [detail appendFormat:@"Last Seen:        %@\n", [self displayTimestampString:[self displayStringForRow:row key:@"lastSeen"]]];
     [detail appendFormat:@"Exit Observed:    %@\n", [[row objectForKey:@"exitObserved"] intValue] != 0 ? @"yes" : @"no"];
     [detail appendFormat:@"Executable Path:  %@\n", [self displayStringForRow:row key:@"executablePath"]];
 
@@ -451,6 +485,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSButton *reloadButton;
     NSTextField *filterLabel;
     NSScrollView *scrollView;
+    NSTextField *detailLabel;
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
     NSTableColumn *pidColumn;
@@ -463,7 +498,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     _rows = [[NSMutableArray alloc] init];
     _visibleRows = [[NSMutableArray alloc] init];
 
-    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 600)
+    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 660)
                                          styleMask:(NSTitledWindowMask |
                                                     NSClosableWindowMask |
                                                     NSMiniaturizableWindowMask |
@@ -524,9 +559,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [contentView addSubview:_statusField];
 
     scrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
-                                                                 130,
+                                                                 210,
                                                                  contentBounds.size.width,
-                                                                 contentBounds.size.height - 174)] autorelease];
+                                                                 contentBounds.size.height - 254)] autorelease];
     [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [scrollView setHasVerticalScroller:YES];
     [scrollView setHasHorizontalScroller:YES];
@@ -565,10 +600,23 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [scrollView setDocumentView:_tableView];
     [contentView addSubview:scrollView];
 
+    detailLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(12,
+                                                                  184,
+                                                                  180,
+                                                                  18)] autorelease];
+    [detailLabel setEditable:NO];
+    [detailLabel setSelectable:NO];
+    [detailLabel setBordered:NO];
+    [detailLabel setDrawsBackground:NO];
+    [detailLabel setFont:[NSFont boldSystemFontOfSize:11.0]];
+    [detailLabel setStringValue:@"Process Details"];
+    [detailLabel setAutoresizingMask:(NSViewMaxXMargin | NSViewMaxYMargin)];
+    [contentView addSubview:detailLabel];
+
     detailScrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
                                                                        0,
                                                                        contentBounds.size.width,
-                                                                       120)] autorelease];
+                                                                       180)] autorelease];
     [detailScrollView setAutoresizingMask:(NSViewWidthSizable | NSViewMaxYMargin)];
     [detailScrollView setHasVerticalScroller:YES];
     [detailScrollView setHasHorizontalScroller:NO];
