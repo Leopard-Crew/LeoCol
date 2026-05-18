@@ -79,3 +79,28 @@ Responsibilities:
 
 This structure is the v0.8 app cleanup baseline.  
 
+
+## v0.8.2 App delegate extraction
+
+The Cocoa application delegate has been moved out of `main.m`.
+
+`main.m` is now only responsible for:
+
+- creating the autorelease pool,
+- creating the shared NSApplication,
+- creating the LeoCol app delegate,
+- assigning the delegate,
+- running the application.
+
+`LCAppDelegate` owns the current programmatic Cocoa UI:
+
+- window construction,
+- reload button,
+- filter field,
+- process table,
+- process detail inspector,
+- status bar,
+- sorting,
+- selection handling.
+
+This keeps startup separate from the viewer implementation.
