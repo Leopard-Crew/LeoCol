@@ -501,6 +501,17 @@ didClickTableColumn:(NSTableColumn *)tableColumn
     [tableView reloadData];
 }
 
+- (BOOL)tableView:(NSTableView *)tableView
+shouldEditTableColumn:(NSTableColumn *)tableColumn
+              row:(NSInteger)rowIndex
+{
+    (void)tableView;
+    (void)tableColumn;
+    (void)rowIndex;
+
+    return NO;
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     (void)tableView;
