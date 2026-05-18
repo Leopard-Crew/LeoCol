@@ -134,3 +134,44 @@ It must not become a process-control tool before the journal, lifecycle, and ide
 
 The Cocoa viewer can display real LeoCol data through LeoRM and can be manually refreshed after external probe runs.  
 
+## Viewer usability updates
+
+After the initial Cocoa LeoRM viewer baseline, the viewer gained:
+
+- manual reload,
+- column sorting,
+- numeric PID sorting,
+- an in-memory filter field,
+- and explicitly read-only table cells.
+
+The table is intentionally not editable.
+
+A double-click on a process row must not enter edit mode because LeoCol.app currently presents collected facts and does not modify journal data.
+
+## Filter behavior
+
+The filter field searches the currently loaded in-memory rows.
+
+It matches across:
+
+- process name,
+- PID,
+- bundle identifier,
+- classification,
+- confidence.
+
+Example filters:
+
+```text
+apple
+unknown
+Terminal
+com.apple
+HP
+path-app-contained
+````
+
+Filtering does not query the database again.
+
+Reload reads the database again, then reapplies the current filter and sort state.  
+
