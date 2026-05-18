@@ -23,6 +23,7 @@
 		A10000000000000000000010 /* LRMRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* LRMRepository.m */; };
 		A40000000000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000002 /* Localizable.strings */; };
 		A50000000000000000000003 /* LCString.m in Sources */ = {isa = PBXBuildFile; fileRef = A50000000000000000000002 /* LCString.m */; };
+		A51000000000000000000003 /* LCPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A51000000000000000000002 /* LCPresentation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,8 @@
 		A40000000000000000000004 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A50000000000000000000001 /* LCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCString.h; sourceTree = "<group>"; };
 		A50000000000000000000002 /* LCString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCString.m; sourceTree = "<group>"; };
+		A51000000000000000000001 /* LCPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCPresentation.h; sourceTree = "<group>"; };
+		A51000000000000000000002 /* LCPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCPresentation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				A50000000000000000000001 /* LCString.h */,
 				A50000000000000000000002 /* LCString.m */,
+				A51000000000000000000001 /* LCPresentation.h */,
+				A51000000000000000000002 /* LCPresentation.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				A50000000000000000000003 /* LCString.m in Sources */,
+				A51000000000000000000003 /* LCPresentation.m in Sources */,
 				A10000000000000000000001 /* LRMError.m in Sources */,
 				A10000000000000000000002 /* LRMDatabase.m in Sources */,
 				A10000000000000000000003 /* LRMStatement.m in Sources */,
