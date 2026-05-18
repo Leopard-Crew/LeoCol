@@ -24,6 +24,7 @@
 		A40000000000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000002 /* Localizable.strings */; };
 		A50000000000000000000003 /* LCString.m in Sources */ = {isa = PBXBuildFile; fileRef = A50000000000000000000002 /* LCString.m */; };
 		A51000000000000000000003 /* LCPresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = A51000000000000000000002 /* LCPresentation.m */; };
+		A52000000000000000000003 /* LCProcessStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A52000000000000000000002 /* LCProcessStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,8 @@
 		A50000000000000000000002 /* LCString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCString.m; sourceTree = "<group>"; };
 		A51000000000000000000001 /* LCPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCPresentation.h; sourceTree = "<group>"; };
 		A51000000000000000000002 /* LCPresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCPresentation.m; sourceTree = "<group>"; };
+		A52000000000000000000001 /* LCProcessStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCProcessStore.h; sourceTree = "<group>"; };
+		A52000000000000000000002 /* LCProcessStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCProcessStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,8 @@
 				A50000000000000000000002 /* LCString.m */,
 				A51000000000000000000001 /* LCPresentation.h */,
 				A51000000000000000000002 /* LCPresentation.m */,
+				A52000000000000000000001 /* LCProcessStore.h */,
+				A52000000000000000000002 /* LCProcessStore.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				A50000000000000000000003 /* LCString.m in Sources */,
 				A51000000000000000000003 /* LCPresentation.m in Sources */,
+				A52000000000000000000003 /* LCProcessStore.m in Sources */,
 				A10000000000000000000001 /* LRMError.m in Sources */,
 				A10000000000000000000002 /* LRMDatabase.m in Sources */,
 				A10000000000000000000003 /* LRMStatement.m in Sources */,
