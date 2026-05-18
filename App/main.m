@@ -455,8 +455,34 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         return detail ? LCString(@"State.Confidence.NotAvailable") : @"";
     }
 
-    if ([key isEqualToString:@"kind"] && [stringValue isEqualToString:@"unknown"]) {
-        return @"Observed only";
+    if ([key isEqualToString:@"kind"]) {
+        if ([stringValue isEqualToString:@"Apple system component"]) {
+            return LCString(@"Classification.AppleSystemComponent");
+        }
+
+        if ([stringValue isEqualToString:@"Apple application"]) {
+            return LCString(@"Classification.AppleApplication");
+        }
+
+        if ([stringValue isEqualToString:@"command-line tool"]) {
+            return LCString(@"Classification.CommandLineTool");
+        }
+
+        if ([stringValue isEqualToString:@"user application"]) {
+            return LCString(@"Classification.UserApplication");
+        }
+
+        if ([stringValue isEqualToString:@"developer tool"]) {
+            return LCString(@"Classification.DeveloperTool");
+        }
+
+        if ([stringValue isEqualToString:@"MacPorts tool"]) {
+            return LCString(@"Classification.MacPortsTool");
+        }
+
+        if ([stringValue isEqualToString:@"unknown"]) {
+            return LCString(@"Classification.ObservedOnly");
+        }
     }
 
     if ([key isEqualToString:@"confidence"] && [stringValue isEqualToString:@"unknown"]) {
