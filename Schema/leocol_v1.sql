@@ -39,3 +39,36 @@ CREATE TABLE IF NOT EXISTS process_identity (
     confidence TEXT NOT NULL DEFAULT 'unknown',
     notes TEXT
 );
+
+CREATE TABLE IF NOT EXISTS provenance_evidence (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    evidence_type TEXT NOT NULL,
+    evidence_source TEXT NOT NULL,
+
+    subject_kind TEXT,
+    subject_name TEXT,
+    subject_path TEXT,
+    subject_identifier TEXT,
+
+    evidence_path TEXT,
+    evidence_value TEXT,
+
+    resolution_state TEXT NOT NULL,
+    confidence TEXT,
+
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS process_provenance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    lifecycle_id INTEGER NOT NULL,
+    evidence_id INTEGER NOT NULL,
+
+    relationship TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY(lifecycle_id) REFERENCES process_lifecycle(id),
+    FOREIGN KEY(evidence_id) REFERENCES provenance_evidence(id)
+);
