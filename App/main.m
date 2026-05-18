@@ -1,19 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import "../bricks/LeoRM/Sources/LeoRM.h"
 
-@interface LeoColAppDelegate : NSObject
-{
-    NSWindow *_window;
-    NSTableView *_tableView;
-    NSMutableArray *_rows;
-    NSTextField *_statusField;
-    NSString *_sortKey;
-    BOOL _sortAscending;
-}
-- (void)reloadData:(id)sender;
-@end
-
-
 typedef struct LeoColSortContext {
     NSString *key;
     BOOL ascending;
@@ -72,6 +59,21 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     return result;
 }
+
+@interface LeoColAppDelegate : NSObject
+{
+    NSWindow *_window;
+    NSTableView *_tableView;
+    NSMutableArray *_rows;
+    NSMutableArray *_visibleRows;
+    NSTextField *_filterField;
+    NSTextField *_statusField;
+    NSString *_sortKey;
+    BOOL _sortAscending;
+}
+- (void)reloadData:(id)sender;
+- (void)filterChanged:(id)sender;
+@end
 
 @implementation LeoColAppDelegate
 
@@ -224,7 +226,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
         [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
             displayName, @"name",
-            pid != nil ? [pid stringValue] : [NSNumber numberWithInt:-1], @"pid",
+            pid != nil ? pid : [NSNumber numberWithInt:-1], @"pid",
             bundleIdentifier != nil ? bundleIdentifier : @"-", @"bundle",
             classification != nil ? classification : @"unknown", @"kind",
             confidence != nil ? confidence : @"unknown", @"confidence",
@@ -234,10 +236,6 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     if (error != nil) {
         NSLog(@"LeoCol result iteration failed: %@", error);
         [self setStatusString:@"Result iteration failed"];
-    } else {
-        [self setStatusString:[NSString stringWithFormat:@"Loaded %lu rows from %@",
-            (unsigned long)[_rows count],
-            dbPath]];
     }
 
     [resultSet close];
@@ -249,19 +247,112 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     }
 }
 
-- (void)reloadData:(id)sender
+- (BOOL)row:(NSDictionary *)row matchesFilter:(NSString *)filter
 {
-    (void)sender;
+    NSArray *keys;
+    NSEnumerator *enumerator;
+    NSString *key;
 
-    [self loadRowsFromDatabase];
+    if (filter == nil || [filter length] == 0) {
+        return YES;
+    }
+
+    keys = [NSArray arrayWithObjects:@"name", @"pid", @"bundle", @"kind", @"confidence", nil];
+    enumerator = [keys objectEnumerator];
+
+    while ((key = [enumerator nextObject]) != nil) {
+        id value;
+        NSString *text;
+
+        value = [row objectForKey:key];
+
+        if (value == nil) {
+            continue;
+        }
+
+        if ([key isEqualToString:@"pid"] && [value intValue] < 0) {
+            text = @"";
+        } else {
+            text = [value description];
+        }
+
+        if ([text rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            return YES;
+        }
+    }
+
+    return NO;
+}
+
+- (void)sortRowsByKey:(NSString *)key ascending:(BOOL)ascending
+{
+    LeoColSortContext context;
+
+    if (key == nil) {
+        return;
+    }
+
+    context.key = key;
+    context.ascending = ascending;
+
+    [_visibleRows sortUsingFunction:LeoColCompareRows context:&context];
+}
+
+- (void)applyFilterAndSort
+{
+    NSString *filter;
+    NSEnumerator *enumerator;
+    NSDictionary *row;
+
+    [_visibleRows removeAllObjects];
+
+    filter = [_filterField stringValue];
+
+    enumerator = [_rows objectEnumerator];
+
+    while ((row = [enumerator nextObject]) != nil) {
+        if ([self row:row matchesFilter:filter]) {
+            [_visibleRows addObject:row];
+        }
+    }
 
     if (_sortKey != nil) {
         [self sortRowsByKey:_sortKey ascending:_sortAscending];
     }
 
+    [self setStatusString:[NSString stringWithFormat:@"Showing %lu of %lu rows",
+        (unsigned long)[_visibleRows count],
+        (unsigned long)[_rows count]]];
+}
+
+- (void)reloadData:(id)sender
+{
+    (void)sender;
+
+    [self loadRowsFromDatabase];
+    [self applyFilterAndSort];
+
     if (_tableView != nil) {
         [_tableView reloadData];
     }
+}
+
+- (void)filterChanged:(id)sender
+{
+    (void)sender;
+
+    [self applyFilterAndSort];
+
+    if (_tableView != nil) {
+        [_tableView reloadData];
+    }
+}
+
+- (void)controlTextDidChange:(NSNotification *)notification
+{
+    (void)notification;
+
+    [self filterChanged:nil];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
@@ -269,6 +360,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSView *contentView;
     NSRect contentBounds;
     NSButton *reloadButton;
+    NSTextField *filterLabel;
     NSScrollView *scrollView;
     NSTableColumn *nameColumn;
     NSTableColumn *pidColumn;
@@ -279,8 +371,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     (void)notification;
 
     _rows = [[NSMutableArray alloc] init];
+    _visibleRows = [[NSMutableArray alloc] init];
 
-    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 940, 460)
+    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 480)
                                          styleMask:(NSTitledWindowMask |
                                                     NSClosableWindowMask |
                                                     NSMiniaturizableWindowMask |
@@ -305,9 +398,32 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [reloadButton setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
     [contentView addSubview:reloadButton];
 
-    _statusField = [[[NSTextField alloc] initWithFrame:NSMakeRect(112,
+    filterLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(114,
+                                                                 contentBounds.size.height - 31,
+                                                                 42,
+                                                                 18)] autorelease];
+    [filterLabel setEditable:NO];
+    [filterLabel setSelectable:NO];
+    [filterLabel setBordered:NO];
+    [filterLabel setDrawsBackground:NO];
+    [filterLabel setFont:[NSFont systemFontOfSize:11.0]];
+    [filterLabel setStringValue:@"Filter:"];
+    [filterLabel setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
+    [contentView addSubview:filterLabel];
+
+    _filterField = [[[NSTextField alloc] initWithFrame:NSMakeRect(158,
+                                                                  contentBounds.size.height - 34,
+                                                                  220,
+                                                                  22)] autorelease];
+    [_filterField setTarget:self];
+    [_filterField setAction:@selector(filterChanged:)];
+    [_filterField setDelegate:(id)self];
+    [_filterField setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
+    [contentView addSubview:_filterField];
+
+    _statusField = [[[NSTextField alloc] initWithFrame:NSMakeRect(390,
                                                                   contentBounds.size.height - 32,
-                                                                  contentBounds.size.width - 124,
+                                                                  contentBounds.size.width - 402,
                                                                   20)] autorelease];
     [_statusField setEditable:NO];
     [_statusField setSelectable:NO];
@@ -364,20 +480,6 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_window makeKeyAndOrderFront:nil];
 }
 
-- (void)sortRowsByKey:(NSString *)key ascending:(BOOL)ascending
-{
-    LeoColSortContext context;
-
-    if (key == nil) {
-        return;
-    }
-
-    context.key = key;
-    context.ascending = ascending;
-
-    [_rows sortUsingFunction:LeoColCompareRows context:&context];
-}
-
 - (void)tableView:(NSTableView *)tableView
 didClickTableColumn:(NSTableColumn *)tableColumn
 {
@@ -402,7 +504,7 @@ didClickTableColumn:(NSTableColumn *)tableColumn
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     (void)tableView;
-    return [_rows count];
+    return [_visibleRows count];
 }
 
 - (id)tableView:(NSTableView *)tableView
@@ -410,12 +512,20 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
             row:(NSInteger)rowIndex
 {
     NSDictionary *row;
+    NSString *identifier;
+    id value;
 
     (void)tableView;
 
-    row = [_rows objectAtIndex:rowIndex];
+    row = [_visibleRows objectAtIndex:rowIndex];
+    identifier = [tableColumn identifier];
+    value = [row objectForKey:identifier];
 
-    return [row objectForKey:[tableColumn identifier]];
+    if ([identifier isEqualToString:@"pid"] && value != nil && [value intValue] < 0) {
+        return @"-";
+    }
+
+    return value;
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
@@ -427,6 +537,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 - (void)dealloc
 {
     [_sortKey release];
+    [_visibleRows release];
     [_rows release];
     [_window release];
 
