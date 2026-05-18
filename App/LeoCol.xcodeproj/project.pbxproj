@@ -46,6 +46,7 @@
 		A20000000000000000000009 /* LRMMigrationRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LRMMigrationRunner.m; path = ../bricks/LeoRM/Sources/LRMMigrationRunner.m; sourceTree = SOURCE_ROOT; };
 		A20000000000000000000010 /* LRMRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LRMRepository.m; path = ../bricks/LeoRM/Sources/LRMRepository.m; sourceTree = SOURCE_ROOT; };
 		A40000000000000000000003 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A40000000000000000000004 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +246,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A40000000000000000000003 /* English */,
+				A40000000000000000000004 /* German */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
