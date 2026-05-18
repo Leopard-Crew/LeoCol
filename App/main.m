@@ -115,6 +115,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
         @"-", @"executablePath",
+        @"fallback", @"observed",
+        @"unknown", @"executable",
         @"com.apple.finder", @"bundle",
         @"Finder", @"bundleName",
         @"Apple system component", @"kind",
@@ -128,6 +130,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
         @"-", @"executablePath",
+        @"fallback", @"observed",
+        @"unknown", @"executable",
         @"com.apple.dock", @"bundle",
         @"Dock", @"bundleName",
         @"Apple system component", @"kind",
@@ -141,11 +145,31 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
         @"-", @"executablePath",
+        @"fallback", @"observed",
+        @"unknown", @"executable",
         @"com.apple.Terminal", @"bundle",
         @"Terminal", @"bundleName",
         @"Apple application", @"kind",
         @"bundle-identifier", @"confidence",
         nil]];
+}
+
+- (NSString *)executablePresenceForPath:(NSString *)path
+{
+    BOOL isDirectory;
+
+    if (path == nil || [path length] == 0 || [path isEqualToString:@"-"]) {
+        return @"unknown";
+    }
+
+    isDirectory = NO;
+
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path
+                                             isDirectory:&isDirectory]) {
+        return isDirectory ? @"directory" : @"present";
+    }
+
+    return @"missing";
 }
 
 - (void)loadRowsFromDatabase
@@ -223,6 +247,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         NSString *lastSeen;
         NSNumber *exitObserved;
         NSString *executablePath;
+        NSString *observedState;
+        NSString *executableState;
         NSString *bundleIdentifier;
         NSString *bundleName;
         NSString *classification;
@@ -242,6 +268,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         classification = [row stringForColumn:@"classification"];
         confidence = [row stringForColumn:@"confidence"];
 
+        observedState = (exitObserved != nil && [exitObserved intValue] != 0)
+            ? @"Earlier snapshot"
+            : @"Latest snapshot";
+
+        executableState = [self executablePresenceForPath:executablePath];
+
         displayName = processName;
 
         if (displayName == nil || [displayName length] == 0) {
@@ -259,6 +291,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
             lastSeen != nil ? lastSeen : @"-", @"lastSeen",
             exitObserved != nil ? exitObserved : [NSNumber numberWithInt:0], @"exitObserved",
             executablePath != nil ? executablePath : @"-", @"executablePath",
+            observedState, @"observed",
+            executableState, @"executable",
             bundleIdentifier != nil ? bundleIdentifier : @"-", @"bundle",
             bundleName != nil ? bundleName : @"-", @"bundleName",
             classification != nil ? classification : @"unknown", @"kind",
@@ -290,7 +324,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         return YES;
     }
 
-    keys = [NSArray arrayWithObjects:@"name", @"pid", @"bundle", @"kind", @"confidence", nil];
+    keys = [NSArray arrayWithObjects:@"name", @"pid", @"observed", @"executable", @"bundle", @"kind", @"confidence", nil];
     enumerator = [keys objectEnumerator];
 
     while ((key = [enumerator nextObject]) != nil) {
@@ -567,14 +601,17 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [self appendDetailLineWithLabel:@"Confidence"
                               value:[self displayStringForRow:row key:@"confidence"]
                            toString:detail];
+    [self appendDetailLineWithLabel:@"Observed"
+                              value:[self displayStringForRow:row key:@"observed"]
+                           toString:detail];
+    [self appendDetailLineWithLabel:@"Executable"
+                              value:[self displayStringForRow:row key:@"executable"]
+                           toString:detail];
     [self appendDetailLineWithLabel:@"First Seen"
                               value:[self displayTimestampString:[self displayStringForRow:row key:@"firstSeen"]]
                            toString:detail];
     [self appendDetailLineWithLabel:@"Last Seen"
                               value:[self displayTimestampString:[self displayStringForRow:row key:@"lastSeen"]]
-                           toString:detail];
-    [self appendDetailLineWithLabel:@"Exit Observed"
-                              value:[[row objectForKey:@"exitObserved"] intValue] != 0 ? @"yes" : @"no"
                            toString:detail];
     [self appendDetailLineWithLabel:@"Executable Path"
                               value:[self displayStringForRow:row key:@"executablePath"]
@@ -594,6 +631,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
     NSTableColumn *pidColumn;
+    NSTableColumn *observedColumn;
+    NSTableColumn *executableColumn;
     NSTableColumn *bundleColumn;
     NSTableColumn *kindColumn;
     NSTableColumn *confidenceColumn;
@@ -686,6 +725,16 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [[pidColumn headerCell] setStringValue:@"PID"];
     [pidColumn setWidth:70.0];
     [_tableView addTableColumn:pidColumn];
+
+    observedColumn = [[[NSTableColumn alloc] initWithIdentifier:@"observed"] autorelease];
+    [[observedColumn headerCell] setStringValue:@"Observed"];
+    [observedColumn setWidth:130.0];
+    [_tableView addTableColumn:observedColumn];
+
+    executableColumn = [[[NSTableColumn alloc] initWithIdentifier:@"executable"] autorelease];
+    [[executableColumn headerCell] setStringValue:@"Executable"];
+    [executableColumn setWidth:100.0];
+    [_tableView addTableColumn:executableColumn];
 
     bundleColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundle"] autorelease];
     [[bundleColumn headerCell] setStringValue:@"Bundle Identifier"];
