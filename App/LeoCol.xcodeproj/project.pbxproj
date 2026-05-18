@@ -22,6 +22,7 @@
 		A10000000000000000000009 /* LRMMigrationRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* LRMMigrationRunner.m */; };
 		A10000000000000000000010 /* LRMRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* LRMRepository.m */; };
 		A40000000000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000002 /* Localizable.strings */; };
+		A50000000000000000000003 /* LCString.m in Sources */ = {isa = PBXBuildFile; fileRef = A50000000000000000000002 /* LCString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		A20000000000000000000010 /* LRMRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LRMRepository.m; path = ../bricks/LeoRM/Sources/LRMRepository.m; sourceTree = SOURCE_ROOT; };
 		A40000000000000000000003 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A40000000000000000000004 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A50000000000000000000001 /* LCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCString.h; sourceTree = "<group>"; };
+		A50000000000000000000002 /* LCString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCString.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,8 @@
 			children = (
 				32CA4F630368D1EE00C91783 /* LeoCol_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				A50000000000000000000001 /* LCString.h */,
+				A50000000000000000000002 /* LCString.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				A50000000000000000000003 /* LCString.m in Sources */,
 				A10000000000000000000001 /* LRMError.m in Sources */,
 				A10000000000000000000002 /* LRMDatabase.m in Sources */,
 				A10000000000000000000003 /* LRMStatement.m in Sources */,

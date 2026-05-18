@@ -1,13 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import "../bricks/LeoRM/Sources/LeoRM.h"
-
-static NSString *
-LCString(NSString *key)
-{
-    return [[NSBundle mainBundle] localizedStringForKey:key
-                                                  value:key
-                                                  table:@"Localizable"];
-}
+#import "LCString.h"
 
 
 typedef struct LeoColSortContext {
