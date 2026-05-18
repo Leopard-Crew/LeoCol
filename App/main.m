@@ -811,12 +811,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     executableColumn = [[[NSTableColumn alloc] initWithIdentifier:@"executable"] autorelease];
     [[executableColumn headerCell] setStringValue:LCString(@"Column.Executable")];
-    [executableColumn setWidth:90.0];
+    [executableColumn setWidth:130.0];
     [_tableView addTableColumn:executableColumn];
 
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
     [[kindColumn headerCell] setStringValue:LCString(@"Column.Classification")];
-    [kindColumn setWidth:260.0];
+    [kindColumn setWidth:230.0];
     [_tableView addTableColumn:kindColumn];
 
     [scrollView setDocumentView:_tableView];
