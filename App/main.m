@@ -447,7 +447,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     }
 
     if ([key isEqualToString:@"kind"] && [stringValue isEqualToString:@"unknown"]) {
-        return @"Unclassified";
+        return @"Observed only";
     }
 
     if ([key isEqualToString:@"confidence"] && [stringValue isEqualToString:@"unknown"]) {
@@ -456,7 +456,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     if ([key isEqualToString:@"executable"]) {
         if ([stringValue isEqualToString:@"unknown"]) {
-            return detail ? @"No executable path" : @"No path";
+            return detail ? @"No executable path reported" : @"Not reported";
         }
 
         if ([stringValue isEqualToString:@"present"]) {
@@ -464,7 +464,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         }
 
         if ([stringValue isEqualToString:@"missing"]) {
-            return @"Missing";
+            return @"Not present";
         }
 
         if ([stringValue isEqualToString:@"directory"]) {
