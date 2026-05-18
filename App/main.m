@@ -124,7 +124,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
         @"-", @"executablePath",
-        @"fallback", @"observed",
+        @"-", @"observed",
         @"unknown", @"executable",
         @"com.apple.finder", @"bundle",
         @"Finder", @"bundleName",
@@ -139,7 +139,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
         @"-", @"executablePath",
-        @"fallback", @"observed",
+        @"-", @"observed",
         @"unknown", @"executable",
         @"com.apple.dock", @"bundle",
         @"Dock", @"bundleName",
@@ -154,7 +154,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
         @"-", @"executablePath",
-        @"fallback", @"observed",
+        @"-", @"observed",
         @"unknown", @"executable",
         @"com.apple.Terminal", @"bundle",
         @"Terminal", @"bundleName",
@@ -277,9 +277,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         classification = [row stringForColumn:@"classification"];
         confidence = [row stringForColumn:@"confidence"];
 
-        observedState = (exitObserved != nil && [exitObserved intValue] != 0)
-            ? LCString(@"State.Observed.EarlierSnapshot")
-            : LCString(@"State.Observed.LatestSnapshot");
+        observedState = lastSeen != nil ? lastSeen : @"-";
 
         executableState = [self executablePresenceForPath:executablePath];
 
@@ -517,6 +515,40 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                                      detail:YES];
 }
 
+- (NSString *)displayCompactTimestampString:(NSString *)timestamp
+{
+    NSDateFormatter *parser;
+    NSDateFormatter *displayFormatter;
+    NSDate *date;
+    NSString *result;
+
+    if (timestamp == nil || [timestamp length] == 0 || [timestamp isEqualToString:@"-"]) {
+        return @"";
+    }
+
+    parser = [[NSDateFormatter alloc] init];
+    [parser setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [parser setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
+    [parser setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+
+    date = [parser dateFromString:timestamp];
+    [parser release];
+
+    if (date == nil) {
+        return timestamp;
+    }
+
+    displayFormatter = [[NSDateFormatter alloc] init];
+    [displayFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [displayFormatter setDateStyle:NSDateFormatterShortStyle];
+    [displayFormatter setTimeStyle:NSDateFormatterShortStyle];
+
+    result = [[displayFormatter stringFromDate:date] retain];
+    [displayFormatter release];
+
+    return [result autorelease];
+}
+
 - (NSString *)displayTimestampString:(NSString *)timestamp
 {
     NSDateFormatter *parser;
@@ -674,9 +706,6 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.Confidence")
                               value:[self displayStringForRow:row key:@"confidence"]
-                           toString:detail];
-    [self appendDetailLineWithLabel:LCString(@"Detail.Observed")
-                              value:[self displayStringForRow:row key:@"observed"]
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.Executable")
                               value:[self displayStringForRow:row key:@"executable"]
@@ -916,6 +945,10 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     row = [_visibleRows objectAtIndex:rowIndex];
     identifier = [tableColumn identifier];
     value = [row objectForKey:identifier];
+
+    if ([identifier isEqualToString:@"observed"]) {
+        return [self displayCompactTimestampString:(value != nil ? [value description] : nil)];
+    }
 
     return [self presentationStringForValue:value
                                        key:identifier
