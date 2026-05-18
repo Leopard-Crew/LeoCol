@@ -68,6 +68,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMutableArray *_visibleRows;
     NSTextField *_filterField;
     NSTextField *_statusField;
+    NSTextView *_detailTextView;
     NSString *_sortKey;
     BOOL _sortAscending;
 }
@@ -110,7 +111,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Finder", @"name",
         [NSNumber numberWithInt:-1], @"pid",
+        @"-", @"firstSeen",
+        @"-", @"lastSeen",
+        [NSNumber numberWithInt:0], @"exitObserved",
+        @"-", @"executablePath",
         @"com.apple.finder", @"bundle",
+        @"Finder", @"bundleName",
         @"Apple system component", @"kind",
         @"path-app-contained", @"confidence",
         nil]];
@@ -118,7 +124,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Dock", @"name",
         [NSNumber numberWithInt:-1], @"pid",
+        @"-", @"firstSeen",
+        @"-", @"lastSeen",
+        [NSNumber numberWithInt:0], @"exitObserved",
+        @"-", @"executablePath",
         @"com.apple.dock", @"bundle",
+        @"Dock", @"bundleName",
         @"Apple system component", @"kind",
         @"path-app-contained", @"confidence",
         nil]];
@@ -126,7 +137,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
         @"Terminal", @"name",
         [NSNumber numberWithInt:-1], @"pid",
+        @"-", @"firstSeen",
+        @"-", @"lastSeen",
+        [NSNumber numberWithInt:0], @"exitObserved",
+        @"-", @"executablePath",
         @"com.apple.Terminal", @"bundle",
+        @"Terminal", @"bundleName",
         @"Apple application", @"kind",
         @"bundle-identifier", @"confidence",
         nil]];
@@ -165,6 +181,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         @"SELECT "
         @"  l.process_name AS process_name, "
         @"  l.pid AS pid, "
+        @"  l.first_seen_at AS first_seen_at, "
+        @"  l.last_seen_at AS last_seen_at, "
+        @"  l.exit_observed AS exit_observed, "
+        @"  l.executable_path AS executable_path, "
         @"  i.bundle_identifier AS bundle_identifier, "
         @"  i.bundle_name AS bundle_name, "
         @"  i.classification AS classification, "
@@ -199,6 +219,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         LRMRow *row;
         NSString *processName;
         NSNumber *pid;
+        NSString *firstSeen;
+        NSString *lastSeen;
+        NSNumber *exitObserved;
+        NSString *executablePath;
         NSString *bundleIdentifier;
         NSString *bundleName;
         NSString *classification;
@@ -209,6 +233,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
         processName = [row stringForColumn:@"process_name"];
         pid = [row numberForColumn:@"pid"];
+        firstSeen = [row stringForColumn:@"first_seen_at"];
+        lastSeen = [row stringForColumn:@"last_seen_at"];
+        exitObserved = [row numberForColumn:@"exit_observed"];
+        executablePath = [row stringForColumn:@"executable_path"];
         bundleIdentifier = [row stringForColumn:@"bundle_identifier"];
         bundleName = [row stringForColumn:@"bundle_name"];
         classification = [row stringForColumn:@"classification"];
@@ -227,7 +255,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         [_rows addObject:[NSDictionary dictionaryWithObjectsAndKeys:
             displayName, @"name",
             pid != nil ? pid : [NSNumber numberWithInt:-1], @"pid",
+            firstSeen != nil ? firstSeen : @"-", @"firstSeen",
+            lastSeen != nil ? lastSeen : @"-", @"lastSeen",
+            exitObserved != nil ? exitObserved : [NSNumber numberWithInt:0], @"exitObserved",
+            executablePath != nil ? executablePath : @"-", @"executablePath",
             bundleIdentifier != nil ? bundleIdentifier : @"-", @"bundle",
+            bundleName != nil ? bundleName : @"-", @"bundleName",
             classification != nil ? classification : @"unknown", @"kind",
             confidence != nil ? confidence : @"unknown", @"confidence",
             nil]];
@@ -335,6 +368,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     if (_tableView != nil) {
         [_tableView reloadData];
     }
+
+    [self updateDetailView];
 }
 
 - (void)filterChanged:(id)sender
@@ -346,6 +381,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     if (_tableView != nil) {
         [_tableView reloadData];
     }
+
+    [self updateDetailView];
 }
 
 - (void)controlTextDidChange:(NSNotification *)notification
@@ -355,6 +392,58 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [self filterChanged:nil];
 }
 
+- (NSString *)displayStringForRow:(NSDictionary *)row key:(NSString *)key
+{
+    id value;
+
+    value = [row objectForKey:key];
+
+    if (value == nil) {
+        return @"-";
+    }
+
+    if ([key isEqualToString:@"pid"] && [value intValue] < 0) {
+        return @"-";
+    }
+
+    return [value description];
+}
+
+- (void)updateDetailView
+{
+    NSInteger selectedRow;
+    NSDictionary *row;
+    NSMutableString *detail;
+
+    if (_detailTextView == nil || _tableView == nil) {
+        return;
+    }
+
+    selectedRow = [_tableView selectedRow];
+
+    if (selectedRow < 0 || selectedRow >= (NSInteger)[_visibleRows count]) {
+        [_detailTextView setString:@"No process selected."];
+        return;
+    }
+
+    row = [_visibleRows objectAtIndex:selectedRow];
+
+    detail = [NSMutableString string];
+
+    [detail appendFormat:@"Process:          %@\n", [self displayStringForRow:row key:@"name"]];
+    [detail appendFormat:@"PID:              %@\n", [self displayStringForRow:row key:@"pid"]];
+    [detail appendFormat:@"Bundle:           %@\n", [self displayStringForRow:row key:@"bundle"]];
+    [detail appendFormat:@"Bundle Name:      %@\n", [self displayStringForRow:row key:@"bundleName"]];
+    [detail appendFormat:@"Classification:   %@\n", [self displayStringForRow:row key:@"kind"]];
+    [detail appendFormat:@"Confidence:       %@\n", [self displayStringForRow:row key:@"confidence"]];
+    [detail appendFormat:@"First Seen:       %@\n", [self displayStringForRow:row key:@"firstSeen"]];
+    [detail appendFormat:@"Last Seen:        %@\n", [self displayStringForRow:row key:@"lastSeen"]];
+    [detail appendFormat:@"Exit Observed:    %@\n", [[row objectForKey:@"exitObserved"] intValue] != 0 ? @"yes" : @"no"];
+    [detail appendFormat:@"Executable Path:  %@\n", [self displayStringForRow:row key:@"executablePath"]];
+
+    [_detailTextView setString:detail];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSView *contentView;
@@ -362,6 +451,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSButton *reloadButton;
     NSTextField *filterLabel;
     NSScrollView *scrollView;
+    NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
     NSTableColumn *pidColumn;
     NSTableColumn *bundleColumn;
@@ -373,7 +463,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     _rows = [[NSMutableArray alloc] init];
     _visibleRows = [[NSMutableArray alloc] init];
 
-    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 480)
+    _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 600)
                                          styleMask:(NSTitledWindowMask |
                                                     NSClosableWindowMask |
                                                     NSMiniaturizableWindowMask |
@@ -434,9 +524,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [contentView addSubview:_statusField];
 
     scrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
-                                                                 0,
+                                                                 130,
                                                                  contentBounds.size.width,
-                                                                 contentBounds.size.height - 44)] autorelease];
+                                                                 contentBounds.size.height - 174)] autorelease];
     [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [scrollView setHasVerticalScroller:YES];
     [scrollView setHasHorizontalScroller:YES];
@@ -475,6 +565,24 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [scrollView setDocumentView:_tableView];
     [contentView addSubview:scrollView];
 
+    detailScrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
+                                                                       0,
+                                                                       contentBounds.size.width,
+                                                                       120)] autorelease];
+    [detailScrollView setAutoresizingMask:(NSViewWidthSizable | NSViewMaxYMargin)];
+    [detailScrollView setHasVerticalScroller:YES];
+    [detailScrollView setHasHorizontalScroller:NO];
+    [detailScrollView setBorderType:NSBezelBorder];
+
+    _detailTextView = [[[NSTextView alloc] initWithFrame:[detailScrollView bounds]] autorelease];
+    [_detailTextView setEditable:NO];
+    [_detailTextView setSelectable:YES];
+    [_detailTextView setFont:[NSFont userFixedPitchFontOfSize:11.0]];
+    [_detailTextView setString:@"No process selected."];
+
+    [detailScrollView setDocumentView:_detailTextView];
+    [contentView addSubview:detailScrollView];
+
     [self reloadData:nil];
 
     [_window makeKeyAndOrderFront:nil];
@@ -510,6 +618,13 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
     (void)rowIndex;
 
     return NO;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+    (void)notification;
+
+    [self updateDetailView];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
