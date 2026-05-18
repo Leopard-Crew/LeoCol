@@ -630,12 +630,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSTextField *detailLabel;
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
-    NSTableColumn *pidColumn;
     NSTableColumn *observedColumn;
     NSTableColumn *executableColumn;
-    NSTableColumn *bundleColumn;
     NSTableColumn *kindColumn;
-    NSTableColumn *confidenceColumn;
 
     (void)notification;
 
@@ -718,13 +715,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     nameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"name"] autorelease];
     [[nameColumn headerCell] setStringValue:@"Process"];
-    [nameColumn setWidth:180.0];
+    [nameColumn setWidth:260.0];
     [_tableView addTableColumn:nameColumn];
-
-    pidColumn = [[[NSTableColumn alloc] initWithIdentifier:@"pid"] autorelease];
-    [[pidColumn headerCell] setStringValue:@"PID"];
-    [pidColumn setWidth:70.0];
-    [_tableView addTableColumn:pidColumn];
 
     observedColumn = [[[NSTableColumn alloc] initWithIdentifier:@"observed"] autorelease];
     [[observedColumn headerCell] setStringValue:@"Observed"];
@@ -736,20 +728,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [executableColumn setWidth:100.0];
     [_tableView addTableColumn:executableColumn];
 
-    bundleColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundle"] autorelease];
-    [[bundleColumn headerCell] setStringValue:@"Bundle Identifier"];
-    [bundleColumn setWidth:260.0];
-    [_tableView addTableColumn:bundleColumn];
-
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
     [[kindColumn headerCell] setStringValue:@"Classification"];
-    [kindColumn setWidth:220.0];
+    [kindColumn setWidth:300.0];
     [_tableView addTableColumn:kindColumn];
-
-    confidenceColumn = [[[NSTableColumn alloc] initWithIdentifier:@"confidence"] autorelease];
-    [[confidenceColumn headerCell] setStringValue:@"Confidence"];
-    [confidenceColumn setWidth:180.0];
-    [_tableView addTableColumn:confidenceColumn];
 
     [scrollView setDocumentView:_tableView];
     [contentView addSubview:scrollView];
