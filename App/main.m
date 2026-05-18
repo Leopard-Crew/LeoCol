@@ -1,6 +1,15 @@
 #import <Cocoa/Cocoa.h>
 #import "../bricks/LeoRM/Sources/LeoRM.h"
 
+static NSString *
+LCString(NSString *key)
+{
+    return [[NSBundle mainBundle] localizedStringForKey:key
+                                                  value:key
+                                                  table:nil];
+}
+
+
 typedef struct LeoColSortContext {
     NSString *key;
     BOOL ascending;
@@ -187,7 +196,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
         NSLog(@"LeoCol database not found at %@; using fallback rows.", dbPath);
         [self addFallbackRows];
-        [self setStatusString:[NSString stringWithFormat:@"Database not found: %@ — showing fallback rows", dbPath]];
+        [self setStatusString:[NSString stringWithFormat:LCString(@"Status.DatabaseNotFound"), dbPath]];
         return;
     }
 
@@ -197,7 +206,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     if (database == nil || ![database open:&error]) {
         NSLog(@"LeoCol could not open database %@: %@", dbPath, error);
         [self addFallbackRows];
-        [self setStatusString:[NSString stringWithFormat:@"Could not open database: %@", dbPath]];
+        [self setStatusString:[NSString stringWithFormat:LCString(@"Status.DatabaseOpenFailed"), dbPath]];
         return;
     }
 
@@ -223,7 +232,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         NSLog(@"LeoCol prepare failed: %@", error);
         [database close];
         [self addFallbackRows];
-        [self setStatusString:@"Query prepare failed — showing fallback rows"];
+        [self setStatusString:LCString(@"Status.QueryPrepareFailed")];
         return;
     }
 
@@ -233,7 +242,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         NSLog(@"LeoCol query failed: %@", error);
         [database close];
         [self addFallbackRows];
-        [self setStatusString:@"Query failed — showing fallback rows"];
+        [self setStatusString:LCString(@"Status.QueryFailed")];
         return;
     }
 
@@ -269,8 +278,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         confidence = [row stringForColumn:@"confidence"];
 
         observedState = (exitObserved != nil && [exitObserved intValue] != 0)
-            ? @"Earlier snapshot"
-            : @"Latest snapshot";
+            ? LCString(@"State.Observed.EarlierSnapshot")
+            : LCString(@"State.Observed.LatestSnapshot");
 
         executableState = [self executablePresenceForPath:executablePath];
 
@@ -302,7 +311,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     if (error != nil) {
         NSLog(@"LeoCol result iteration failed: %@", error);
-        [self setStatusString:@"Result iteration failed"];
+        [self setStatusString:LCString(@"Status.ResultIterationFailed")];
     }
 
     [resultSet close];
@@ -310,7 +319,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     if ([_rows count] == 0) {
         [self addFallbackRows];
-        [self setStatusString:@"Database returned no rows — showing fallback rows"];
+        [self setStatusString:LCString(@"Status.EmptyDatabase")];
     }
 }
 
@@ -387,7 +396,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         [self sortRowsByKey:_sortKey ascending:_sortAscending];
     }
 
-    [self setStatusString:[NSString stringWithFormat:@"Showing %lu of %lu rows",
+    [self setStatusString:[NSString stringWithFormat:LCString(@"Status.ShowingRows"),
         (unsigned long)[_visibleRows count],
         (unsigned long)[_rows count]]];
 }
@@ -433,17 +442,17 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSString *stringValue;
 
     if (value == nil) {
-        return detail ? @"Not available" : @"";
+        return detail ? LCString(@"State.Confidence.NotAvailable") : @"";
     }
 
     if ([key isEqualToString:@"pid"] && [value intValue] < 0) {
-        return detail ? @"Not available" : @"";
+        return detail ? LCString(@"State.Confidence.NotAvailable") : @"";
     }
 
     stringValue = [value description];
 
     if ([stringValue isEqualToString:@"-"]) {
-        return detail ? @"Not available" : @"";
+        return detail ? LCString(@"State.Confidence.NotAvailable") : @"";
     }
 
     if ([key isEqualToString:@"kind"] && [stringValue isEqualToString:@"unknown"]) {
@@ -451,24 +460,24 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     }
 
     if ([key isEqualToString:@"confidence"] && [stringValue isEqualToString:@"unknown"]) {
-        return detail ? @"Not available" : @"";
+        return detail ? LCString(@"State.Confidence.NotAvailable") : @"";
     }
 
     if ([key isEqualToString:@"executable"]) {
         if ([stringValue isEqualToString:@"unknown"]) {
-            return detail ? @"No executable path reported" : @"Not reported";
+            return detail ? LCString(@"State.Executable.NotReported.Detail") : LCString(@"State.Executable.NotReported");
         }
 
         if ([stringValue isEqualToString:@"present"]) {
-            return @"Present";
+            return LCString(@"State.Executable.Present");
         }
 
         if ([stringValue isEqualToString:@"missing"]) {
-            return @"Not present";
+            return LCString(@"State.Executable.NotPresent");
         }
 
         if ([stringValue isEqualToString:@"directory"]) {
-            return @"Directory";
+            return LCString(@"State.Executable.Directory");
         }
     }
 
@@ -614,7 +623,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     selectedRow = [_tableView selectedRow];
 
     if (selectedRow < 0 || selectedRow >= (NSInteger)[_visibleRows count]) {
-        [_detailTextView setString:@"No process selected."];
+        [_detailTextView setString:LCString(@"Detail.NoSelection")];
         return;
     }
 
@@ -622,37 +631,37 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     detail = [NSMutableString string];
 
-    [self appendDetailLineWithLabel:@"Process"
+    [self appendDetailLineWithLabel:LCString(@"Detail.Process")
                               value:[self displayStringForRow:row key:@"name"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"PID"
+    [self appendDetailLineWithLabel:LCString(@"Detail.PID")
                               value:[self displayStringForRow:row key:@"pid"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Bundle"
+    [self appendDetailLineWithLabel:LCString(@"Detail.Bundle")
                               value:[self displayStringForRow:row key:@"bundle"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Bundle Name"
+    [self appendDetailLineWithLabel:LCString(@"Detail.BundleName")
                               value:[self displayStringForRow:row key:@"bundleName"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Classification"
+    [self appendDetailLineWithLabel:LCString(@"Detail.Classification")
                               value:[self displayStringForRow:row key:@"kind"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Confidence"
+    [self appendDetailLineWithLabel:LCString(@"Detail.Confidence")
                               value:[self displayStringForRow:row key:@"confidence"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Observed"
+    [self appendDetailLineWithLabel:LCString(@"Detail.Observed")
                               value:[self displayStringForRow:row key:@"observed"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Executable"
+    [self appendDetailLineWithLabel:LCString(@"Detail.Executable")
                               value:[self displayStringForRow:row key:@"executable"]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"First Seen"
+    [self appendDetailLineWithLabel:LCString(@"Detail.FirstSeen")
                               value:[self displayTimestampString:[self displayStringForRow:row key:@"firstSeen"]]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Last Seen"
+    [self appendDetailLineWithLabel:LCString(@"Detail.LastSeen")
                               value:[self displayTimestampString:[self displayStringForRow:row key:@"lastSeen"]]
                            toString:detail];
-    [self appendDetailLineWithLabel:@"Executable Path"
+    [self appendDetailLineWithLabel:LCString(@"Detail.ExecutablePath")
                               value:[self displayStringForRow:row key:@"executablePath"]
                            toString:detail];
 
@@ -697,7 +706,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                                                                contentBounds.size.height - 34,
                                                                90,
                                                                24)] autorelease];
-    [reloadButton setTitle:@"Reload"];
+    [reloadButton setTitle:LCString(@"Button.Reload")];
     [reloadButton setButtonType:NSMomentaryPushInButton];
     [reloadButton setBezelStyle:NSRoundedBezelStyle];
     [reloadButton setTarget:self];
@@ -714,7 +723,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [filterLabel setBordered:NO];
     [filterLabel setDrawsBackground:NO];
     [filterLabel setFont:[NSFont systemFontOfSize:11.0]];
-    [filterLabel setStringValue:@"Filter:"];
+    [filterLabel setStringValue:LCString(@"Label.Filter")];
     [filterLabel setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
     [contentView addSubview:filterLabel];
 
@@ -755,32 +764,32 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_tableView setUsesAlternatingRowBackgroundColors:YES];
 
     nameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"name"] autorelease];
-    [[nameColumn headerCell] setStringValue:@"Process"];
+    [[nameColumn headerCell] setStringValue:LCString(@"Column.Process")];
     [nameColumn setWidth:210.0];
     [_tableView addTableColumn:nameColumn];
 
     pidColumn = [[[NSTableColumn alloc] initWithIdentifier:@"pid"] autorelease];
-    [[pidColumn headerCell] setStringValue:@"PID"];
+    [[pidColumn headerCell] setStringValue:LCString(@"Column.PID")];
     [pidColumn setWidth:60.0];
     [_tableView addTableColumn:pidColumn];
 
     bundleNameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundleName"] autorelease];
-    [[bundleNameColumn headerCell] setStringValue:@"Bundle Name"];
+    [[bundleNameColumn headerCell] setStringValue:LCString(@"Column.BundleName")];
     [bundleNameColumn setWidth:190.0];
     [_tableView addTableColumn:bundleNameColumn];
 
     observedColumn = [[[NSTableColumn alloc] initWithIdentifier:@"observed"] autorelease];
-    [[observedColumn headerCell] setStringValue:@"Observed"];
+    [[observedColumn headerCell] setStringValue:LCString(@"Column.Observed")];
     [observedColumn setWidth:120.0];
     [_tableView addTableColumn:observedColumn];
 
     executableColumn = [[[NSTableColumn alloc] initWithIdentifier:@"executable"] autorelease];
-    [[executableColumn headerCell] setStringValue:@"Executable"];
+    [[executableColumn headerCell] setStringValue:LCString(@"Column.Executable")];
     [executableColumn setWidth:90.0];
     [_tableView addTableColumn:executableColumn];
 
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
-    [[kindColumn headerCell] setStringValue:@"Classification"];
+    [[kindColumn headerCell] setStringValue:LCString(@"Column.Classification")];
     [kindColumn setWidth:260.0];
     [_tableView addTableColumn:kindColumn];
 
@@ -796,7 +805,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [detailLabel setBordered:NO];
     [detailLabel setDrawsBackground:NO];
     [detailLabel setFont:[NSFont boldSystemFontOfSize:11.0]];
-    [detailLabel setStringValue:@"Process Details"];
+    [detailLabel setStringValue:LCString(@"Label.ProcessDetails")];
     [detailLabel setAutoresizingMask:(NSViewMaxXMargin | NSViewMaxYMargin)];
     [contentView addSubview:detailLabel];
 
@@ -813,7 +822,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_detailTextView setEditable:NO];
     [_detailTextView setSelectable:YES];
     [_detailTextView setFont:[NSFont userFixedPitchFontOfSize:12.0]];
-    [_detailTextView setString:@"No process selected."];
+    [_detailTextView setString:LCString(@"Detail.NoSelection")];
 
     [detailScrollView setDocumentView:_detailTextView];
     [contentView addSubview:detailScrollView];

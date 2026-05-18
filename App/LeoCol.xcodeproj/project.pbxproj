@@ -21,6 +21,7 @@
 		A10000000000000000000008 /* LRMSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* LRMSchema.m */; };
 		A10000000000000000000009 /* LRMMigrationRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* LRMMigrationRunner.m */; };
 		A10000000000000000000010 /* LRMRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* LRMRepository.m */; };
+		A40000000000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A40000000000000000000002 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		A20000000000000000000008 /* LRMSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LRMSchema.m; path = ../bricks/LeoRM/Sources/LRMSchema.m; sourceTree = SOURCE_ROOT; };
 		A20000000000000000000009 /* LRMMigrationRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LRMMigrationRunner.m; path = ../bricks/LeoRM/Sources/LRMMigrationRunner.m; sourceTree = SOURCE_ROOT; };
 		A20000000000000000000010 /* LRMRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LRMRepository.m; path = ../bricks/LeoRM/Sources/LRMRepository.m; sourceTree = SOURCE_ROOT; };
+		A40000000000000000000003 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			children = (
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				A40000000000000000000002 /* Localizable.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 			);
 			name = Resources;
@@ -193,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				A40000000000000000000001 /* Localizable.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
