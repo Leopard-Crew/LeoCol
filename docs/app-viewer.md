@@ -175,3 +175,18 @@ Filtering does not query the database again.
 
 Reload reads the database again, then reapplies the current filter and sort state.  
 
+
+## Last seen overview column
+
+The viewer overview uses a localized `Last Seen` / `Zuletzt` column instead of a vague observed-state label.
+
+The stored database value remains canonical and technical.
+
+The table presents a compact localized date/time string for readability.
+
+The full values remain available in the Process Details inspector:
+
+- First Seen / Zuerst gesehen
+- Last Seen / Zuletzt gesehen
+
+This keeps the overview concrete while preserving the full technical detail in the inspector.
