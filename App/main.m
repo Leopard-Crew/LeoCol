@@ -688,16 +688,16 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_filterField setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
     [contentView addSubview:_filterField];
 
-    _statusField = [[[NSTextField alloc] initWithFrame:NSMakeRect(390,
-                                                                  contentBounds.size.height - 32,
-                                                                  contentBounds.size.width - 402,
-                                                                  20)] autorelease];
+    _statusField = [[[NSTextField alloc] initWithFrame:NSMakeRect(12,
+                                                                  2,
+                                                                  contentBounds.size.width - 24,
+                                                                  18)] autorelease];
     [_statusField setEditable:NO];
     [_statusField setSelectable:NO];
     [_statusField setBordered:NO];
     [_statusField setDrawsBackground:NO];
     [_statusField setFont:[NSFont systemFontOfSize:11.0]];
-    [_statusField setAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
+    [_statusField setAutoresizingMask:(NSViewWidthSizable | NSViewMaxYMargin)];
     [contentView addSubview:_statusField];
 
     scrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
@@ -756,9 +756,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [contentView addSubview:detailLabel];
 
     detailScrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
-                                                                       0,
+                                                                       22,
                                                                        contentBounds.size.width,
-                                                                       240)] autorelease];
+                                                                       218)] autorelease];
     [detailScrollView setAutoresizingMask:(NSViewWidthSizable | NSViewMaxYMargin)];
     [detailScrollView setHasVerticalScroller:YES];
     [detailScrollView setHasHorizontalScroller:NO];
