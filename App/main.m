@@ -426,21 +426,60 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [self filterChanged:nil];
 }
 
-- (NSString *)displayStringForRow:(NSDictionary *)row key:(NSString *)key
+- (NSString *)presentationStringForValue:(id)value
+                                 key:(NSString *)key
+                              detail:(BOOL)detail
 {
-    id value;
-
-    value = [row objectForKey:key];
+    NSString *stringValue;
 
     if (value == nil) {
-        return @"-";
+        return detail ? @"Not available" : @"";
     }
 
     if ([key isEqualToString:@"pid"] && [value intValue] < 0) {
-        return @"-";
+        return detail ? @"Not available" : @"";
     }
 
-    return [value description];
+    stringValue = [value description];
+
+    if ([stringValue isEqualToString:@"-"]) {
+        return detail ? @"Not available" : @"";
+    }
+
+    if ([key isEqualToString:@"kind"] && [stringValue isEqualToString:@"unknown"]) {
+        return @"Unclassified";
+    }
+
+    if ([key isEqualToString:@"confidence"] && [stringValue isEqualToString:@"unknown"]) {
+        return detail ? @"Not available" : @"";
+    }
+
+    if ([key isEqualToString:@"executable"]) {
+        if ([stringValue isEqualToString:@"unknown"]) {
+            return detail ? @"No executable path" : @"No path";
+        }
+
+        if ([stringValue isEqualToString:@"present"]) {
+            return @"Present";
+        }
+
+        if ([stringValue isEqualToString:@"missing"]) {
+            return @"Missing";
+        }
+
+        if ([stringValue isEqualToString:@"directory"]) {
+            return @"Directory";
+        }
+    }
+
+    return stringValue;
+}
+
+- (NSString *)displayStringForRow:(NSDictionary *)row key:(NSString *)key
+{
+    return [self presentationStringForValue:[row objectForKey:key]
+                                        key:key
+                                     detail:YES];
 }
 
 - (NSString *)displayTimestampString:(NSString *)timestamp
@@ -843,11 +882,9 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     identifier = [tableColumn identifier];
     value = [row objectForKey:identifier];
 
-    if ([identifier isEqualToString:@"pid"] && value != nil && [value intValue] < 0) {
-        return @"-";
-    }
-
-    return value;
+    return [self presentationStringForValue:value
+                                       key:identifier
+                                    detail:NO];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
