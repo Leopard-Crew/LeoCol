@@ -72,5 +72,21 @@ LCPresentationStringForValue(id value, NSString *key, BOOL detail)
         }
     }
 
+    if ([key isEqualToString:@"evidenceType"]) {
+        NSString *localizedKey;
+
+        localizedKey = [NSString stringWithFormat:@"EvidenceType.%@", stringValue];
+
+        return LCString(localizedKey);
+    }
+
+    if ([key isEqualToString:@"resolutionState"]) {
+        NSString *localizedKey;
+
+        localizedKey = [NSString stringWithFormat:@"ResolutionState.%@", stringValue];
+
+        return LCString(localizedKey);
+    }
+
     return stringValue;
 }

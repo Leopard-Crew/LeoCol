@@ -2,6 +2,7 @@
 #import "LCString.h"
 #import "LCPresentation.h"
 #import "LCProcessStore.h"
+#import "LCProvenanceStore.h"
 #import "LCDateFormatting.h"
 
 typedef struct LeoColSortContext {
@@ -349,11 +350,72 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_detailTextView setString:detail];
 }
 
+- (NSString *)evidenceSummaryText
+{
+    NSString *statusString;
+    NSArray *rows;
+    NSMutableString *summary;
+    NSEnumerator *enumerator;
+    NSDictionary *row;
+
+    statusString = nil;
+    rows = [LCProvenanceStore loadEvidenceSummaryRowsWithStatusString:&statusString];
+
+    if ([rows count] == 0) {
+        if (statusString != nil && [statusString length] > 0) {
+            return statusString;
+        }
+
+        return LCString(@"EvidenceSummary.Empty");
+    }
+
+    summary = [NSMutableString string];
+
+    enumerator = [rows objectEnumerator];
+
+    while ((row = [enumerator nextObject]) != nil) {
+        NSString *evidenceType;
+        NSString *resolutionState;
+        NSNumber *count;
+
+        evidenceType = LCPresentationStringForValue([row objectForKey:@"evidenceType"],
+                                                    @"evidenceType",
+                                                    YES);
+        resolutionState = LCPresentationStringForValue([row objectForKey:@"resolutionState"],
+                                                       @"resolutionState",
+                                                       YES);
+        count = [row objectForKey:@"count"];
+
+        [summary appendFormat:@"%@ / %@: %@\n",
+            evidenceType,
+            resolutionState,
+            count != nil ? count : [NSNumber numberWithInt:0]];
+    }
+
+    return summary;
+}
+
+- (void)showEvidenceSummary:(id)sender
+{
+    NSAlert *alert;
+
+    (void)sender;
+
+    alert = [[[NSAlert alloc] init] autorelease];
+
+    [alert setMessageText:LCString(@"EvidenceSummary.Title")];
+    [alert setInformativeText:[self evidenceSummaryText]];
+    [alert addButtonWithTitle:LCString(@"Button.OK")];
+
+    [alert runModal];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSView *contentView;
     NSRect contentBounds;
     NSButton *reloadButton;
+    NSButton *evidenceButton;
     NSTextField *filterLabel;
     NSScrollView *scrollView;
     NSTextField *detailLabel;
@@ -417,6 +479,18 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_filterField setDelegate:(id)self];
     [_filterField setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
     [contentView addSubview:_filterField];
+
+    evidenceButton = [[[NSButton alloc] initWithFrame:NSMakeRect(390,
+                                                                 contentBounds.size.height - 34,
+                                                                 90,
+                                                                 24)] autorelease];
+    [evidenceButton setTitle:LCString(@"Button.EvidenceSummary")];
+    [evidenceButton setButtonType:NSMomentaryPushInButton];
+    [evidenceButton setBezelStyle:NSRoundedBezelStyle];
+    [evidenceButton setTarget:self];
+    [evidenceButton setAction:@selector(showEvidenceSummary:)];
+    [evidenceButton setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
+    [contentView addSubview:evidenceButton];
 
     _statusField = [[[NSTextField alloc] initWithFrame:NSMakeRect(12,
                                                                   2,

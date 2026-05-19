@@ -14,5 +14,6 @@
 }
 - (void)reloadData:(id)sender;
 - (void)filterChanged:(id)sender;
+- (void)showEvidenceSummary:(id)sender;
 @end
 
