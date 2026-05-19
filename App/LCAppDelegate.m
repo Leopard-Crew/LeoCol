@@ -10,6 +10,11 @@ typedef struct LeoColSortContext {
     BOOL ascending;
 } LeoColSortContext;
 
+static NSString *LeoColToolbarIdentifier = @"LeoColToolbar";
+static NSString *LeoColToolbarReloadItemIdentifier = @"LeoColToolbarReloadItem";
+static NSString *LeoColToolbarEvidenceItemIdentifier = @"LeoColToolbarEvidenceItem";
+static NSString *LeoColToolbarSearchItemIdentifier = @"LeoColToolbarSearchItem";
+
 static NSComparisonResult
 LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 {
@@ -68,6 +73,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
 - (void)updateDetailView;
 - (void)installApplicationMenu;
+- (void)installToolbar;
 
 @end
 
@@ -158,7 +164,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     [_visibleRows removeAllObjects];
 
-    filter = [_filterField stringValue];
+    filter = (_filterField != nil) ? [_filterField stringValue] : @"";
 
     enumerator = [_rows objectEnumerator];
 
@@ -495,13 +501,133 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [NSApp setMainMenu:mainMenu];
 }
 
+- (NSButton *)toolbarButtonWithTitle:(NSString *)title
+                                action:(SEL)action
+                                 width:(CGFloat)width
+{
+    NSButton *button;
+
+    button = [[[NSButton alloc] initWithFrame:NSMakeRect(0, 0, width, 28)] autorelease];
+
+    [button setTitle:title];
+    [button setButtonType:NSMomentaryPushInButton];
+    [button setBezelStyle:NSRoundedBezelStyle];
+    [button setTarget:self];
+    [button setAction:action];
+
+    return button;
+}
+
+- (void)installToolbar
+{
+    NSToolbar *toolbar;
+
+    toolbar = [[[NSToolbar alloc] initWithIdentifier:LeoColToolbarIdentifier] autorelease];
+
+    [toolbar setDelegate:(id)self];
+    [toolbar setAllowsUserCustomization:NO];
+    [toolbar setAutosavesConfiguration:NO];
+    [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+
+    [_window setToolbar:toolbar];
+}
+
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+{
+    (void)toolbar;
+
+    return [NSArray arrayWithObjects:
+        LeoColToolbarReloadItemIdentifier,
+        LeoColToolbarEvidenceItemIdentifier,
+        NSToolbarFlexibleSpaceItemIdentifier,
+        NSToolbarSpaceItemIdentifier,
+        LeoColToolbarSearchItemIdentifier,
+        nil];
+}
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+{
+    (void)toolbar;
+
+    return [NSArray arrayWithObjects:
+        LeoColToolbarReloadItemIdentifier,
+        LeoColToolbarEvidenceItemIdentifier,
+        NSToolbarFlexibleSpaceItemIdentifier,
+        LeoColToolbarSearchItemIdentifier,
+        nil];
+}
+
+- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
+    itemForItemIdentifier:(NSString *)itemIdentifier
+willBeInsertedIntoToolbar:(BOOL)flag
+{
+    NSToolbarItem *item;
+
+    (void)toolbar;
+    (void)flag;
+
+    item = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+
+    if ([itemIdentifier isEqualToString:LeoColToolbarReloadItemIdentifier]) {
+        NSButton *button;
+
+        button = [self toolbarButtonWithTitle:LCString(@"Button.Reload")
+                                       action:@selector(reloadData:)
+                                        width:90.0];
+
+        [item setLabel:LCString(@"Button.Reload")];
+        [item setPaletteLabel:LCString(@"Button.Reload")];
+        [item setToolTip:LCString(@"Button.Reload")];
+        [item setView:button];
+        [item setMinSize:NSMakeSize(90.0, 28.0)];
+        [item setMaxSize:NSMakeSize(90.0, 28.0)];
+
+        return item;
+    }
+
+    if ([itemIdentifier isEqualToString:LeoColToolbarEvidenceItemIdentifier]) {
+        NSButton *button;
+
+        button = [self toolbarButtonWithTitle:LCString(@"Button.EvidenceSummary")
+                                       action:@selector(showEvidenceSummary:)
+                                        width:96.0];
+
+        [item setLabel:LCString(@"Button.EvidenceSummary")];
+        [item setPaletteLabel:LCString(@"Button.EvidenceSummary")];
+        [item setToolTip:LCString(@"Button.EvidenceSummary")];
+        [item setView:button];
+        [item setMinSize:NSMakeSize(96.0, 28.0)];
+        [item setMaxSize:NSMakeSize(96.0, 28.0)];
+
+        return item;
+    }
+
+    if ([itemIdentifier isEqualToString:LeoColToolbarSearchItemIdentifier]) {
+        _filterField = [[[NSSearchField alloc] initWithFrame:NSMakeRect(0, 0, 240, 22)] autorelease];
+
+        [[_filterField cell] setPlaceholderString:LCString(@"Label.Search")];
+        [_filterField setTarget:self];
+        [_filterField setAction:@selector(filterChanged:)];
+        [_filterField setDelegate:(id)self];
+
+        [item setLabel:LCString(@"Label.Search")];
+        [item setPaletteLabel:LCString(@"Label.Search")];
+        [item setToolTip:LCString(@"Label.Search")];
+        [item setView:_filterField];
+        [item setMinSize:NSMakeSize(180.0, 22.0)];
+        [item setMaxSize:NSMakeSize(260.0, 22.0)];
+
+        return item;
+    }
+
+    return nil;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSView *contentView;
     NSRect contentBounds;
-    NSButton *reloadButton;
-    NSButton *evidenceButton;
-     NSScrollView *scrollView;
+      NSScrollView *scrollView;
     NSTextField *detailLabel;
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
@@ -527,44 +653,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                                              defer:NO];
 
     [_window setTitle:@"LeoCol"];
+    [self installToolbar];
 
     contentView = [_window contentView];
     contentBounds = [contentView bounds];
-
-    reloadButton = [[[NSButton alloc] initWithFrame:NSMakeRect(12,
-                                                               contentBounds.size.height - 34,
-                                                               90,
-                                                               24)] autorelease];
-    [reloadButton setTitle:LCString(@"Button.Reload")];
-    [reloadButton setButtonType:NSMomentaryPushInButton];
-    [reloadButton setBezelStyle:NSRoundedBezelStyle];
-    [reloadButton setTarget:self];
-    [reloadButton setAction:@selector(reloadData:)];
-    [reloadButton setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
-    [contentView addSubview:reloadButton];
-
-    _filterField = [[[NSSearchField alloc] initWithFrame:NSMakeRect(114,
-                                                                   contentBounds.size.height - 34,
-                                                                   264,
-                                                                   22)] autorelease];
-    [[_filterField cell] setPlaceholderString:LCString(@"Label.Search")];
-    [_filterField setTarget:self];
-    [_filterField setAction:@selector(filterChanged:)];
-    [_filterField setDelegate:(id)self];
-    [_filterField setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
-    [contentView addSubview:_filterField];
-
-    evidenceButton = [[[NSButton alloc] initWithFrame:NSMakeRect(390,
-                                                                 contentBounds.size.height - 34,
-                                                                 90,
-                                                                 24)] autorelease];
-    [evidenceButton setTitle:LCString(@"Button.EvidenceSummary")];
-    [evidenceButton setButtonType:NSMomentaryPushInButton];
-    [evidenceButton setBezelStyle:NSRoundedBezelStyle];
-    [evidenceButton setTarget:self];
-    [evidenceButton setAction:@selector(showEvidenceSummary:)];
-    [evidenceButton setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
-    [contentView addSubview:evidenceButton];
 
     _statusField = [[[NSTextField alloc] initWithFrame:NSMakeRect(12,
                                                                   2,
@@ -581,7 +673,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     scrollView = [[[NSScrollView alloc] initWithFrame:NSMakeRect(0,
                                                                  270,
                                                                  contentBounds.size.width,
-                                                                 contentBounds.size.height - 314)] autorelease];
+                                                                 contentBounds.size.height - 282)] autorelease];
     [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [scrollView setHasVerticalScroller:YES];
     [scrollView setHasHorizontalScroller:YES];
