@@ -458,7 +458,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     [applicationMenu addItem:[NSMenuItem separatorItem]];
 
-    quitTitle = [NSString stringWithFormat:@"%@ LeoCol", LCString(@"Menu.Quit")];
+    quitTitle = LCString(@"Menu.QuitLeoCol");
 
     quitItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
                                           action:@selector(terminate:)
