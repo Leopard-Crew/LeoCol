@@ -100,32 +100,33 @@ LCRunTask(NSString *launchPath, NSArray *arguments)
 static NSString *
 LCBundleIdentifierFromKextstatLine(NSString *line)
 {
-    NSRange openRange;
-    NSRange closeRange;
-    NSString *inside;
+    NSRange versionRange;
+    NSString *beforeVersion;
     NSArray *parts;
+    NSEnumerator *enumerator;
+    NSString *part;
+    NSString *lastToken;
 
-    openRange = [line rangeOfString:@"(" options:NSBackwardsSearch];
-    closeRange = [line rangeOfString:@")" options:NSBackwardsSearch];
+    versionRange = [line rangeOfString:@" (" options:NSBackwardsSearch];
 
-    if (openRange.location == NSNotFound || closeRange.location == NSNotFound) {
+    if (versionRange.location == NSNotFound) {
         return nil;
     }
 
-    if (closeRange.location <= openRange.location) {
-        return nil;
+    beforeVersion = [line substringToIndex:versionRange.location];
+    parts = [beforeVersion componentsSeparatedByCharactersInSet:
+        [NSCharacterSet whitespaceCharacterSet]];
+
+    enumerator = [parts objectEnumerator];
+    lastToken = nil;
+
+    while ((part = [enumerator nextObject]) != nil) {
+        if ([part length] > 0) {
+            lastToken = part;
+        }
     }
 
-    inside = [line substringWithRange:NSMakeRange(openRange.location + 1,
-                                                  closeRange.location - openRange.location - 1)];
-
-    parts = [inside componentsSeparatedByString:@" "];
-
-    if ([parts count] < 1) {
-        return nil;
-    }
-
-    return [parts objectAtIndex:0];
+    return lastToken;
 }
 
 static NSString *
@@ -133,8 +134,6 @@ LCVersionFromKextstatLine(NSString *line)
 {
     NSRange openRange;
     NSRange closeRange;
-    NSString *inside;
-    NSArray *parts;
 
     openRange = [line rangeOfString:@"(" options:NSBackwardsSearch];
     closeRange = [line rangeOfString:@")" options:NSBackwardsSearch];
@@ -147,16 +146,8 @@ LCVersionFromKextstatLine(NSString *line)
         return nil;
     }
 
-    inside = [line substringWithRange:NSMakeRange(openRange.location + 1,
-                                                  closeRange.location - openRange.location - 1)];
-
-    parts = [inside componentsSeparatedByString:@" "];
-
-    if ([parts count] < 2) {
-        return nil;
-    }
-
-    return [parts objectAtIndex:1];
+    return [line substringWithRange:NSMakeRange(openRange.location + 1,
+                                                closeRange.location - openRange.location - 1)];
 }
 
 static void
