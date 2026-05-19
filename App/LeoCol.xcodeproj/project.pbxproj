@@ -27,6 +27,7 @@
 		A52000000000000000000003 /* LCProcessStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A52000000000000000000002 /* LCProcessStore.m */; };
 		A53000000000000000000003 /* LCDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A53000000000000000000002 /* LCDateFormatting.m */; };
 		A54000000000000000000003 /* LCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A54000000000000000000002 /* LCAppDelegate.m */; };
+		A55000000000000000000003 /* LCProvenanceStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A55000000000000000000002 /* LCProvenanceStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,8 @@
 		A53000000000000000000002 /* LCDateFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCDateFormatting.m; sourceTree = "<group>"; };
 		A54000000000000000000001 /* LCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCAppDelegate.h; sourceTree = "<group>"; };
 		A54000000000000000000002 /* LCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCAppDelegate.m; sourceTree = "<group>"; };
+		A55000000000000000000001 /* LCProvenanceStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCProvenanceStore.h; sourceTree = "<group>"; };
+		A55000000000000000000002 /* LCProvenanceStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCProvenanceStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +140,8 @@
 				A53000000000000000000002 /* LCDateFormatting.m */,
 				A54000000000000000000001 /* LCAppDelegate.h */,
 				A54000000000000000000002 /* LCAppDelegate.m */,
+				A55000000000000000000001 /* LCProvenanceStore.h */,
+				A55000000000000000000002 /* LCProvenanceStore.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				A52000000000000000000003 /* LCProcessStore.m in Sources */,
 				A53000000000000000000003 /* LCDateFormatting.m in Sources */,
 				A54000000000000000000003 /* LCAppDelegate.m in Sources */,
+				A55000000000000000000003 /* LCProvenanceStore.m in Sources */,
 				A10000000000000000000001 /* LRMError.m in Sources */,
 				A10000000000000000000002 /* LRMDatabase.m in Sources */,
 				A10000000000000000000003 /* LRMStatement.m in Sources */,
