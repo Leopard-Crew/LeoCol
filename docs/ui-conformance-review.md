@@ -136,3 +136,22 @@ with:
 - right-aligned NSSearchField toolbar item.
     
 
+
+## v0.10.7 Native toolbar result
+
+LeoCol now uses a native `NSToolbar` for top-level viewer actions.
+
+The previous manually positioned content-view controls were removed from the top of the window.
+
+Toolbar items now include:
+
+- Reload
+- Evidence / Belege
+- Flexible Space
+- Search Field
+
+The search field is now placed in the native toolbar area instead of floating inside the content view.
+
+This lets Leopard draw the titlebar/toolbar area itself and avoids custom color or layout imitation.
+
+The result is visually closer to Xcode-style Leopard application behavior.
