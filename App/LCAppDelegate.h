@@ -1,5 +1,13 @@
 #import <Cocoa/Cocoa.h>
 
+/*!
+ @class LeoColAppDelegate
+ @abstract Application delegate for the LeoCol Cocoa viewer.
+ @discussion
+    LeoColAppDelegate owns the current programmatic Cocoa user interface:
+    the process table, filter field, reload button, read-only process detail
+    inspector, status line, and provenance evidence summary window.
+ */
 @interface LeoColAppDelegate : NSObject
 {
     NSWindow *_window;
@@ -12,8 +20,26 @@
     NSString *_sortKey;
     BOOL _sortAscending;
 }
-- (void)reloadData:(id)sender;
-- (void)filterChanged:(id)sender;
-- (void)showEvidenceSummary:(id)sender;
-@end
 
+/*!
+ @method reloadData:
+ @abstract Reloads process rows from the LeoCol store and refreshes the viewer.
+ @param sender The control or menu item that initiated the reload.
+ */
+- (void)reloadData:(id)sender;
+
+/*!
+ @method filterChanged:
+ @abstract Applies the current filter text to the loaded process rows.
+ @param sender The control that initiated the filter update.
+ */
+- (void)filterChanged:(id)sender;
+
+/*!
+ @method showEvidenceSummary:
+ @abstract Opens the read-only provenance evidence summary.
+ @param sender The control or menu item that requested the summary.
+ */
+- (void)showEvidenceSummary:(id)sender;
+
+@end

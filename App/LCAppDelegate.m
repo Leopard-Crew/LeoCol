@@ -64,6 +64,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     return result;
 }
 
+@interface LeoColAppDelegate (Private)
+
+- (void)updateDetailView;
+
+@end
+
 @implementation LeoColAppDelegate
 
 

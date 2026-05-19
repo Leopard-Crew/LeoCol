@@ -65,6 +65,7 @@
 		A54000000000000000000002 /* LCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCAppDelegate.m; sourceTree = "<group>"; };
 		A55000000000000000000001 /* LCProvenanceStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCProvenanceStore.h; sourceTree = "<group>"; };
 		A55000000000000000000002 /* LCProvenanceStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCProvenanceStore.m; sourceTree = "<group>"; };
+		A56000000000000000000001 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +267,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
+				A56000000000000000000001 /* German */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
