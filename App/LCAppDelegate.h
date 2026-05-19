@@ -42,4 +42,11 @@
  */
 - (void)showEvidenceSummary:(id)sender;
 
+/*!
+ @method showAboutPanel:
+ @abstract Opens the localized LeoCol About panel.
+ @param sender The control or menu item that requested the About panel.
+ */
+- (void)showAboutPanel:(id)sender;
+
 @end

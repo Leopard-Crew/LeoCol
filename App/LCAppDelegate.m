@@ -67,6 +67,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 @interface LeoColAppDelegate (Private)
 
 - (void)updateDetailView;
+- (void)installApplicationMenu;
 
 @end
 
@@ -416,6 +417,59 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [alert runModal];
 }
 
+- (void)showAboutPanel:(id)sender
+{
+    NSAlert *alert;
+
+    (void)sender;
+
+    alert = [[[NSAlert alloc] init] autorelease];
+
+    [alert setMessageText:LCString(@"About.Message")];
+    [alert setInformativeText:LCString(@"About.Info")];
+    [alert addButtonWithTitle:LCString(@"Button.OK")];
+
+    [alert runModal];
+}
+
+- (void)installApplicationMenu
+{
+    NSMenu *mainMenu;
+    NSMenuItem *applicationMenuItem;
+    NSMenu *applicationMenu;
+    NSMenuItem *aboutItem;
+    NSMenuItem *quitItem;
+    NSString *quitTitle;
+
+    mainMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+
+    applicationMenuItem = [[[NSMenuItem alloc] initWithTitle:@""
+                                                      action:NULL
+                                               keyEquivalent:@""] autorelease];
+    [mainMenu addItem:applicationMenuItem];
+
+    applicationMenu = [[[NSMenu alloc] initWithTitle:@"LeoCol"] autorelease];
+
+    aboutItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"About.Title")
+                                            action:@selector(showAboutPanel:)
+                                     keyEquivalent:@""] autorelease];
+    [aboutItem setTarget:self];
+    [applicationMenu addItem:aboutItem];
+
+    [applicationMenu addItem:[NSMenuItem separatorItem]];
+
+    quitTitle = [NSString stringWithFormat:@"%@ LeoCol", LCString(@"Menu.Quit")];
+
+    quitItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
+                                          action:@selector(terminate:)
+                                   keyEquivalent:@"q"] autorelease];
+    [applicationMenu addItem:quitItem];
+
+    [applicationMenuItem setSubmenu:applicationMenu];
+
+    [NSApp setMainMenu:mainMenu];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSView *contentView;
@@ -434,6 +488,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSTableColumn *kindColumn;
 
     (void)notification;
+
+    [self installApplicationMenu];
 
     _rows = [[NSMutableArray alloc] init];
     _visibleRows = [[NSMutableArray alloc] init];
