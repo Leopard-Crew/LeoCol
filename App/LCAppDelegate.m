@@ -501,8 +501,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSRect contentBounds;
     NSButton *reloadButton;
     NSButton *evidenceButton;
-    NSTextField *filterLabel;
-    NSScrollView *scrollView;
+     NSScrollView *scrollView;
     NSTextField *detailLabel;
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
@@ -544,23 +543,11 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [reloadButton setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
     [contentView addSubview:reloadButton];
 
-    filterLabel = [[[NSTextField alloc] initWithFrame:NSMakeRect(114,
-                                                                 contentBounds.size.height - 31,
-                                                                 42,
-                                                                 18)] autorelease];
-    [filterLabel setEditable:NO];
-    [filterLabel setSelectable:NO];
-    [filterLabel setBordered:NO];
-    [filterLabel setDrawsBackground:NO];
-    [filterLabel setFont:[NSFont systemFontOfSize:11.0]];
-    [filterLabel setStringValue:LCString(@"Label.Filter")];
-    [filterLabel setAutoresizingMask:(NSViewMaxXMargin | NSViewMinYMargin)];
-    [contentView addSubview:filterLabel];
-
-    _filterField = [[[NSTextField alloc] initWithFrame:NSMakeRect(158,
-                                                                  contentBounds.size.height - 34,
-                                                                  220,
-                                                                  22)] autorelease];
+    _filterField = [[[NSSearchField alloc] initWithFrame:NSMakeRect(114,
+                                                                   contentBounds.size.height - 34,
+                                                                   264,
+                                                                   22)] autorelease];
+    [[_filterField cell] setPlaceholderString:LCString(@"Label.Search")];
     [_filterField setTarget:self];
     [_filterField setAction:@selector(filterChanged:)];
     [_filterField setDelegate:(id)self];
