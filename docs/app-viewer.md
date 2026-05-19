@@ -258,3 +258,21 @@ LeoCol uses one viewer layout for all supported languages.
 Localized strings must not introduce language-specific window sizes, column positions, or UI structure.
 
 If a localized string does not fit, the default layout should be improved for all languages.
+
+## Provenance evidence summary
+
+The Cocoa viewer provides a read-only provenance evidence summary.
+
+The summary is opened through the `Evidence` / `Belege` button.
+
+It groups records from `provenance_evidence` by:
+
+- evidence type,
+- resolution state,
+- count.
+
+The summary is intentionally informational.
+
+It does not expose actions such as delete, disable, unload, quarantine, or repair.
+
+This keeps the viewer aligned with LeoCol's role as a process and provenance memory, not a task manager or cleaner.
