@@ -420,13 +420,38 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)showAboutPanel:(id)sender
 {
     NSAlert *alert;
+    NSDictionary *infoDictionary;
+    NSString *shortVersion;
+    NSString *buildVersion;
+    NSString *versionLine;
+    NSString *informativeText;
 
     (void)sender;
+
+    infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    shortVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    buildVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
+
+    if (shortVersion == nil || [shortVersion length] == 0) {
+        shortVersion = @"-";
+    }
+
+    if (buildVersion == nil || [buildVersion length] == 0) {
+        buildVersion = @"-";
+    }
+
+    versionLine = [NSString stringWithFormat:LCString(@"About.VersionFormat"),
+        shortVersion,
+        buildVersion];
+
+    informativeText = [NSString stringWithFormat:@"%@\n\n%@",
+        versionLine,
+        LCString(@"About.Info")];
 
     alert = [[[NSAlert alloc] init] autorelease];
 
     [alert setMessageText:LCString(@"About.Message")];
-    [alert setInformativeText:LCString(@"About.Info")];
+    [alert setInformativeText:informativeText];
     [alert addButtonWithTitle:LCString(@"Button.OK")];
 
     [alert runModal];
