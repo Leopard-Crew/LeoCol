@@ -51,6 +51,7 @@
         @"-", @"firstSeen",
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
+        @"current", @"instanceStatus",
         @"-", @"executablePath",
         @"-", @"observed",
         @"unknown", @"executable",
@@ -66,6 +67,7 @@
         @"-", @"firstSeen",
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
+        @"current", @"instanceStatus",
         @"-", @"executablePath",
         @"-", @"observed",
         @"unknown", @"executable",
@@ -81,6 +83,7 @@
         @"-", @"firstSeen",
         @"-", @"lastSeen",
         [NSNumber numberWithInt:0], @"exitObserved",
+        @"current", @"instanceStatus",
         @"-", @"executablePath",
         @"-", @"observed",
         @"unknown", @"executable",
@@ -186,6 +189,7 @@
         NSString *firstSeen;
         NSString *lastSeen;
         NSNumber *exitObserved;
+        NSString *instanceStatus;
         NSString *executablePath;
         NSString *observedState;
         NSString *executableState;
@@ -202,6 +206,7 @@
         firstSeen = [row stringForColumn:@"first_seen_at"];
         lastSeen = [row stringForColumn:@"last_seen_at"];
         exitObserved = [row numberForColumn:@"exit_observed"];
+        instanceStatus = (exitObserved != nil && [exitObserved intValue] != 0) ? @"historical" : @"current";
         executablePath = [row stringForColumn:@"executable_path"];
         bundleIdentifier = [row stringForColumn:@"bundle_identifier"];
         bundleName = [row stringForColumn:@"bundle_name"];
@@ -227,6 +232,7 @@
             firstSeen != nil ? firstSeen : @"-", @"firstSeen",
             lastSeen != nil ? lastSeen : @"-", @"lastSeen",
             exitObserved != nil ? exitObserved : [NSNumber numberWithInt:0], @"exitObserved",
+            instanceStatus, @"instanceStatus",
             executablePath != nil ? executablePath : @"-", @"executablePath",
             observedState, @"observed",
             executableState, @"executable",

@@ -130,7 +130,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         return YES;
     }
 
-    keys = [NSArray arrayWithObjects:@"name", @"pid", @"bundleName", @"observed", @"executable", @"bundle", @"kind", @"confidence", nil];
+    keys = [NSArray arrayWithObjects:@"name", @"pid", @"instanceStatus", @"bundleName", @"observed", @"executable", @"bundle", @"kind", @"confidence", nil];
     enumerator = [keys objectEnumerator];
 
     while ((key = [enumerator nextObject]) != nil) {
@@ -349,6 +349,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.PID")
                               value:[self displayStringForRow:row key:@"pid"]
+                           toString:detail];
+    [self appendDetailLineWithLabel:LCString(@"Detail.InstanceStatus")
+                              value:[self displayStringForRow:row key:@"instanceStatus"]
                            toString:detail];
     [self appendDetailLineWithLabel:LCString(@"Detail.Bundle")
                               value:[self displayStringForRow:row key:@"bundle"]
@@ -820,9 +823,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     enumerator = [_visibleRows objectEnumerator];
 
     while ((row = [enumerator nextObject]) != nil) {
-        [report appendFormat:@"%@\t%@\t%@\t%@\t%@\t%@\n",
+        [report appendFormat:@"%@\t%@\t%@\t%@\t%@\t%@\t%@\n",
             [self displayStringForRow:row key:@"name"],
             [self displayStringForRow:row key:@"pid"],
+            [self displayStringForRow:row key:@"instanceStatus"],
             [self displayStringForRow:row key:@"bundleName"],
             LCDisplayCompactTimestampString([self displayStringForRow:row key:@"lastSeen"]),
             [self displayStringForRow:row key:@"executable"],
@@ -1265,6 +1269,7 @@ willBeInsertedIntoToolbar:(BOOL)flag
     NSScrollView *detailScrollView;
     NSTableColumn *nameColumn;
     NSTableColumn *pidColumn;
+    NSTableColumn *instanceStatusColumn;
     NSTableColumn *bundleNameColumn;
     NSTableColumn *observedColumn;
     NSTableColumn *executableColumn;
@@ -1330,6 +1335,11 @@ willBeInsertedIntoToolbar:(BOOL)flag
     [[pidColumn headerCell] setStringValue:LCString(@"Column.PID")];
     [pidColumn setWidth:60.0];
     [_tableView addTableColumn:pidColumn];
+
+    instanceStatusColumn = [[[NSTableColumn alloc] initWithIdentifier:@"instanceStatus"] autorelease];
+    [[instanceStatusColumn headerCell] setStringValue:LCString(@"Column.InstanceStatus")];
+    [instanceStatusColumn setWidth:90.0];
+    [_tableView addTableColumn:instanceStatusColumn];
 
     bundleNameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundleName"] autorelease];
     [[bundleNameColumn headerCell] setStringValue:LCString(@"Column.BundleName")];

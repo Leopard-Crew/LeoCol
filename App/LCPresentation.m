@@ -54,6 +54,16 @@ LCPresentationStringForValue(id value, NSString *key, BOOL detail)
         return detail ? LCString(@"State.Confidence.NotAvailable") : @"";
     }
 
+    if ([key isEqualToString:@"instanceStatus"]) {
+        if ([stringValue isEqualToString:@"current"]) {
+            return LCString(@"InstanceStatus.Current");
+        }
+
+        if ([stringValue isEqualToString:@"historical"]) {
+            return LCString(@"InstanceStatus.Historical");
+        }
+    }
+
     if ([key isEqualToString:@"executable"]) {
         if ([stringValue isEqualToString:@"unknown"]) {
             return detail ? LCString(@"State.Executable.NotReported.Detail") : LCString(@"State.Executable.NotReported");
