@@ -28,6 +28,7 @@
 		A53000000000000000000003 /* LCDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = A53000000000000000000002 /* LCDateFormatting.m */; };
 		A54000000000000000000003 /* LCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A54000000000000000000002 /* LCAppDelegate.m */; };
 		A55000000000000000000003 /* LCProvenanceStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A55000000000000000000002 /* LCProvenanceStore.m */; };
+		A57000000000000000000003 /* LCSnapshotStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A57000000000000000000002 /* LCSnapshotStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		A55000000000000000000001 /* LCProvenanceStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCProvenanceStore.h; sourceTree = "<group>"; };
 		A55000000000000000000002 /* LCProvenanceStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCProvenanceStore.m; sourceTree = "<group>"; };
 		A56000000000000000000001 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A57000000000000000000001 /* LCSnapshotStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSnapshotStore.h; sourceTree = "<group>"; };
+		A57000000000000000000002 /* LCSnapshotStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSnapshotStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +146,8 @@
 				A54000000000000000000002 /* LCAppDelegate.m */,
 				A55000000000000000000001 /* LCProvenanceStore.h */,
 				A55000000000000000000002 /* LCProvenanceStore.m */,
+				A57000000000000000000001 /* LCSnapshotStore.h */,
+				A57000000000000000000002 /* LCSnapshotStore.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				A53000000000000000000003 /* LCDateFormatting.m in Sources */,
 				A54000000000000000000003 /* LCAppDelegate.m in Sources */,
 				A55000000000000000000003 /* LCProvenanceStore.m in Sources */,
+				A57000000000000000000003 /* LCSnapshotStore.m in Sources */,
 				A10000000000000000000001 /* LRMError.m in Sources */,
 				A10000000000000000000002 /* LRMDatabase.m in Sources */,
 				A10000000000000000000003 /* LRMStatement.m in Sources */,
