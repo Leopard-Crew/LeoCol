@@ -4,6 +4,7 @@
 #import "LCProcessStore.h"
 #import "LCProvenanceStore.h"
 #import "LCSnapshotStore.h"
+#import "LCOperationPanel.h"
 #import "LCDateFormatting.h"
 
 typedef struct LeoColSortContext {
@@ -79,6 +80,13 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)reloadEvidenceRows;
 - (void)openSnapshotPanel;
 - (void)reloadSnapshotRows;
+- (NSString *)applicationProjectPath;
+- (NSString *)pathForHelperNamed:(NSString *)helperName;
+- (BOOL)runHelperNamed:(NSString *)helperName output:(NSString **)outputText;
+- (void)appendOperationLogLine:(NSString *)line;
+- (void)setOperationStatusText:(NSString *)status;
+- (void)runUpdateSnapshotOperation:(id)sender;
+- (void)finishUpdateSnapshotOperation:(NSDictionary *)result;
 - (NSString *)exportReportText;
 - (void)showExportFailureAlert;
 
@@ -454,6 +462,238 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [self openEvidencePanel];
 }
 
+- (NSString *)pathForHelperNamed:(NSString *)helperName
+{
+    NSFileManager *fileManager;
+    NSString *bundleHelperPath;
+    NSString *projectHelperPath;
+
+    fileManager = [NSFileManager defaultManager];
+
+    bundleHelperPath = [[[[NSBundle mainBundle] resourcePath]
+        stringByAppendingPathComponent:@"Probes"]
+        stringByAppendingPathComponent:helperName];
+
+    if ([fileManager isExecutableFileAtPath:bundleHelperPath]) {
+        return bundleHelperPath;
+    }
+
+    projectHelperPath = [[[self applicationProjectPath]
+        stringByAppendingPathComponent:@"Probe/build"]
+        stringByAppendingPathComponent:helperName];
+
+    if ([fileManager isExecutableFileAtPath:projectHelperPath]) {
+        return projectHelperPath;
+    }
+
+    return nil;
+}
+
+- (BOOL)runHelperNamed:(NSString *)helperName output:(NSString **)outputText
+{
+    NSString *helperPath;
+    NSTask *task;
+    NSPipe *pipe;
+    NSData *data;
+    NSString *output;
+    int status;
+
+    if (outputText != NULL) {
+        *outputText = nil;
+    }
+
+    helperPath = [self pathForHelperNamed:helperName];
+
+    if (helperPath == nil) {
+        if (outputText != NULL) {
+            *outputText = [NSString stringWithFormat:LCString(@"Operation.HelperMissingFormat"), helperName];
+        }
+
+        return NO;
+    }
+
+    task = [[NSTask alloc] init];
+    pipe = [NSPipe pipe];
+
+    [task setLaunchPath:helperPath];
+    [task setCurrentDirectoryPath:[self applicationProjectPath]];
+    [task setStandardOutput:pipe];
+    [task setStandardError:pipe];
+
+    @try {
+        [task launch];
+        data = [[pipe fileHandleForReading] readDataToEndOfFile];
+        [task waitUntilExit];
+        status = [task terminationStatus];
+    }
+    @catch (NSException *exception) {
+        if (outputText != NULL) {
+            *outputText = [NSString stringWithFormat:@"%@: %@", helperName, [exception reason]];
+        }
+
+        [task release];
+
+        return NO;
+    }
+
+    output = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+
+    if (outputText != NULL) {
+        if (output != nil && [output length] > 0) {
+            *outputText = output;
+        } else {
+            *outputText = [NSString stringWithFormat:@"%@: exit status %d", helperName, status];
+        }
+    }
+
+    [task release];
+
+    return status == 0;
+}
+
+- (void)appendOperationLogLine:(NSString *)line
+{
+    [_operationPanel appendLogLine:line];
+}
+
+- (void)setOperationStatusText:(NSString *)status
+{
+    [_operationPanel setStatusText:status];
+}
+
+- (void)finishUpdateSnapshotOperation:(NSDictionary *)result
+{
+    NSString *status;
+
+    status = [result objectForKey:@"status"];
+
+    [self reloadData:nil];
+    [self reloadSnapshotRows];
+
+    [self setStatusString:status];
+    [_operationPanel completeOperationWithStatus:status];
+
+    _snapshotUpdateRunning = NO;
+}
+
+- (void)runUpdateSnapshotOperation:(id)sender
+{
+    NSAutoreleasePool *pool;
+    NSArray *stages;
+    NSEnumerator *enumerator;
+    NSDictionary *stage;
+    NSUInteger warningCount;
+    BOOL stopPipeline;
+    NSString *finalStatus;
+
+    (void)sender;
+
+    pool = [[NSAutoreleasePool alloc] init];
+
+    stages = [NSArray arrayWithObjects:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_journal_probe", @"helper",
+            LCString(@"Operation.Stage.JournalProbe"), @"title",
+            [NSNumber numberWithBool:YES], @"required",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_lifecycle_probe", @"helper",
+            LCString(@"Operation.Stage.LifecycleProbe"), @"title",
+            [NSNumber numberWithBool:YES], @"required",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_identity_probe", @"helper",
+            LCString(@"Operation.Stage.IdentityProbe"), @"title",
+            [NSNumber numberWithBool:NO], @"required",
+            nil],
+        nil];
+
+    warningCount = 0;
+    stopPipeline = NO;
+
+    enumerator = [stages objectEnumerator];
+
+    while (!stopPipeline && (stage = [enumerator nextObject]) != nil) {
+        NSString *helperName;
+        NSString *stageTitle;
+        NSString *output;
+        BOOL required;
+        BOOL success;
+
+        helperName = [stage objectForKey:@"helper"];
+        stageTitle = [stage objectForKey:@"title"];
+        required = [[stage objectForKey:@"required"] boolValue];
+
+        [self performSelectorOnMainThread:@selector(setOperationStatusText:)
+                               withObject:stageTitle
+                            waitUntilDone:YES];
+
+        [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                               withObject:[NSString stringWithFormat:@"Running: %@", stageTitle]
+                            waitUntilDone:YES];
+
+        output = nil;
+        success = [self runHelperNamed:helperName output:&output];
+
+        if (success) {
+            [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                                   withObject:[NSString stringWithFormat:@"OK: %@", stageTitle]
+                                waitUntilDone:YES];
+        } else {
+            warningCount++;
+
+            [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                                   withObject:[NSString stringWithFormat:LCString(@"Operation.HelperFailedFormat"), stageTitle]
+                                waitUntilDone:YES];
+
+            if (output != nil && [output length] > 0) {
+                [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                                       withObject:output
+                                    waitUntilDone:YES];
+            }
+
+            if (required) {
+                stopPipeline = YES;
+            }
+        }
+    }
+
+    if (warningCount == 0) {
+        finalStatus = LCString(@"Operation.UpdateSnapshot.Completed");
+    } else {
+        finalStatus = [NSString stringWithFormat:LCString(@"Operation.UpdateSnapshot.WarningFormat"),
+            (unsigned long)warningCount];
+    }
+
+    [self performSelectorOnMainThread:@selector(finishUpdateSnapshotOperation:)
+                           withObject:[NSDictionary dictionaryWithObject:finalStatus forKey:@"status"]
+                        waitUntilDone:NO];
+
+    [pool release];
+}
+
+- (void)updateSnapshot:(id)sender
+{
+    (void)sender;
+
+    if (_snapshotUpdateRunning) {
+        [_operationPanel showWithTitle:LCString(@"Operation.UpdateSnapshot.Title")
+                                status:LCString(@"Operation.UpdateSnapshot.Starting")];
+        return;
+    }
+
+    _snapshotUpdateRunning = YES;
+
+    [_operationPanel showWithTitle:LCString(@"Operation.UpdateSnapshot.Title")
+                            status:LCString(@"Operation.UpdateSnapshot.Starting")];
+    [_operationPanel beginOperation];
+    [_operationPanel appendLogLine:LCString(@"Operation.UpdateSnapshot.Starting")];
+
+    [NSThread detachNewThreadSelector:@selector(runUpdateSnapshotOperation:)
+                             toTarget:self
+                           withObject:nil];
+}
+
 - (NSString *)exportTimestampString
 {
     NSDateFormatter *formatter;
@@ -469,7 +709,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     return result != nil ? result : @"-";
 }
 
-- (NSString *)applicationDatabasePath
+- (NSString *)applicationProjectPath
 {
     NSString *projectPath;
 
@@ -480,7 +720,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     projectPath = [projectPath stringByDeletingLastPathComponent];
     projectPath = [projectPath stringByDeletingLastPathComponent];
 
-    return [projectPath stringByAppendingPathComponent:@"Probe/results/leocol-v1.db"];
+    return projectPath;
+}
+
+- (NSString *)applicationDatabasePath
+{
+    return [[self applicationProjectPath] stringByAppendingPathComponent:@"Probe/results/leocol-v1.db"];
 }
 
 - (void)appendReportLineWithLabel:(NSString *)label
@@ -818,6 +1063,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMenuItem *quitItem;
     NSMenuItem *fileMenuItem;
     NSMenu *fileMenu;
+    NSMenuItem *updateSnapshotItem;
     NSMenuItem *exportItem;
     NSMenuItem *viewMenuItem;
     NSMenu *viewMenu;
@@ -853,6 +1099,14 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [mainMenu addItem:fileMenuItem];
 
     fileMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.File")] autorelease];
+
+    updateSnapshotItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.UpdateSnapshot")
+                                                     action:@selector(updateSnapshot:)
+                                              keyEquivalent:@""] autorelease];
+    [updateSnapshotItem setTarget:self];
+    [fileMenu addItem:updateSnapshotItem];
+
+    [fileMenu addItem:[NSMenuItem separatorItem]];
 
     exportItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ExportReport")
                                              action:@selector(exportReport:)
@@ -1024,6 +1278,8 @@ willBeInsertedIntoToolbar:(BOOL)flag
     _visibleRows = [[NSMutableArray alloc] init];
     _evidenceRows = [[NSMutableArray alloc] init];
     _snapshotRows = [[NSMutableArray alloc] init];
+    _operationPanel = [[LCOperationPanel alloc] init];
+    _snapshotUpdateRunning = NO;
 
     _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 720)
                                          styleMask:(NSTitledWindowMask |
@@ -1240,6 +1496,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 - (void)dealloc
 {
     [_sortKey release];
+    [_operationPanel release];
     [_snapshotRows release];
     [_snapshotPanel release];
     [_evidenceRows release];

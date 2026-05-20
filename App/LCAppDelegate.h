@@ -1,5 +1,7 @@
 #import <Cocoa/Cocoa.h>
 
+@class LCOperationPanel;
+
 /*!
  @class LeoColAppDelegate
  @abstract Application delegate for the LeoCol Cocoa viewer.
@@ -23,6 +25,8 @@
     NSPanel *_snapshotPanel;
     NSTableView *_snapshotTableView;
     NSMutableArray *_snapshotRows;
+    LCOperationPanel *_operationPanel;
+    BOOL _snapshotUpdateRunning;
     NSString *_sortKey;
     BOOL _sortAscending;
 }
@@ -61,5 +65,12 @@
  @param sender The control or menu item that requested the export.
  */
 - (void)exportReport:(id)sender;
+
+/*!
+ @method updateSnapshot:
+ @abstract Runs the read-only process snapshot pipeline on demand.
+ @param sender The control or menu item that requested the snapshot update.
+ */
+- (void)updateSnapshot:(id)sender;
 
 @end
