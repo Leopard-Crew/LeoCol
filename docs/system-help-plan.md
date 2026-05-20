@@ -264,3 +264,74 @@ The help system must not:
 - introduce a background service.
     
 
+## Leopard XHTML compatibility rule
+
+Although the user-facing term may be "HTML help", LeoCol V1 help must be authored as Leopard-safe XHTML.
+
+Maximum target:
+
+```text
+XHTML 1.0
+````
+
+Preferred practical profile:
+
+```text
+XHTML 1.0 Transitional-compatible markup
+UTF-8
+simple local CSS
+no JavaScript
+no HTML5 elements
+no CSS3 layout dependency
+no external network resources
+```
+
+This means the help files may use `.html` filenames for compatibility with classic Mac OS X Help Viewer behavior, but their markup discipline should remain XHTML-style:
+
+```text
+proper doctype
+closed tags
+lowercase elements
+quoted attributes
+well-formed nesting
+```
+
+The intended rule is:
+
+```text
+.html as Leopard Help container
+XHTML 1.0 as authoring discipline
+```
+
+## Disallowed help technologies
+
+LeoCol Help must not use:
+
+```text
+HTML5-only tags
+CSS Grid
+Flexbox
+remote fonts
+remote images
+JavaScript navigation
+embedded web services
+external CDNs
+tracking
+online search
+```
+
+## Initial document structure
+
+Preferred initial help pages:
+
+```text
+index.html
+concepts.html
+snapshots.html
+evidence.html
+reports.html
+read-only.html
+```
+
+Each file should be XHTML 1.0 compatible even if the extension remains `.html`.
+
