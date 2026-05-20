@@ -74,10 +74,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)updateDetailView;
 - (void)installApplicationMenu;
 - (void)installToolbar;
-- (void)installApplicationMenu;
-- (void)showAboutPanel:(id)sender;
 - (void)openEvidencePanel;
 - (void)reloadEvidenceRows;
+- (NSString *)exportReportText;
+- (void)showExportFailureAlert;
 
 @end
 
@@ -498,6 +498,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMenu *applicationMenu;
     NSMenuItem *aboutItem;
     NSMenuItem *quitItem;
+    NSMenuItem *fileMenuItem;
+    NSMenu *fileMenu;
+    NSMenuItem *exportItem;
 
     mainMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
 
@@ -522,6 +525,21 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [applicationMenu addItem:quitItem];
 
     [applicationMenuItem setSubmenu:applicationMenu];
+
+    fileMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.File")
+                                               action:NULL
+                                        keyEquivalent:@""] autorelease];
+    [mainMenu addItem:fileMenuItem];
+
+    fileMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.File")] autorelease];
+
+    exportItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ExportReport")
+                                             action:@selector(exportReport:)
+                                      keyEquivalent:@"e"] autorelease];
+    [exportItem setTarget:self];
+    [fileMenu addItem:exportItem];
+
+    [fileMenuItem setSubmenu:fileMenu];
 
     [NSApp setMainMenu:mainMenu];
 }

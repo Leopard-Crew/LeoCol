@@ -52,4 +52,11 @@
  */
 - (void)showAboutPanel:(id)sender;
 
+/*!
+ @method exportReport:
+ @abstract Exports a read-only plain text report of the current LeoCol viewer state.
+ @param sender The control or menu item that requested the export.
+ */
+- (void)exportReport:(id)sender;
+
 @end
