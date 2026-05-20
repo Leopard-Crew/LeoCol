@@ -1229,24 +1229,48 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)installApplicationMenu
 {
     NSMenu *mainMenu;
+
     NSMenuItem *applicationMenuItem;
     NSMenu *applicationMenu;
     NSMenuItem *aboutItem;
+    NSMenuItem *hideItem;
+    NSMenuItem *hideOthersItem;
+    NSMenuItem *showAllItem;
     NSMenuItem *quitItem;
+
     NSMenuItem *fileMenuItem;
     NSMenu *fileMenu;
     NSMenuItem *updateSnapshotItem;
     NSMenuItem *updateEvidenceItem;
     NSMenuItem *exportItem;
+    NSMenuItem *closeItem;
+
+    NSMenuItem *editMenuItem;
+    NSMenu *editMenu;
+    NSMenuItem *copyItem;
+    NSMenuItem *selectAllItem;
+
     NSMenuItem *viewMenuItem;
     NSMenu *viewMenu;
+    NSMenuItem *toolbarItem;
     NSMenuItem *snapshotItem;
+    NSMenuItem *evidenceItem;
+
+    NSMenuItem *windowMenuItem;
+    NSMenu *windowMenu;
+    NSMenuItem *minimizeItem;
+    NSMenuItem *zoomItem;
+    NSMenuItem *bringAllToFrontItem;
+
     NSMenuItem *helpMenuItem;
     NSMenu *helpMenu;
     NSMenuItem *leoColHelpItem;
 
     mainMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
 
+    /*
+     * Application menu.
+     */
     applicationMenuItem = [[[NSMenuItem alloc] initWithTitle:@""
                                                       action:NULL
                                                keyEquivalent:@""] autorelease];
@@ -1262,6 +1286,24 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     [applicationMenu addItem:[NSMenuItem separatorItem]];
 
+    hideItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.HideLeoCol")
+                                           action:@selector(hide:)
+                                    keyEquivalent:@"h"] autorelease];
+    [applicationMenu addItem:hideItem];
+
+    hideOthersItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.HideOthers")
+                                                 action:@selector(hideOtherApplications:)
+                                          keyEquivalent:@"h"] autorelease];
+    [hideOthersItem setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
+    [applicationMenu addItem:hideOthersItem];
+
+    showAllItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ShowAll")
+                                              action:@selector(unhideAllApplications:)
+                                       keyEquivalent:@""] autorelease];
+    [applicationMenu addItem:showAllItem];
+
+    [applicationMenu addItem:[NSMenuItem separatorItem]];
+
     quitItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.QuitLeoCol")
                                           action:@selector(terminate:)
                                    keyEquivalent:@"q"] autorelease];
@@ -1269,6 +1311,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     [applicationMenuItem setSubmenu:applicationMenu];
 
+    /*
+     * File menu.
+     */
     fileMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.File")
                                                action:NULL
                                         keyEquivalent:@""] autorelease];
@@ -1278,7 +1323,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     updateSnapshotItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.UpdateSnapshot")
                                                      action:@selector(updateSnapshot:)
-                                              keyEquivalent:@""] autorelease];
+                                              keyEquivalent:@"r"] autorelease];
     [updateSnapshotItem setTarget:self];
     [fileMenu addItem:updateSnapshotItem];
 
@@ -1296,8 +1341,40 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [exportItem setTarget:self];
     [fileMenu addItem:exportItem];
 
+    [fileMenu addItem:[NSMenuItem separatorItem]];
+
+    closeItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Close")
+                                            action:@selector(performClose:)
+                                     keyEquivalent:@"w"] autorelease];
+    [fileMenu addItem:closeItem];
+
     [fileMenuItem setSubmenu:fileMenu];
 
+    /*
+     * Edit menu.
+     */
+    editMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Edit")
+                                               action:NULL
+                                        keyEquivalent:@""] autorelease];
+    [mainMenu addItem:editMenuItem];
+
+    editMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.Edit")] autorelease];
+
+    copyItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Copy")
+                                           action:@selector(copy:)
+                                    keyEquivalent:@"c"] autorelease];
+    [editMenu addItem:copyItem];
+
+    selectAllItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.SelectAll")
+                                                action:@selector(selectAll:)
+                                         keyEquivalent:@"a"] autorelease];
+    [editMenu addItem:selectAllItem];
+
+    [editMenuItem setSubmenu:editMenu];
+
+    /*
+     * View menu.
+     */
     viewMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.View")
                                                action:NULL
                                         keyEquivalent:@""] autorelease];
@@ -1305,14 +1382,59 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     viewMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.View")] autorelease];
 
+    toolbarItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ShowToolbar")
+                                              action:@selector(toggleToolbarShown:)
+                                       keyEquivalent:@""] autorelease];
+    [viewMenu addItem:toolbarItem];
+
+    [viewMenu addItem:[NSMenuItem separatorItem]];
+
     snapshotItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ShowSnapshots")
                                                action:@selector(showSnapshotOverview:)
                                         keyEquivalent:@""] autorelease];
     [snapshotItem setTarget:self];
     [viewMenu addItem:snapshotItem];
 
+    evidenceItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ShowEvidenceSummary")
+                                               action:@selector(showEvidenceSummary:)
+                                        keyEquivalent:@""] autorelease];
+    [evidenceItem setTarget:self];
+    [viewMenu addItem:evidenceItem];
+
     [viewMenuItem setSubmenu:viewMenu];
 
+    /*
+     * Window menu.
+     */
+    windowMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Window")
+                                                 action:NULL
+                                          keyEquivalent:@""] autorelease];
+    [mainMenu addItem:windowMenuItem];
+
+    windowMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.Window")] autorelease];
+
+    minimizeItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Minimize")
+                                               action:@selector(performMiniaturize:)
+                                        keyEquivalent:@"m"] autorelease];
+    [windowMenu addItem:minimizeItem];
+
+    zoomItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Zoom")
+                                           action:@selector(performZoom:)
+                                    keyEquivalent:@""] autorelease];
+    [windowMenu addItem:zoomItem];
+
+    [windowMenu addItem:[NSMenuItem separatorItem]];
+
+    bringAllToFrontItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.BringAllToFront")
+                                                      action:@selector(arrangeInFront:)
+                                               keyEquivalent:@""] autorelease];
+    [windowMenu addItem:bringAllToFrontItem];
+
+    [windowMenuItem setSubmenu:windowMenu];
+
+    /*
+     * Help menu.
+     */
     helpMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Help")
                                                action:NULL
                                         keyEquivalent:@""] autorelease];
@@ -1329,6 +1451,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [helpMenuItem setSubmenu:helpMenu];
 
     [NSApp setMainMenu:mainMenu];
+    [NSApp setWindowsMenu:windowMenu];
 }
 
 - (NSButton *)toolbarButtonWithTitle:(NSString *)title
