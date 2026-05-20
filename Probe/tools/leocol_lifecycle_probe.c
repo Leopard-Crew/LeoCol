@@ -283,10 +283,11 @@ leocol_mark_missing_processes_exited(sqlite3 *db,
     *exits_marked = 0;
     stmt = NULL;
 
+    (void)observed_at;
+
     rc = sqlite3_prepare_v2(db,
                             "UPDATE process_lifecycle "
-                            "SET last_seen_at = ?, "
-                            "    exit_observed = 1 "
+                            "SET exit_observed = 1 "
                             "WHERE exit_observed = 0 "
                             "AND pid NOT IN ("
                             "    SELECT pid FROM process_observation WHERE snapshot_id = ?"
@@ -302,11 +303,7 @@ leocol_mark_missing_processes_exited(sqlite3 *db,
         return -1;
     }
 
-    rc = sqlite3_bind_text(stmt, 1, observed_at, -1, SQLITE_TRANSIENT);
-
-    if (rc == SQLITE_OK) {
-        rc = sqlite3_bind_int64(stmt, 2, snapshot_id);
-    }
+    rc = sqlite3_bind_int64(stmt, 1, snapshot_id);
 
     if (rc != SQLITE_OK) {
         fprintf(stderr,
