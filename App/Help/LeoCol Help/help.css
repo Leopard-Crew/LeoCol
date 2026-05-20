@@ -1,0 +1,50 @@
+body {
+    font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    margin: 24px;
+    color: #222;
+    background: #fff;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: normal;
+    margin: 0 0 16px 0;
+}
+
+h2 {
+    font-size: 16px;
+    margin: 22px 0 8px 0;
+}
+
+p {
+    margin: 0 0 10px 0;
+}
+
+ul {
+    margin-top: 6px;
+}
+
+li {
+    margin-bottom: 4px;
+}
+
+.code {
+    font-family: Monaco, "Courier New", monospace;
+    font-size: 12px;
+    background: #f4f4f4;
+    padding: 2px 4px;
+}
+
+.nav {
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid #ccc;
+}
+
+.warning {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #f7f7f7;
+}

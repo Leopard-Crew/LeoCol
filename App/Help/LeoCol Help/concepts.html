@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>LeoCol Core Concepts</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="help.css" />
+</head>
+<body>
+  <h1>Core Concepts</h1>
+
+  <h2>Snapshot</h2>
+  <p>A snapshot is an explicit observation at one point in time. LeoCol is not
+  a continuous live monitor.</p>
+
+  <h2>Process instance</h2>
+  <p>A process instance is identified by a PID and lifecycle information.
+  Restarted applications or services may appear as separate historical and
+  current instances.</p>
+
+  <h2>Current</h2>
+  <p>Current means the process instance was seen in the newest LeoCol process
+  snapshot.</p>
+
+  <h2>Historical</h2>
+  <p>Historical means the process instance was seen before, but was absent from
+  a later snapshot.</p>
+
+  <h2>Last seen</h2>
+  <p>Last seen means the last snapshot in which this PID was actually observed.
+  It does not necessarily mean the process is running at this exact moment.</p>
+
+  <p class="nav"><a href="index.html">Back to LeoCol Help</a></p>
+</body>
+</html>
