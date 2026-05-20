@@ -20,6 +20,9 @@
     NSPanel *_evidencePanel;
     NSTableView *_evidenceTableView;
     NSMutableArray *_evidenceRows;
+    NSPanel *_snapshotPanel;
+    NSTableView *_snapshotTableView;
+    NSMutableArray *_snapshotRows;
     NSString *_sortKey;
     BOOL _sortAscending;
 }

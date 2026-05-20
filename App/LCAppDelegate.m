@@ -3,6 +3,7 @@
 #import "LCPresentation.h"
 #import "LCProcessStore.h"
 #import "LCProvenanceStore.h"
+#import "LCSnapshotStore.h"
 #import "LCDateFormatting.h"
 
 typedef struct LeoColSortContext {
@@ -76,6 +77,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)installToolbar;
 - (void)openEvidencePanel;
 - (void)reloadEvidenceRows;
+- (void)openSnapshotPanel;
+- (void)reloadSnapshotRows;
 - (NSString *)exportReportText;
 - (void)showExportFailureAlert;
 
@@ -726,6 +729,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMenuItem *fileMenuItem;
     NSMenu *fileMenu;
     NSMenuItem *exportItem;
+    NSMenuItem *viewMenuItem;
+    NSMenu *viewMenu;
+    NSMenuItem *snapshotItem;
 
     mainMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
 
@@ -765,6 +771,21 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [fileMenu addItem:exportItem];
 
     [fileMenuItem setSubmenu:fileMenu];
+
+    viewMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.View")
+                                               action:NULL
+                                        keyEquivalent:@""] autorelease];
+    [mainMenu addItem:viewMenuItem];
+
+    viewMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.View")] autorelease];
+
+    snapshotItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.ShowSnapshots")
+                                               action:@selector(showSnapshotOverview:)
+                                        keyEquivalent:@""] autorelease];
+    [snapshotItem setTarget:self];
+    [viewMenu addItem:snapshotItem];
+
+    [viewMenuItem setSubmenu:viewMenu];
 
     [NSApp setMainMenu:mainMenu];
 }
@@ -912,6 +933,7 @@ willBeInsertedIntoToolbar:(BOOL)flag
     _rows = [[NSMutableArray alloc] init];
     _visibleRows = [[NSMutableArray alloc] init];
     _evidenceRows = [[NSMutableArray alloc] init];
+    _snapshotRows = [[NSMutableArray alloc] init];
 
     _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 720)
                                          styleMask:(NSTitledWindowMask |
@@ -1056,7 +1078,8 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-    if ([notification object] == _evidenceTableView) {
+    if ([notification object] == _evidenceTableView ||
+        [notification object] == _snapshotTableView) {
         return;
     }
 
@@ -1067,6 +1090,10 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 {
     if (tableView == _evidenceTableView) {
         return [_evidenceRows count];
+    }
+
+    if (tableView == _snapshotTableView) {
+        return [_snapshotRows count];
     }
 
     return [_visibleRows count];
@@ -1093,6 +1120,17 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
         return LCPresentationStringForValue(value, identifier, NO);
     }
 
+    if (tableView == _snapshotTableView) {
+        row = [_snapshotRows objectAtIndex:rowIndex];
+        value = [row objectForKey:identifier];
+
+        if ([identifier isEqualToString:@"observedAt"]) {
+            return LCDisplayCompactTimestampString((value != nil ? [value description] : nil));
+        }
+
+        return value != nil ? value : @"-";
+    }
+
     row = [_visibleRows objectAtIndex:rowIndex];
     value = [row objectForKey:identifier];
 
@@ -1112,6 +1150,8 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 - (void)dealloc
 {
     [_sortKey release];
+    [_snapshotRows release];
+    [_snapshotPanel release];
     [_evidenceRows release];
     [_evidencePanel release];
     [_visibleRows release];
