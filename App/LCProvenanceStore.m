@@ -1,27 +1,13 @@
 #import "LCProvenanceStore.h"
 #import "LCString.h"
+#import "LCStoreSupport.h"
 #import "../bricks/LeoRM/Sources/LeoRM.h"
 
 @implementation LCProvenanceStore
 
-+ (NSString *)databasePath
-{
-    NSString *projectPath;
-
-    projectPath = [[[NSBundle mainBundle] bundlePath]
-        stringByDeletingLastPathComponent];
-
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-
-    return [projectPath stringByAppendingPathComponent:@"Probe/results/leocol-v1.db"];
-}
-
 + (NSArray *)loadEvidenceSummaryRowsWithStatusString:(NSString **)statusString
 {
     NSMutableArray *rows;
-    NSString *dbPath;
     NSError *error;
     LRMDatabase *database;
     LRMStatement *statement;
@@ -33,24 +19,10 @@
         *statusString = nil;
     }
 
-    dbPath = [self databasePath];
-
-    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
-        if (statusString != NULL) {
-            *statusString = [NSString stringWithFormat:@"Database not found: %@", dbPath];
-        }
-
-        return rows;
-    }
-
     error = nil;
-    database = [LRMDatabase databaseWithPath:dbPath error:&error];
+    database = [LCStoreSupport openDatabaseWithStatusString:statusString];
 
-    if (database == nil || ![database open:&error]) {
-        if (statusString != NULL) {
-            *statusString = [NSString stringWithFormat:@"Could not open database: %@", dbPath];
-        }
-
+    if (database == nil) {
         return rows;
     }
 

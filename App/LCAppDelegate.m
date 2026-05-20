@@ -5,6 +5,7 @@
 #import "LCProvenanceStore.h"
 #import "LCSnapshotStore.h"
 #import "LCOperationPanel.h"
+#import "LCStoreSupport.h"
 #import "LCDateFormatting.h"
 
 typedef struct LeoColSortContext {
@@ -848,21 +849,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
 - (NSString *)applicationProjectPath
 {
-    NSString *projectPath;
-
-    projectPath = [[[NSBundle mainBundle] bundlePath]
-        stringByDeletingLastPathComponent];
-
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-
-    return projectPath;
+    return [LCStoreSupport projectPath];
 }
 
 - (NSString *)applicationDatabasePath
 {
-    return [[self applicationProjectPath] stringByAppendingPathComponent:@"Probe/results/leocol-v1.db"];
+    return [LCStoreSupport databasePath];
 }
 
 - (void)appendReportLineWithLabel:(NSString *)label

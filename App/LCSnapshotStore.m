@@ -1,34 +1,13 @@
 #import "LCSnapshotStore.h"
 #import "LCString.h"
+#import "LCStoreSupport.h"
 #import "../bricks/LeoRM/Sources/LeoRM.h"
 
 @implementation LCSnapshotStore
 
-+ (NSString *)databasePath
-{
-    NSString *projectPath;
-
-    projectPath = [[[NSBundle mainBundle] bundlePath]
-        stringByDeletingLastPathComponent];
-
-    /*
-     * Debug builds live at:
-     *   App/build/Debug/LeoCol.app
-     *
-     * The project root is therefore three levels up from the .app parent:
-     *   App/build/Debug -> App/build -> App -> LeoCol
-     */
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-    projectPath = [projectPath stringByDeletingLastPathComponent];
-
-    return [projectPath stringByAppendingPathComponent:@"Probe/results/leocol-v1.db"];
-}
-
 + (NSArray *)loadSnapshotSummaryRowsWithStatusString:(NSString **)statusString
 {
     NSMutableArray *rows;
-    NSString *dbPath;
     NSError *error;
     LRMDatabase *database;
     LRMStatement *statement;
@@ -40,24 +19,10 @@
         *statusString = nil;
     }
 
-    dbPath = [self databasePath];
-
-    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
-        if (statusString != NULL) {
-            *statusString = [NSString stringWithFormat:LCString(@"Status.DatabaseNotFound"), dbPath];
-        }
-
-        return rows;
-    }
-
     error = nil;
-    database = [LRMDatabase databaseWithPath:dbPath error:&error];
+    database = [LCStoreSupport openDatabaseWithStatusString:statusString];
 
-    if (database == nil || ![database open:&error]) {
-        if (statusString != NULL) {
-            *statusString = [NSString stringWithFormat:LCString(@"Status.DatabaseOpenFailed"), dbPath];
-        }
-
+    if (database == nil) {
         return rows;
     }
 
