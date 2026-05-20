@@ -1318,7 +1318,7 @@ willBeInsertedIntoToolbar:(BOOL)flag
                                                                  contentBounds.size.height - 282)] autorelease];
     [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     [scrollView setHasVerticalScroller:YES];
-    [scrollView setHasHorizontalScroller:YES];
+    [scrollView setHasHorizontalScroller:NO];
     [scrollView setBorderType:NSBezelBorder];
 
     _tableView = [[[NSTableView alloc] initWithFrame:[scrollView bounds]] autorelease];
@@ -1328,37 +1328,37 @@ willBeInsertedIntoToolbar:(BOOL)flag
 
     nameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"name"] autorelease];
     [[nameColumn headerCell] setStringValue:LCString(@"Column.Process")];
-    [nameColumn setWidth:210.0];
+    [nameColumn setWidth:180.0];
     [_tableView addTableColumn:nameColumn];
 
     pidColumn = [[[NSTableColumn alloc] initWithIdentifier:@"pid"] autorelease];
     [[pidColumn headerCell] setStringValue:LCString(@"Column.PID")];
-    [pidColumn setWidth:60.0];
+    [pidColumn setWidth:55.0];
     [_tableView addTableColumn:pidColumn];
 
     instanceStatusColumn = [[[NSTableColumn alloc] initWithIdentifier:@"instanceStatus"] autorelease];
     [[instanceStatusColumn headerCell] setStringValue:LCString(@"Column.InstanceStatus")];
-    [instanceStatusColumn setWidth:90.0];
+    [instanceStatusColumn setWidth:80.0];
     [_tableView addTableColumn:instanceStatusColumn];
 
     bundleNameColumn = [[[NSTableColumn alloc] initWithIdentifier:@"bundleName"] autorelease];
     [[bundleNameColumn headerCell] setStringValue:LCString(@"Column.BundleName")];
-    [bundleNameColumn setWidth:190.0];
+    [bundleNameColumn setWidth:160.0];
     [_tableView addTableColumn:bundleNameColumn];
 
     observedColumn = [[[NSTableColumn alloc] initWithIdentifier:@"observed"] autorelease];
     [[observedColumn headerCell] setStringValue:LCString(@"Column.Observed")];
-    [observedColumn setWidth:120.0];
+    [observedColumn setWidth:110.0];
     [_tableView addTableColumn:observedColumn];
 
     executableColumn = [[[NSTableColumn alloc] initWithIdentifier:@"executable"] autorelease];
     [[executableColumn headerCell] setStringValue:LCString(@"Column.Executable")];
-    [executableColumn setWidth:130.0];
+    [executableColumn setWidth:105.0];
     [_tableView addTableColumn:executableColumn];
 
     kindColumn = [[[NSTableColumn alloc] initWithIdentifier:@"kind"] autorelease];
     [[kindColumn headerCell] setStringValue:LCString(@"Column.Classification")];
-    [kindColumn setWidth:230.0];
+    [kindColumn setWidth:200.0];
     [_tableView addTableColumn:kindColumn];
 
     [scrollView setDocumentView:_tableView];
