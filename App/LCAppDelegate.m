@@ -451,6 +451,175 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [self openEvidencePanel];
 }
 
+- (NSString *)exportTimestampString
+{
+    NSDateFormatter *formatter;
+    NSString *result;
+
+    formatter = [[[NSDateFormatter alloc] init] autorelease];
+
+    [formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+
+    result = [formatter stringFromDate:[NSDate date]];
+
+    return result != nil ? result : @"-";
+}
+
+- (void)appendReportLineWithLabel:(NSString *)label
+                            value:(NSString *)value
+                         toString:(NSMutableString *)report
+{
+    [report appendFormat:@"%@: %@\n", label, value != nil ? value : @"-"];
+}
+
+- (NSString *)exportReportText
+{
+    NSMutableString *report;
+    NSDictionary *infoDictionary;
+    NSString *shortVersion;
+    NSString *buildVersion;
+    NSString *filter;
+    NSEnumerator *enumerator;
+    NSDictionary *row;
+    NSArray *evidenceRows;
+    NSString *statusString;
+
+    report = [NSMutableString string];
+
+    infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    shortVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    buildVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
+
+    [report appendString:@"LeoCol Report\n"];
+    [report appendString:@"============\n\n"];
+
+    [self appendReportLineWithLabel:@"Version"
+                              value:[NSString stringWithFormat:@"%@ (%@)",
+                                  shortVersion != nil ? shortVersion : @"-",
+                                  buildVersion != nil ? buildVersion : @"-"]
+                           toString:report];
+
+    [self appendReportLineWithLabel:@"Exported"
+                              value:[self exportTimestampString]
+                           toString:report];
+
+    filter = (_filterField != nil) ? [_filterField stringValue] : @"";
+
+    [self appendReportLineWithLabel:@"Filter"
+                              value:([filter length] > 0 ? filter : @"-")
+                           toString:report];
+
+    [self appendReportLineWithLabel:@"Visible process rows"
+                              value:[NSString stringWithFormat:@"%lu of %lu",
+                                  (unsigned long)[_visibleRows count],
+                                  (unsigned long)[_rows count]]
+                           toString:report];
+
+    [report appendString:@"\nProcesses\n"];
+    [report appendString:@"---------\n"];
+
+    enumerator = [_visibleRows objectEnumerator];
+
+    while ((row = [enumerator nextObject]) != nil) {
+        [report appendFormat:@"%@\t%@\t%@\t%@\t%@\t%@\n",
+            [self displayStringForRow:row key:@"name"],
+            [self displayStringForRow:row key:@"pid"],
+            [self displayStringForRow:row key:@"bundleName"],
+            LCDisplayCompactTimestampString([self displayStringForRow:row key:@"lastSeen"]),
+            [self displayStringForRow:row key:@"executable"],
+            [self displayStringForRow:row key:@"kind"]];
+    }
+
+    [report appendString:@"\nProvenance Evidence Summary\n"];
+    [report appendString:@"---------------------------\n"];
+
+    statusString = nil;
+    evidenceRows = [LCProvenanceStore loadEvidenceSummaryRowsWithStatusString:&statusString];
+
+    if ([evidenceRows count] == 0) {
+        [report appendFormat:@"%@\n", statusString != nil ? statusString : LCString(@"EvidenceSummary.Empty")];
+    } else {
+        enumerator = [evidenceRows objectEnumerator];
+
+        while ((row = [enumerator nextObject]) != nil) {
+            NSString *evidenceType;
+            NSString *resolutionState;
+            NSNumber *count;
+
+            evidenceType = LCPresentationStringForValue([row objectForKey:@"evidenceType"],
+                                                        @"evidenceType",
+                                                        NO);
+            resolutionState = LCPresentationStringForValue([row objectForKey:@"resolutionState"],
+                                                           @"resolutionState",
+                                                           NO);
+            count = [row objectForKey:@"count"];
+
+            [report appendFormat:@"%@\t%@\t%@\n",
+                evidenceType,
+                resolutionState,
+                count != nil ? count : [NSNumber numberWithInt:0]];
+        }
+    }
+
+    [report appendString:@"\nBoundary\n"];
+    [report appendString:@"--------\n"];
+    [report appendString:@"LeoCol records evidence, not verdicts.\n"];
+    [report appendString:@"This report is read-only documentation.\n"];
+
+    return report;
+}
+
+- (void)showExportFailureAlert
+{
+    NSAlert *alert;
+
+    alert = [[[NSAlert alloc] init] autorelease];
+
+    [alert setMessageText:LCString(@"Export.FailedTitle")];
+    [alert setInformativeText:LCString(@"Export.FailedInfo")];
+    [alert addButtonWithTitle:LCString(@"Button.OK")];
+
+    [alert runModal];
+}
+
+- (void)exportReport:(id)sender
+{
+    NSSavePanel *savePanel;
+    int result;
+    NSString *path;
+    NSString *report;
+    NSError *error;
+    BOOL success;
+
+    (void)sender;
+
+    savePanel = [NSSavePanel savePanel];
+
+    [savePanel setCanCreateDirectories:YES];
+    [savePanel setRequiredFileType:@"txt"];
+
+    result = [savePanel runModalForDirectory:NSHomeDirectory()
+                                        file:LCString(@"Export.DefaultFileName")];
+
+    if (result != NSOKButton) {
+        return;
+    }
+
+    path = [savePanel filename];
+    report = [self exportReportText];
+
+    error = nil;
+    success = [report writeToFile:path
+                       atomically:YES
+                         encoding:NSUTF8StringEncoding
+                            error:&error];
+
+    if (!success) {
+        [self showExportFailureAlert];
+    }
+}
+
 - (void)showAboutPanel:(id)sender
 {
     NSAlert *alert;
