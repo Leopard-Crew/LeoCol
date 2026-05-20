@@ -27,6 +27,7 @@
     NSMutableArray *_snapshotRows;
     LCOperationPanel *_operationPanel;
     BOOL _snapshotUpdateRunning;
+    BOOL _evidenceUpdateRunning;
     NSString *_sortKey;
     BOOL _sortAscending;
 }
@@ -72,5 +73,12 @@
  @param sender The control or menu item that requested the snapshot update.
  */
 - (void)updateSnapshot:(id)sender;
+
+/*!
+ @method updateEvidence:
+ @abstract Runs the read-only provenance evidence probes on demand.
+ @param sender The control or menu item that requested the evidence update.
+ */
+- (void)updateEvidence:(id)sender;
 
 @end

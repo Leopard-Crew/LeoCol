@@ -87,6 +87,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)setOperationStatusText:(NSString *)status;
 - (void)runUpdateSnapshotOperation:(id)sender;
 - (void)finishUpdateSnapshotOperation:(NSDictionary *)result;
+- (void)runUpdateEvidenceOperation:(id)sender;
+- (void)finishUpdateEvidenceOperation:(NSDictionary *)result;
 - (NSString *)exportReportText;
 - (void)showExportFailureAlert;
 
@@ -697,6 +699,138 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                            withObject:nil];
 }
 
+- (void)finishUpdateEvidenceOperation:(NSDictionary *)result
+{
+    NSString *status;
+
+    status = [result objectForKey:@"status"];
+
+    [self reloadEvidenceRows];
+
+    [self setStatusString:status];
+    [_operationPanel completeOperationWithStatus:status];
+
+    _evidenceUpdateRunning = NO;
+}
+
+- (void)runUpdateEvidenceOperation:(id)sender
+{
+    NSAutoreleasePool *pool;
+    NSArray *stages;
+    NSEnumerator *enumerator;
+    NSDictionary *stage;
+    NSUInteger warningCount;
+    NSString *finalStatus;
+
+    (void)sender;
+
+    pool = [[NSAutoreleasePool alloc] init];
+
+    stages = [NSArray arrayWithObjects:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_launch_sources_probe", @"helper",
+            LCString(@"Operation.Stage.LaunchSourcesProbe"), @"title",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_login_items_probe", @"helper",
+            LCString(@"Operation.Stage.LoginItemsProbe"), @"title",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_startup_items_probe", @"helper",
+            LCString(@"Operation.Stage.StartupItemsProbe"), @"title",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_kext_probe", @"helper",
+            LCString(@"Operation.Stage.KextProbe"), @"title",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_cups_probe", @"helper",
+            LCString(@"Operation.Stage.CUPSProbe"), @"title",
+            nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            @"leocol_receipt_bom_probe", @"helper",
+            LCString(@"Operation.Stage.ReceiptBOMProbe"), @"title",
+            nil],
+        nil];
+
+    warningCount = 0;
+    enumerator = [stages objectEnumerator];
+
+    while ((stage = [enumerator nextObject]) != nil) {
+        NSString *helperName;
+        NSString *stageTitle;
+        NSString *output;
+        BOOL success;
+
+        helperName = [stage objectForKey:@"helper"];
+        stageTitle = [stage objectForKey:@"title"];
+
+        [self performSelectorOnMainThread:@selector(setOperationStatusText:)
+                               withObject:stageTitle
+                            waitUntilDone:YES];
+
+        [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                               withObject:[NSString stringWithFormat:@"Running: %@", stageTitle]
+                            waitUntilDone:YES];
+
+        output = nil;
+        success = [self runHelperNamed:helperName output:&output];
+
+        if (success) {
+            [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                                   withObject:[NSString stringWithFormat:@"OK: %@", stageTitle]
+                                waitUntilDone:YES];
+        } else {
+            warningCount++;
+
+            [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                                   withObject:[NSString stringWithFormat:LCString(@"Operation.HelperFailedFormat"), stageTitle]
+                                waitUntilDone:YES];
+
+            if (output != nil && [output length] > 0) {
+                [self performSelectorOnMainThread:@selector(appendOperationLogLine:)
+                                       withObject:output
+                                    waitUntilDone:YES];
+            }
+        }
+    }
+
+    if (warningCount == 0) {
+        finalStatus = LCString(@"Operation.UpdateEvidence.Completed");
+    } else {
+        finalStatus = [NSString stringWithFormat:LCString(@"Operation.UpdateEvidence.WarningFormat"),
+            (unsigned long)warningCount];
+    }
+
+    [self performSelectorOnMainThread:@selector(finishUpdateEvidenceOperation:)
+                           withObject:[NSDictionary dictionaryWithObject:finalStatus forKey:@"status"]
+                        waitUntilDone:NO];
+
+    [pool release];
+}
+
+- (void)updateEvidence:(id)sender
+{
+    (void)sender;
+
+    if (_evidenceUpdateRunning) {
+        [_operationPanel showWithTitle:LCString(@"Operation.UpdateEvidence.Title")
+                                status:LCString(@"Operation.UpdateEvidence.Starting")];
+        return;
+    }
+
+    _evidenceUpdateRunning = YES;
+
+    [_operationPanel showWithTitle:LCString(@"Operation.UpdateEvidence.Title")
+                            status:LCString(@"Operation.UpdateEvidence.Starting")];
+    [_operationPanel beginOperation];
+    [_operationPanel appendLogLine:LCString(@"Operation.UpdateEvidence.Starting")];
+
+    [NSThread detachNewThreadSelector:@selector(runUpdateEvidenceOperation:)
+                             toTarget:self
+                           withObject:nil];
+}
+
 - (NSString *)exportTimestampString
 {
     NSDateFormatter *formatter;
@@ -1068,6 +1202,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMenuItem *fileMenuItem;
     NSMenu *fileMenu;
     NSMenuItem *updateSnapshotItem;
+    NSMenuItem *updateEvidenceItem;
     NSMenuItem *exportItem;
     NSMenuItem *viewMenuItem;
     NSMenu *viewMenu;
@@ -1109,6 +1244,12 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
                                               keyEquivalent:@""] autorelease];
     [updateSnapshotItem setTarget:self];
     [fileMenu addItem:updateSnapshotItem];
+
+    updateEvidenceItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.UpdateEvidence")
+                                                     action:@selector(updateEvidence:)
+                                              keyEquivalent:@""] autorelease];
+    [updateEvidenceItem setTarget:self];
+    [fileMenu addItem:updateEvidenceItem];
 
     [fileMenu addItem:[NSMenuItem separatorItem]];
 
@@ -1285,6 +1426,7 @@ willBeInsertedIntoToolbar:(BOOL)flag
     _snapshotRows = [[NSMutableArray alloc] init];
     _operationPanel = [[LCOperationPanel alloc] init];
     _snapshotUpdateRunning = NO;
+    _evidenceUpdateRunning = NO;
 
     _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 720)
                                          styleMask:(NSTitledWindowMask |
