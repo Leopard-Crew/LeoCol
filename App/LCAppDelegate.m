@@ -1144,6 +1144,48 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [self openSnapshotPanel];
 }
 
+- (NSString *)helpIndexPath
+{
+    NSFileManager *fileManager;
+    NSString *bundleHelpPath;
+    NSString *projectHelpPath;
+
+    fileManager = [NSFileManager defaultManager];
+
+    bundleHelpPath = [[[NSBundle mainBundle] resourcePath]
+        stringByAppendingPathComponent:@"LeoCol Help/index.html"];
+
+    if ([fileManager fileExistsAtPath:bundleHelpPath]) {
+        return bundleHelpPath;
+    }
+
+    projectHelpPath = [[LCStoreSupport projectPath]
+        stringByAppendingPathComponent:@"App/Help/LeoCol Help/index.html"];
+
+    if ([fileManager fileExistsAtPath:projectHelpPath]) {
+        return projectHelpPath;
+    }
+
+    return nil;
+}
+
+- (void)showHelp:(id)sender
+{
+    NSString *path;
+
+    (void)sender;
+
+    path = [self helpIndexPath];
+
+    if (path == nil) {
+        NSBeep();
+        [self setStatusString:LCString(@"Status.HelpNotFound")];
+        return;
+    }
+
+    [[NSWorkspace sharedWorkspace] openFile:path];
+}
+
 - (void)showAboutPanel:(id)sender
 {
     NSAlert *alert;
@@ -1199,6 +1241,9 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMenuItem *viewMenuItem;
     NSMenu *viewMenu;
     NSMenuItem *snapshotItem;
+    NSMenuItem *helpMenuItem;
+    NSMenu *helpMenu;
+    NSMenuItem *leoColHelpItem;
 
     mainMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
 
@@ -1267,6 +1312,21 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [viewMenu addItem:snapshotItem];
 
     [viewMenuItem setSubmenu:viewMenu];
+
+    helpMenuItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.Help")
+                                               action:NULL
+                                        keyEquivalent:@""] autorelease];
+    [mainMenu addItem:helpMenuItem];
+
+    helpMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.Help")] autorelease];
+
+    leoColHelpItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.LeoColHelp")
+                                                 action:@selector(showHelp:)
+                                          keyEquivalent:@"?"] autorelease];
+    [leoColHelpItem setTarget:self];
+    [helpMenu addItem:leoColHelpItem];
+
+    [helpMenuItem setSubmenu:helpMenu];
 
     [NSApp setMainMenu:mainMenu];
 }

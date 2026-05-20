@@ -61,6 +61,13 @@
 - (void)showAboutPanel:(id)sender;
 
 /*!
+ @method showHelp:
+ @abstract Opens the bundled local LeoCol Help index.
+ @param sender The control or menu item that requested help.
+ */
+- (void)showHelp:(id)sender;
+
+/*!
  @method exportReport:
  @abstract Exports a read-only plain text report of the current LeoCol viewer state.
  @param sender The control or menu item that requested the export.
