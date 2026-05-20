@@ -466,11 +466,41 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     return result != nil ? result : @"-";
 }
 
+- (NSString *)applicationDatabasePath
+{
+    NSString *projectPath;
+
+    projectPath = [[[NSBundle mainBundle] bundlePath]
+        stringByDeletingLastPathComponent];
+
+    projectPath = [projectPath stringByDeletingLastPathComponent];
+    projectPath = [projectPath stringByDeletingLastPathComponent];
+    projectPath = [projectPath stringByDeletingLastPathComponent];
+
+    return [projectPath stringByAppendingPathComponent:@"Probe/results/leocol-v1.db"];
+}
+
 - (void)appendReportLineWithLabel:(NSString *)label
                             value:(NSString *)value
                          toString:(NSMutableString *)report
 {
     [report appendFormat:@"%@: %@\n", label, value != nil ? value : @"-"];
+}
+
+- (void)appendReportSectionTitle:(NSString *)title
+                        toString:(NSMutableString *)report
+{
+    NSUInteger i;
+
+    [report appendString:@"\n"];
+    [report appendString:title];
+    [report appendString:@"\n"];
+
+    for (i = 0; i < [title length]; i++) {
+        [report appendString:@"-"];
+    }
+
+    [report appendString:@"\n"];
 }
 
 - (NSString *)exportReportText
@@ -479,7 +509,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSDictionary *infoDictionary;
     NSString *shortVersion;
     NSString *buildVersion;
-    NSString *filter;
+    NSString *searchText;
+    NSString *visibleRowsText;
     NSEnumerator *enumerator;
     NSDictionary *row;
     NSArray *evidenceRows;
@@ -491,33 +522,52 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     shortVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     buildVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
 
-    [report appendString:@"LeoCol Report\n"];
-    [report appendString:@"============\n\n"];
+    [report appendString:LCString(@"Report.Title")];
+    [report appendString:@"\n"];
 
-    [self appendReportLineWithLabel:@"Version"
+    {
+        NSUInteger i;
+
+        for (i = 0; i < [LCString(@"Report.Title") length]; i++) {
+            [report appendString:@"="];
+        }
+    }
+
+    [report appendString:@"\n\n"];
+
+    [self appendReportLineWithLabel:LCString(@"Report.Label.Version")
                               value:[NSString stringWithFormat:@"%@ (%@)",
                                   shortVersion != nil ? shortVersion : @"-",
                                   buildVersion != nil ? buildVersion : @"-"]
                            toString:report];
 
-    [self appendReportLineWithLabel:@"Exported"
+    [self appendReportLineWithLabel:LCString(@"Report.Label.Exported")
                               value:[self exportTimestampString]
                            toString:report];
 
-    filter = (_filterField != nil) ? [_filterField stringValue] : @"";
-
-    [self appendReportLineWithLabel:@"Filter"
-                              value:([filter length] > 0 ? filter : @"-")
+    [self appendReportLineWithLabel:LCString(@"Report.Label.Database")
+                              value:[self applicationDatabasePath]
                            toString:report];
 
-    [self appendReportLineWithLabel:@"Visible process rows"
-                              value:[NSString stringWithFormat:@"%lu of %lu",
-                                  (unsigned long)[_visibleRows count],
-                                  (unsigned long)[_rows count]]
+    searchText = (_filterField != nil) ? [_filterField stringValue] : @"";
+
+    [self appendReportLineWithLabel:LCString(@"Report.Label.Search")
+                              value:([searchText length] > 0 ? searchText : LCString(@"Report.NoActiveSearch"))
                            toString:report];
 
-    [report appendString:@"\nProcesses\n"];
-    [report appendString:@"---------\n"];
+    visibleRowsText = [NSString stringWithFormat:LCString(@"Report.VisibleRowsFormat"),
+        (unsigned long)[_visibleRows count],
+        (unsigned long)[_rows count]];
+
+    [self appendReportLineWithLabel:LCString(@"Report.Label.VisibleRows")
+                              value:visibleRowsText
+                           toString:report];
+
+    [self appendReportSectionTitle:LCString(@"Report.Section.Processes")
+                          toString:report];
+
+    [report appendString:LCString(@"Report.ProcessHeader")];
+    [report appendString:@"\n"];
 
     enumerator = [_visibleRows objectEnumerator];
 
@@ -531,8 +581,11 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
             [self displayStringForRow:row key:@"kind"]];
     }
 
-    [report appendString:@"\nProvenance Evidence Summary\n"];
-    [report appendString:@"---------------------------\n"];
+    [self appendReportSectionTitle:LCString(@"Report.Section.Provenance")
+                          toString:report];
+
+    [report appendString:LCString(@"Report.EvidenceHeader")];
+    [report appendString:@"\n"];
 
     statusString = nil;
     evidenceRows = [LCProvenanceStore loadEvidenceSummaryRowsWithStatusString:&statusString];
@@ -562,10 +615,13 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         }
     }
 
-    [report appendString:@"\nBoundary\n"];
-    [report appendString:@"--------\n"];
-    [report appendString:@"LeoCol records evidence, not verdicts.\n"];
-    [report appendString:@"This report is read-only documentation.\n"];
+    [self appendReportSectionTitle:LCString(@"Report.Section.Boundary")
+                          toString:report];
+
+    [report appendString:LCString(@"Report.Boundary.Evidence")];
+    [report appendString:@"\n"];
+    [report appendString:LCString(@"Report.Boundary.ReadOnly")];
+    [report appendString:@"\n"];
 
     return report;
 }
