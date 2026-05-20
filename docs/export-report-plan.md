@@ -101,3 +101,22 @@ LeoCol should export what it knows.
 
 It should not decide what the user should do.  
 
+
+## v0.11.2 implementation note
+
+The initial export action was present in the File / Ablage menu but disabled because the menu item target did not yet have the concrete `exportReport:` implementation at runtime.
+
+`v0.11.2-report-export-action-fix` adds the concrete export action and report generation path.
+
+The export remains read-only.
+
+The generated plain text report includes:
+
+- LeoCol version,
+- export timestamp,
+- active filter,
+- visible process rows,
+- provenance evidence summary,
+- read-only boundary statement.
+
+The export action must be runtime-tested through the File / Ablage menu before tagging future export changes.
