@@ -1,6 +1,14 @@
 #import <Foundation/Foundation.h>
 
 /*!
+ @header LCDateFormatting
+ @abstract Date and timestamp presentation helpers for LeoCol.
+ @discussion
+    These functions convert LeoCol's canonical database timestamps into
+    localized display strings for tables, inspectors, and reports.
+ */
+
+/*!
  @function LCDisplayCompactTimestampString
  @abstract Formats a canonical LeoCol timestamp for compact table display.
  @discussion

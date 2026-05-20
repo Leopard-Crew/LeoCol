@@ -1,6 +1,14 @@
 #import <Foundation/Foundation.h>
 
 /*!
+ @header LCProvenanceStore
+ @abstract LeoRM-backed provenance evidence summary store.
+ @discussion
+    LCProvenanceStore reads grouped provenance evidence counts for the Cocoa
+    viewer. It does not run probes and does not modify the system.
+ */
+
+/*!
  @class LCProvenanceStore
  @abstract Loads provenance evidence summaries for the Cocoa viewer.
  @discussion

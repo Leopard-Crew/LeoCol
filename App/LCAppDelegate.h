@@ -1,5 +1,14 @@
 #import <Cocoa/Cocoa.h>
 
+/*!
+ @header LCAppDelegate
+ @abstract Main Cocoa application delegate for LeoCol.
+ @discussion
+    LCAppDelegate owns the LeoCol app window, menus, toolbar, panels,
+    explicit update commands, report export, and help entry points.
+    It is application glue, not a reusable framework API.
+ */
+
 @class LCOperationPanel;
 
 /*!

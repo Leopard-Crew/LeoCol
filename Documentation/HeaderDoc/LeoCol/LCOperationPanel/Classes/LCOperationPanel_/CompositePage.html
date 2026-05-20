@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LCOperationPanel </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/class/LCOperationPanel" title="LCOperationPanel "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LCOperationPanel">LCOperationPanel </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract --> Small reusable progress panel for explicit LeoCol operations.
+<!-- end abstract --></p>
+<p><b>Superclass:</b> <!-- a logicalPath="//apple_ref/occ/cl/NSObject" -->NSObject<!-- /a --><br><b>Declared In:</b> <a href="../../index.html" target="_top">LCOperationPanel </a><br></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->
+LCOperationPanel is used for user-triggered operations such as Update
+Snapshot and Update Evidence. It provides visible progress feedback so
+LeoCol does not appear frozen while helper tools run.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/appendLogLine:" target="_top">-appendLogLine:</a></tt></dt>
+<dd>Appends one line to the read-only operation log.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/beginOperation" target="_top">-beginOperation</a></tt></dt>
+<dd>Puts the panel into running state and starts the progress indicator.
+ </dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/completeOperationWithStatus:" target="_top">-completeOperationWithStatus:</a></tt></dt>
+<dd>Stops progress indication and enables the Done button.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/setStatusText:" target="_top">-setStatusText:</a></tt></dt>
+<dd>Updates the visible operation status line.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/showWithTitle:status:" target="_top">-showWithTitle:status:</a></tt></dt>
+<dd>Shows the operation panel with an initial title and status.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/appendLogLine:;  name=LCOperationPanel::appendLogLine: --><a name="//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/appendLogLine:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="appendLogLine:">appendLogLine:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Appends one line to the read-only operation log.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/appendLogLine //apple_ref/occ/clm/appendLogLine //apple_ref/occ/intfcm/appendLogLine //apple_ref/occ/intfm/appendLogLine //apple_ref/occ/func/appendLogLine //apple_ref/occ/ftmplt/appendLogLine //apple_ref/occ/defn/appendLogLine //apple_ref/occ/macro/appendLogLine" --><span class="function">appendLogLine</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">line</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>line </code></dt>
+<dd>Log line to append.</dd>
+</dl>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/beginOperation;  name=LCOperationPanel::beginOperation --><a name="//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/beginOperation"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="beginOperation">beginOperation</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Puts the panel into running state and starts the progress indicator.
+ <!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<span class="var">beginOperation</span>; </pre>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/completeOperationWithStatus:;  name=LCOperationPanel::completeOperationWithStatus: --><a name="//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/completeOperationWithStatus:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="completeOperationWithStatus:">completeOperationWithStatus:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Stops progress indication and enables the Done button.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/completeOperationWithStatus //apple_ref/occ/clm/completeOperationWithStatus //apple_ref/occ/intfcm/completeOperationWithStatus //apple_ref/occ/intfm/completeOperationWithStatus //apple_ref/occ/func/completeOperationWithStatus //apple_ref/occ/ftmplt/completeOperationWithStatus //apple_ref/occ/defn/completeOperationWithStatus //apple_ref/occ/macro/completeOperationWithStatus" --><span class="function">completeOperationWithStatus</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">status</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>status </code></dt>
+<dd>Final status text.</dd>
+</dl>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/setStatusText:;  name=LCOperationPanel::setStatusText: --><a name="//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/setStatusText:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="setStatusText:">setStatusText:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Updates the visible operation status line.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/setStatusText //apple_ref/occ/clm/setStatusText //apple_ref/occ/intfcm/setStatusText //apple_ref/occ/intfm/setStatusText //apple_ref/occ/func/setStatusText //apple_ref/occ/ftmplt/setStatusText //apple_ref/occ/defn/setStatusText //apple_ref/occ/macro/setStatusText" --><span class="function">setStatusText</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">status</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>status </code></dt>
+<dd>New status text.</dd>
+</dl>
+<p></p>
+<hr>
+<!-- headerDoc=instm;  uid=//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/showWithTitle:status:;  name=LCOperationPanel::showWithTitle:status: --><a name="//apple_ref/doc/compositePage/occ/instm/LCOperationPanel/showWithTitle:status:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="showWithTitle:status:">showWithTitle:status:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Shows the operation panel with an initial title and status.
+<!-- end abstract --></p>
+<p></p>
+<pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void //apple_ref/occ/intf/void" --><span class="type">void</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/showWithTitle //apple_ref/occ/clm/showWithTitle //apple_ref/occ/intfcm/showWithTitle //apple_ref/occ/intfm/showWithTitle //apple_ref/occ/func/showWithTitle //apple_ref/occ/ftmplt/showWithTitle //apple_ref/occ/defn/showWithTitle //apple_ref/occ/macro/showWithTitle" --><span class="function">showWithTitle</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="param">title</span> <!-- a logicalPath="//apple_ref/occ/instm/status //apple_ref/occ/clm/status //apple_ref/occ/intfcm/status //apple_ref/occ/intfm/status //apple_ref/occ/func/status //apple_ref/occ/ftmplt/status //apple_ref/occ/defn/status //apple_ref/occ/macro/status" --><span class="function">status</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">status</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>title </code></dt>
+<dd>The panel title.</dd>
+<dt><code>status </code></dt>
+<dd>Initial status text.</dd>
+</dl>
+<p></p>
+<p>Last Updated: Wednesday, May 20, 2026
+</p>
+</body>
+</html>

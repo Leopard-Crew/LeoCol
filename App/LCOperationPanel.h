@@ -1,6 +1,15 @@
 #import <Cocoa/Cocoa.h>
 
 /*!
+ @header LCOperationPanel
+ @abstract Reusable progress panel for explicit LeoCol operations.
+ @discussion
+    LCOperationPanel presents visible progress for user-triggered operations
+    such as Update Snapshot and Update Evidence. It does not start background
+    services or imply daemon behavior.
+ */
+
+/*!
  @class LCOperationPanel
  @abstract Small reusable progress panel for explicit LeoCol operations.
  @discussion

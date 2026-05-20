@@ -1,6 +1,14 @@
 #import <Foundation/Foundation.h>
 
 /*!
+ @header LCPresentation
+ @abstract Canonical-value presentation helpers for LeoCol.
+ @discussion
+    LCPresentation maps stored technical values to localized user-facing
+    strings without changing the underlying database values.
+ */
+
+/*!
  @function LCPresentationStringForValue
  @abstract Maps canonical LeoCol values to localized presentation strings.
  @discussion

@@ -1,5 +1,13 @@
 #import <Foundation/Foundation.h>
 
+/*!
+ @header LCStoreSupport
+ @abstract Shared LeoRM store support for LeoCol app stores.
+ @discussion
+    LCStoreSupport centralizes project path, database path, and LeoRM database
+    opening logic for the Cocoa application layer.
+ */
+
 @class LRMDatabase;
 
 /*!

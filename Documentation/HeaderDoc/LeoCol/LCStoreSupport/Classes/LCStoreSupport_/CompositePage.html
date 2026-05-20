@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LCStoreSupport </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/class/LCStoreSupport" title="LCStoreSupport "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LCStoreSupport">LCStoreSupport </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract --> Shared store support helpers for LeoCol's LeoRM-backed stores.
+<!-- end abstract --></p>
+<p><b>Superclass:</b> <!-- a logicalPath="//apple_ref/occ/cl/NSObject" -->NSObject<!-- /a --><br><b>Declared In:</b> <a href="../../index.html" target="_top">LCStoreSupport </a><br></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->
+LCStoreSupport centralizes project path, database path, and database open
+logic for the Cocoa application stores. It keeps LeoRM usage consistent
+without hiding SQL or domain-specific row mapping.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/databasePath" target="_top">+databasePath</a></tt></dt>
+<dd>Returns the LeoCol SQLite database path.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/openDatabaseWithStatusString:" target="_top">+openDatabaseWithStatusString:</a></tt></dt>
+<dd>Opens the LeoCol database through LeoRM.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/projectPath" target="_top">+projectPath</a></tt></dt>
+<dd>Returns the LeoCol project path for the current app bundle.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=clm;  uid=//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/databasePath;  name=LCStoreSupport::databasePath --><a name="//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/databasePath"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="databasePath">databasePath</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the LeoCol SQLite database path.
+<!-- end abstract --></p>
+<p></p>
+<pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">databasePath</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->The project-relative Probe/results/leocol-v1.db path.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=clm;  uid=//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/openDatabaseWithStatusString:;  name=LCStoreSupport::openDatabaseWithStatusString: --><a name="//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/openDatabaseWithStatusString:"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="openDatabaseWithStatusString:">openDatabaseWithStatusString:</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Opens the LeoCol database through LeoRM.
+<!-- end abstract --></p>
+<p></p>
+<pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/LRMDatabase //apple_ref/occ/tdef/LRMDatabase //apple_ref/occ/tag/LRMDatabase //apple_ref/occ/econst/LRMDatabase //apple_ref/occ/struct/LRMDatabase //apple_ref/occ/clconst/LRMDatabase //apple_ref/occ/intf/LRMDatabase" --><span class="type">LRMDatabase</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/instm/openDatabaseWithStatusString //apple_ref/occ/clm/openDatabaseWithStatusString //apple_ref/occ/intfcm/openDatabaseWithStatusString //apple_ref/occ/intfm/openDatabaseWithStatusString //apple_ref/occ/func/openDatabaseWithStatusString //apple_ref/occ/ftmplt/openDatabaseWithStatusString //apple_ref/occ/defn/openDatabaseWithStatusString //apple_ref/occ/macro/openDatabaseWithStatusString" --><span class="function">openDatabaseWithStatusString</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span><span class="type">*</span>)<span class="var">statusString</span>; </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>statusString </code></dt>
+<dd>Optional output parameter receiving a localized user-facing status string on failure.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->An open autoreleased LRMDatabase, or nil on failure.
+ 
+<!-- end return value --></p>
+<p></p>
+<hr>
+<!-- headerDoc=clm;  uid=//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/projectPath;  name=LCStoreSupport::projectPath --><a name="//apple_ref/doc/compositePage/occ/clm/LCStoreSupport/projectPath"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="projectPath">projectPath</a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Returns the LeoCol project path for the current app bundle.
+<!-- end abstract --></p>
+<p></p>
+<pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString //apple_ref/occ/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<span class="var">projectPath</span>;</pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->The project root path used by development builds.
+ 
+<!-- end return value --></p>
+<p></p>
+<p>Last Updated: Wednesday, May 20, 2026
+</p>
+</body>
+</html>

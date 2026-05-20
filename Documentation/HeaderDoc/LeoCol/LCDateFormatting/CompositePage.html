@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>LCDateFormatting </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--.keyword {background:#ffffff; color:#761550;}.template {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.function {background:#ffffff; color:#000000;}.string {background: #ffffff; color:#891315;}.preprocessor {background:#ffffff; color:#236e25}.comment {background:#ffffff; color:#236e25}.char {background: #ffffff; color:#0000ff;}.var {background:#ffffff; color:#000000;}.type {background:#ffffff; color:#761550;}.param {background:#ffffff; color:#000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style>
+</head>
+<body bgcolor="#ffffff">
+<a name="top"></a><a name="//apple_ref/doc/header/LCDateFormatting.h" title="LCDateFormatting "></a><hr>
+<table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h1><a name="LCDateFormatting">LCDateFormatting </a></h1>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Date and timestamp presentation helpers for LeoCol.
+<!-- end abstract --></p>
+<p></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->These functions convert LeoCol's canonical database timestamps into
+localized display strings for tables, inspectors, and reports.
+ <!-- end discussion --></p>
+<p></p>
+<hr>
+<br><h2>Functions</h2>
+<a name="HeaderDoc_functions"></a><dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/LCDisplayCompactTimestampString" target="_top">LCDisplayCompactTimestampString </a></tt></dt>
+<dd>Formats a canonical LeoCol timestamp for compact table display.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/LCDisplayTimestampString" target="_top">LCDisplayTimestampString </a></tt></dt>
+<dd>Formats a canonical LeoCol timestamp for inspector display.
+</dd>
+</dl>
+<hr>
+<!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/LCDisplayCompactTimestampString;  name=LCDisplayCompactTimestampString --><a name="//apple_ref/doc/compositePage/c/func/LCDisplayCompactTimestampString"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LCDisplayCompactTimestampString">LCDisplayCompactTimestampString </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Formats a canonical LeoCol timestamp for compact table display.
+<!-- end abstract --></p>
+<p></p>
+<pre><!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span><a href="../../LeoCol/LCDateFormatting/index.html?Functions/Functions.html#//apple_ref/c/func/LCDisplayCompactTimestampString" logicalPath="//apple_ref/c/instm/LCDisplayCompactTimestampString //apple_ref/c/clm/LCDisplayCompactTimestampString //apple_ref/c/intfcm/LCDisplayCompactTimestampString //apple_ref/c/intfm/LCDisplayCompactTimestampString //apple_ref/c/func/LCDisplayCompactTimestampString" target="_top"><span class="function">LCDisplayCompactTimestampString</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> *<span class="param">timestamp</span>);  </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>timestamp </code></dt>
+<dd>A canonical timestamp string.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->A compact localized date/time string, or an empty string when no value is available.
+ 
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->The input timestamp is expected to use LeoCol's canonical database format.
+The returned value follows the user's current system locale.
+<!-- end discussion --></p>
+<p></p>
+<hr>
+<!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/LCDisplayTimestampString;  name=LCDisplayTimestampString --><a name="//apple_ref/doc/compositePage/c/func/LCDisplayTimestampString"></a><table border="0" cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5">
+<h3><a name="LCDisplayTimestampString">LCDisplayTimestampString </a></h3>
+</td></tr></table>
+<hr>
+<p><!-- begin abstract -->Formats a canonical LeoCol timestamp for inspector display.
+<!-- end abstract --></p>
+<p></p>
+<pre><!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span><a href="../../LeoCol/LCDateFormatting/index.html?Functions/Functions.html#//apple_ref/c/func/LCDisplayTimestampString" logicalPath="//apple_ref/c/instm/LCDisplayTimestampString //apple_ref/c/clm/LCDisplayTimestampString //apple_ref/c/intfcm/LCDisplayTimestampString //apple_ref/c/intfm/LCDisplayTimestampString //apple_ref/c/func/LCDisplayTimestampString" target="_top"><span class="function">LCDisplayTimestampString</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString //apple_ref/c/intf/NSString" --><span class="type">NSString</span><!-- /a --> *<span class="param">timestamp</span>);  </pre>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<dl>
+<dt><code>timestamp </code></dt>
+<dd>A canonical timestamp string.</dd>
+</dl>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value -->A localized date/time string, or "-" when no value is available.
+ 
+<!-- end return value --></p>
+<h5 class="tight">
+<font face="Lucida Grande,Helvetica,Arial">Discussion</font>
+</h5>
+<p><!-- begin discussion -->This formatter is used for the Process Details inspector where a slightly
+more descriptive localized date/time representation is appropriate.
+<!-- end discussion --></p>
+<p></p>
+<p>Last Updated: Wednesday, May 20, 2026
+</p>
+</body>
+</html>

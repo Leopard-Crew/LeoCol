@@ -1,6 +1,14 @@
 #import <Foundation/Foundation.h>
 
 /*!
+ @header LCSnapshotStore
+ @abstract LeoRM-backed snapshot summary store for LeoCol.
+ @discussion
+    LCSnapshotStore reads snapshot summary information from the LeoCol database
+    and exposes it to the Snapshot Overview panel.
+ */
+
+/*!
  @class LCSnapshotStore
  @abstract Loads process snapshot summaries for the Cocoa viewer.
  @discussion

@@ -1,6 +1,14 @@
 #import <Foundation/Foundation.h>
 
 /*!
+ @header LCProcessStore
+ @abstract LeoRM-backed process lifecycle store for the Cocoa viewer.
+ @discussion
+    LCProcessStore reads process lifecycle and identity rows from the LeoCol
+    database. It is read-only and maps LeoRM rows into viewer dictionaries.
+ */
+
+/*!
  @class LCProcessStore
  @abstract Loads process lifecycle rows for the Cocoa viewer.
  @discussion

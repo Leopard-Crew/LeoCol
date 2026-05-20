@@ -1,6 +1,13 @@
 #import <Foundation/Foundation.h>
 
 /*!
+ @header LCString
+ @abstract Localization helper for LeoCol.
+ @discussion
+    LCString resolves Localizable.strings keys for the Cocoa application layer.
+ */
+
+/*!
  @function LCString
  @abstract Returns a localized string for a LeoCol localization key.
  @discussion
