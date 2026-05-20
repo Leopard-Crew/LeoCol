@@ -679,6 +679,96 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     }
 }
 
+- (void)reloadSnapshotRows
+{
+    NSString *statusString;
+    NSArray *rows;
+
+    statusString = nil;
+    rows = [LCSnapshotStore loadSnapshotSummaryRowsWithStatusString:&statusString];
+
+    [_snapshotRows removeAllObjects];
+
+    if ([rows count] > 0) {
+        [_snapshotRows addObjectsFromArray:rows];
+    }
+
+    if (_snapshotTableView != nil) {
+        [_snapshotTableView reloadData];
+    }
+}
+
+- (void)openSnapshotPanel
+{
+    NSScrollView *scrollView;
+    NSTableColumn *snapshotIDColumn;
+    NSTableColumn *observedAtColumn;
+    NSTableColumn *sourceColumn;
+    NSTableColumn *processCountColumn;
+
+    if (_snapshotPanel != nil) {
+        [self reloadSnapshotRows];
+        [_snapshotPanel makeKeyAndOrderFront:nil];
+        return;
+    }
+
+    _snapshotPanel = [[NSPanel alloc] initWithContentRect:NSMakeRect(220, 220, 600, 260)
+                                                styleMask:(NSTitledWindowMask |
+                                                           NSClosableWindowMask |
+                                                           NSUtilityWindowMask)
+                                                  backing:NSBackingStoreBuffered
+                                                    defer:NO];
+
+    [_snapshotPanel setTitle:LCString(@"SnapshotOverview.Title")];
+    [_snapshotPanel setReleasedWhenClosed:NO];
+
+    scrollView = [[[NSScrollView alloc] initWithFrame:[[_snapshotPanel contentView] bounds]] autorelease];
+    [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    [scrollView setHasVerticalScroller:YES];
+    [scrollView setHasHorizontalScroller:NO];
+    [scrollView setAutohidesScrollers:YES];
+    [scrollView setBorderType:NSBezelBorder];
+
+    _snapshotTableView = [[[NSTableView alloc] initWithFrame:[scrollView bounds]] autorelease];
+    [_snapshotTableView setDelegate:(id)self];
+    [_snapshotTableView setDataSource:(id)self];
+    [_snapshotTableView setUsesAlternatingRowBackgroundColors:YES];
+
+    snapshotIDColumn = [[[NSTableColumn alloc] initWithIdentifier:@"snapshotID"] autorelease];
+    [[snapshotIDColumn headerCell] setStringValue:LCString(@"Column.SnapshotID")];
+    [snapshotIDColumn setWidth:90.0];
+    [_snapshotTableView addTableColumn:snapshotIDColumn];
+
+    observedAtColumn = [[[NSTableColumn alloc] initWithIdentifier:@"observedAt"] autorelease];
+    [[observedAtColumn headerCell] setStringValue:LCString(@"Column.ObservedAt")];
+    [observedAtColumn setWidth:190.0];
+    [_snapshotTableView addTableColumn:observedAtColumn];
+
+    sourceColumn = [[[NSTableColumn alloc] initWithIdentifier:@"source"] autorelease];
+    [[sourceColumn headerCell] setStringValue:LCString(@"Column.Source")];
+    [sourceColumn setWidth:160.0];
+    [_snapshotTableView addTableColumn:sourceColumn];
+
+    processCountColumn = [[[NSTableColumn alloc] initWithIdentifier:@"processCount"] autorelease];
+    [[processCountColumn headerCell] setStringValue:LCString(@"Column.ProcessCount")];
+    [processCountColumn setWidth:110.0];
+    [_snapshotTableView addTableColumn:processCountColumn];
+
+    [scrollView setDocumentView:_snapshotTableView];
+    [[_snapshotPanel contentView] addSubview:scrollView];
+
+    [self reloadSnapshotRows];
+
+    [_snapshotPanel makeKeyAndOrderFront:nil];
+}
+
+- (void)showSnapshotOverview:(id)sender
+{
+    (void)sender;
+
+    [self openSnapshotPanel];
+}
+
 - (void)showAboutPanel:(id)sender
 {
     NSAlert *alert;
