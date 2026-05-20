@@ -10,7 +10,7 @@
     NSMutableArray *rows;
     NSError *error;
     LRMDatabase *database;
-    LRMStatement *statement;
+    LRMRepository *repository;
     LRMResultSet *resultSet;
 
     rows = [NSMutableArray array];
@@ -26,7 +26,20 @@
         return rows;
     }
 
-    statement = [database prepareStatement:
+    repository = [[[LRMRepository alloc] initWithDatabase:database
+                                                     error:&error] autorelease];
+
+    if (repository == nil) {
+        [database close];
+
+        if (statusString != NULL) {
+            *statusString = LCString(@"Status.QueryPrepareFailed");
+        }
+
+        return rows;
+    }
+
+    resultSet = [repository resultSetForSQL:
         @"SELECT "
         @"  evidence_type AS evidence_type, "
         @"  resolution_state AS resolution_state, "
@@ -34,25 +47,14 @@
         @"FROM provenance_evidence "
         @"GROUP BY evidence_type, resolution_state "
         @"ORDER BY evidence_type ASC, resolution_state ASC;"
+        arguments:nil
         error:&error];
-
-    if (statement == nil) {
-        [database close];
-
-        if (statusString != NULL) {
-            *statusString = @"Could not prepare provenance summary query";
-        }
-
-        return rows;
-    }
-
-    resultSet = [statement executeQuery:&error];
 
     if (resultSet == nil) {
         [database close];
 
         if (statusString != NULL) {
-            *statusString = @"Could not execute provenance summary query";
+            *statusString = LCString(@"Status.QueryFailed");
         }
 
         return rows;
@@ -83,7 +85,7 @@
     [database close];
 
     if (error != nil && statusString != NULL) {
-        *statusString = @"Could not read provenance summary rows";
+        *statusString = LCString(@"Status.ResultIterationFailed");
     }
 
     return rows;

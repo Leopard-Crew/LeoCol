@@ -79,7 +79,7 @@
     NSMutableArray *rows;
     NSError *error;
     LRMDatabase *database;
-    LRMStatement *statement;
+    LRMRepository *repository;
     LRMResultSet *resultSet;
 
     rows = [NSMutableArray array];
@@ -98,7 +98,22 @@
         return rows;
     }
 
-    statement = [database prepareStatement:
+    repository = [[[LRMRepository alloc] initWithDatabase:database
+                                                     error:&error] autorelease];
+
+    if (repository == nil) {
+        NSLog(@"LeoCol repository creation failed: %@", error);
+        [database close];
+        [self addFallbackRowsToArray:rows];
+
+        if (statusString != NULL) {
+            *statusString = LCString(@"Status.QueryPrepareFailed");
+        }
+
+        return rows;
+    }
+
+    resultSet = [repository resultSetForSQL:
         @"SELECT "
         @"  l.process_name AS process_name, "
         @"  l.pid AS pid, "
@@ -114,21 +129,8 @@
         @"LEFT JOIN process_identity i ON i.lifecycle_id = l.id "
         @"ORDER BY l.exit_observed ASC, l.process_name ASC "
         @"LIMIT 200;"
+        arguments:nil
         error:&error];
-
-    if (statement == nil) {
-        NSLog(@"LeoCol prepare failed: %@", error);
-        [database close];
-        [self addFallbackRowsToArray:rows];
-
-        if (statusString != NULL) {
-            *statusString = LCString(@"Status.QueryPrepareFailed");
-        }
-
-        return rows;
-    }
-
-    resultSet = [statement executeQuery:&error];
 
     if (resultSet == nil) {
         NSLog(@"LeoCol query failed: %@", error);

@@ -10,7 +10,7 @@
     NSMutableArray *rows;
     NSError *error;
     LRMDatabase *database;
-    LRMStatement *statement;
+    LRMRepository *repository;
     LRMResultSet *resultSet;
 
     rows = [NSMutableArray array];
@@ -26,19 +26,10 @@
         return rows;
     }
 
-    statement = [database prepareStatement:
-        @"SELECT "
-        @"  s.id AS snapshot_id, "
-        @"  s.observed_at AS observed_at, "
-        @"  s.source AS source, "
-        @"  COUNT(o.id) AS process_count "
-        @"FROM snapshot_run s "
-        @"LEFT JOIN process_observation o ON o.snapshot_id = s.id "
-        @"GROUP BY s.id, s.observed_at, s.source "
-        @"ORDER BY s.observed_at DESC, s.id DESC;"
-        error:&error];
+    repository = [[[LRMRepository alloc] initWithDatabase:database
+                                                     error:&error] autorelease];
 
-    if (statement == nil) {
+    if (repository == nil) {
         [database close];
 
         if (statusString != NULL) {
@@ -48,7 +39,18 @@
         return rows;
     }
 
-    resultSet = [statement executeQuery:&error];
+    resultSet = [repository resultSetForSQL:
+        @"SELECT "
+        @"  s.id AS snapshot_id, "
+        @"  s.observed_at AS observed_at, "
+        @"  s.source AS source, "
+        @"  COUNT(o.id) AS process_count "
+        @"FROM snapshot_run s "
+        @"LEFT JOIN process_observation o ON o.snapshot_id = s.id "
+        @"GROUP BY s.id, s.observed_at, s.source "
+        @"ORDER BY s.observed_at DESC, s.id DESC;"
+        arguments:nil
+        error:&error];
 
     if (resultSet == nil) {
         [database close];
