@@ -74,6 +74,10 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (void)updateDetailView;
 - (void)installApplicationMenu;
 - (void)installToolbar;
+- (void)installApplicationMenu;
+- (void)showAboutPanel:(id)sender;
+- (void)openEvidencePanel;
+- (void)reloadEvidenceRows;
 
 @end
 
@@ -363,64 +367,88 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     [_detailTextView setString:detail];
 }
 
-- (NSString *)evidenceSummaryText
+- (void)reloadEvidenceRows
 {
     NSString *statusString;
     NSArray *rows;
-    NSMutableString *summary;
-    NSEnumerator *enumerator;
-    NSDictionary *row;
 
     statusString = nil;
     rows = [LCProvenanceStore loadEvidenceSummaryRowsWithStatusString:&statusString];
 
-    if ([rows count] == 0) {
-        if (statusString != nil && [statusString length] > 0) {
-            return statusString;
-        }
+    [_evidenceRows removeAllObjects];
 
-        return LCString(@"EvidenceSummary.Empty");
+    if ([rows count] > 0) {
+        [_evidenceRows addObjectsFromArray:rows];
     }
 
-    summary = [NSMutableString string];
+    if (_evidenceTableView != nil) {
+        [_evidenceTableView reloadData];
+    }
+}
 
-    enumerator = [rows objectEnumerator];
+- (void)openEvidencePanel
+{
+    NSScrollView *scrollView;
+    NSTableColumn *evidenceTypeColumn;
+    NSTableColumn *resolutionStateColumn;
+    NSTableColumn *countColumn;
 
-    while ((row = [enumerator nextObject]) != nil) {
-        NSString *evidenceType;
-        NSString *resolutionState;
-        NSNumber *count;
-
-        evidenceType = LCPresentationStringForValue([row objectForKey:@"evidenceType"],
-                                                    @"evidenceType",
-                                                    YES);
-        resolutionState = LCPresentationStringForValue([row objectForKey:@"resolutionState"],
-                                                       @"resolutionState",
-                                                       YES);
-        count = [row objectForKey:@"count"];
-
-        [summary appendFormat:@"%@ / %@: %@\n",
-            evidenceType,
-            resolutionState,
-            count != nil ? count : [NSNumber numberWithInt:0]];
+    if (_evidencePanel != nil) {
+        [self reloadEvidenceRows];
+        [_evidencePanel makeKeyAndOrderFront:nil];
+        return;
     }
 
-    return summary;
+    _evidencePanel = [[NSPanel alloc] initWithContentRect:NSMakeRect(180, 180, 520, 230)
+                                                styleMask:(NSTitledWindowMask |
+                                                           NSClosableWindowMask |
+                                                           NSUtilityWindowMask)
+                                                  backing:NSBackingStoreBuffered
+                                                    defer:NO];
+
+    [_evidencePanel setTitle:LCString(@"EvidenceSummary.Title")];
+    [_evidencePanel setReleasedWhenClosed:NO];
+
+    scrollView = [[[NSScrollView alloc] initWithFrame:[[_evidencePanel contentView] bounds]] autorelease];
+    [scrollView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    [scrollView setHasVerticalScroller:YES];
+    [scrollView setHasHorizontalScroller:NO];
+    [scrollView setAutohidesScrollers:YES];
+    [scrollView setBorderType:NSBezelBorder];
+
+    _evidenceTableView = [[[NSTableView alloc] initWithFrame:[scrollView bounds]] autorelease];
+    [_evidenceTableView setDelegate:(id)self];
+    [_evidenceTableView setDataSource:(id)self];
+    [_evidenceTableView setUsesAlternatingRowBackgroundColors:YES];
+
+    evidenceTypeColumn = [[[NSTableColumn alloc] initWithIdentifier:@"evidenceType"] autorelease];
+    [[evidenceTypeColumn headerCell] setStringValue:LCString(@"Column.EvidenceType")];
+    [evidenceTypeColumn setWidth:220.0];
+    [_evidenceTableView addTableColumn:evidenceTypeColumn];
+
+    resolutionStateColumn = [[[NSTableColumn alloc] initWithIdentifier:@"resolutionState"] autorelease];
+    [[resolutionStateColumn headerCell] setStringValue:LCString(@"Column.ResolutionState")];
+    [resolutionStateColumn setWidth:190.0];
+    [_evidenceTableView addTableColumn:resolutionStateColumn];
+
+    countColumn = [[[NSTableColumn alloc] initWithIdentifier:@"count"] autorelease];
+    [[countColumn headerCell] setStringValue:LCString(@"Column.Count")];
+    [countColumn setWidth:80.0];
+    [_evidenceTableView addTableColumn:countColumn];
+
+    [scrollView setDocumentView:_evidenceTableView];
+    [[_evidencePanel contentView] addSubview:scrollView];
+
+    [self reloadEvidenceRows];
+
+    [_evidencePanel makeKeyAndOrderFront:nil];
 }
 
 - (void)showEvidenceSummary:(id)sender
 {
-    NSAlert *alert;
-
     (void)sender;
 
-    alert = [[[NSAlert alloc] init] autorelease];
-
-    [alert setMessageText:LCString(@"EvidenceSummary.Title")];
-    [alert setInformativeText:[self evidenceSummaryText]];
-    [alert addButtonWithTitle:LCString(@"Button.OK")];
-
-    [alert runModal];
+    [self openEvidencePanel];
 }
 
 - (void)showAboutPanel:(id)sender
@@ -470,7 +498,6 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     NSMenu *applicationMenu;
     NSMenuItem *aboutItem;
     NSMenuItem *quitItem;
-    NSString *quitTitle;
 
     mainMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
 
@@ -489,9 +516,7 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 
     [applicationMenu addItem:[NSMenuItem separatorItem]];
 
-    quitTitle = LCString(@"Menu.QuitLeoCol");
-
-    quitItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
+    quitItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.QuitLeoCol")
                                           action:@selector(terminate:)
                                    keyEquivalent:@"q"] autorelease];
     [applicationMenu addItem:quitItem];
@@ -643,6 +668,7 @@ willBeInsertedIntoToolbar:(BOOL)flag
 
     _rows = [[NSMutableArray alloc] init];
     _visibleRows = [[NSMutableArray alloc] init];
+    _evidenceRows = [[NSMutableArray alloc] init];
 
     _window = [[NSWindow alloc] initWithContentRect:NSMakeRect(120, 120, 980, 720)
                                          styleMask:(NSTitledWindowMask |
@@ -787,14 +813,19 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-    (void)notification;
+    if ([notification object] == _evidenceTableView) {
+        return;
+    }
 
     [self updateDetailView];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    (void)tableView;
+    if (tableView == _evidenceTableView) {
+        return [_evidenceRows count];
+    }
+
     return [_visibleRows count];
 }
 
@@ -806,10 +837,20 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     NSString *identifier;
     id value;
 
-    (void)tableView;
+    identifier = [tableColumn identifier];
+
+    if (tableView == _evidenceTableView) {
+        row = [_evidenceRows objectAtIndex:rowIndex];
+        value = [row objectForKey:identifier];
+
+        if ([identifier isEqualToString:@"count"]) {
+            return value != nil ? value : [NSNumber numberWithInt:0];
+        }
+
+        return LCPresentationStringForValue(value, identifier, NO);
+    }
 
     row = [_visibleRows objectAtIndex:rowIndex];
-    identifier = [tableColumn identifier];
     value = [row objectForKey:identifier];
 
     if ([identifier isEqualToString:@"observed"]) {
@@ -828,6 +869,8 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 - (void)dealloc
 {
     [_sortKey release];
+    [_evidenceRows release];
+    [_evidencePanel release];
     [_visibleRows release];
     [_rows release];
     [_window release];

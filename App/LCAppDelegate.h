@@ -17,6 +17,9 @@
     NSTextField *_filterField;
     NSTextField *_statusField;
     NSTextView *_detailTextView;
+    NSPanel *_evidencePanel;
+    NSTableView *_evidenceTableView;
+    NSMutableArray *_evidenceRows;
     NSString *_sortKey;
     BOOL _sortAscending;
 }
