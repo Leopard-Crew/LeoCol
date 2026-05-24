@@ -34,6 +34,8 @@
     NSPanel *_snapshotPanel;
     NSTableView *_snapshotTableView;
     NSMutableArray *_snapshotRows;
+    NSWindow *_helpWindow;
+    id _helpWebView;
     LCOperationPanel *_operationPanel;
     BOOL _snapshotUpdateRunning;
     BOOL _evidenceUpdateRunning;
@@ -70,11 +72,11 @@
 - (void)showAboutPanel:(id)sender;
 
 /*!
- @method showHelp:
+ @method openLeoColHelp:
  @abstract Opens the bundled local LeoCol Help index.
  @param sender The control or menu item that requested help.
  */
-- (void)showHelp:(id)sender;
+- (void)openLeoColHelp:(id)sender;
 
 /*!
  @method exportReport:

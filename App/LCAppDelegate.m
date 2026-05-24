@@ -7,6 +7,7 @@
 #import "LCOperationPanel.h"
 #import "LCStoreSupport.h"
 #import "LCDateFormatting.h"
+#import <WebKit/WebKit.h>
 
 typedef struct LeoColSortContext {
     NSString *key;
@@ -1147,31 +1148,99 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
 - (NSString *)helpIndexPath
 {
     NSFileManager *fileManager;
-    NSString *bundleHelpPath;
-    NSString *projectHelpPath;
+    NSString *resourcePath;
+    NSString *projectHelpRootPath;
+    NSMutableArray *localizationNames;
+    NSArray *preferredLocalizations;
+    NSEnumerator *localizationEnumerator;
+    NSString *localizationName;
+    NSString *mappedName;
+    NSString *candidatePath;
+    NSString *relativePath;
 
     fileManager = [NSFileManager defaultManager];
+    resourcePath = [[NSBundle mainBundle] resourcePath];
 
-    bundleHelpPath = [[[NSBundle mainBundle] resourcePath]
-        stringByAppendingPathComponent:@"LeoCol Help/index.html"];
+    localizationNames = [NSMutableArray array];
+    preferredLocalizations = [[NSBundle mainBundle] preferredLocalizations];
 
-    if ([fileManager fileExistsAtPath:bundleHelpPath]) {
-        return bundleHelpPath;
+    localizationEnumerator = [preferredLocalizations objectEnumerator];
+
+    while ((localizationName = [localizationEnumerator nextObject]) != nil) {
+        if (![localizationNames containsObject:localizationName]) {
+            [localizationNames addObject:localizationName];
+        }
+
+        mappedName = nil;
+
+        if ([localizationName hasPrefix:@"de"]) {
+            mappedName = @"German";
+        } else if ([localizationName hasPrefix:@"en"]) {
+            mappedName = @"English";
+        }
+
+        if (mappedName != nil && ![localizationNames containsObject:mappedName]) {
+            [localizationNames addObject:mappedName];
+        }
     }
 
-    projectHelpPath = [[LCStoreSupport projectPath]
-        stringByAppendingPathComponent:@"App/Help/LeoCol Help/index.html"];
+    if (![localizationNames containsObject:@"German"]) {
+        [localizationNames addObject:@"German"];
+    }
 
-    if ([fileManager fileExistsAtPath:projectHelpPath]) {
-        return projectHelpPath;
+    if (![localizationNames containsObject:@"English"]) {
+        [localizationNames addObject:@"English"];
+    }
+
+    localizationEnumerator = [localizationNames objectEnumerator];
+
+    while ((localizationName = [localizationEnumerator nextObject]) != nil) {
+        relativePath = [NSString stringWithFormat:@"%@.lproj/LeoCol Help/index.html",
+            localizationName];
+        candidatePath = [resourcePath stringByAppendingPathComponent:relativePath];
+
+        if ([fileManager fileExistsAtPath:candidatePath]) {
+            return candidatePath;
+        }
+    }
+
+    candidatePath = [resourcePath stringByAppendingPathComponent:@"LeoCol Help/index.html"];
+
+    if ([fileManager fileExistsAtPath:candidatePath]) {
+        return candidatePath;
+    }
+
+    projectHelpRootPath = [[LCStoreSupport projectPath]
+        stringByAppendingPathComponent:@"App/Help"];
+
+    localizationEnumerator = [localizationNames objectEnumerator];
+
+    while ((localizationName = [localizationEnumerator nextObject]) != nil) {
+        relativePath = [NSString stringWithFormat:@"%@.lproj/LeoCol Help/index.html",
+            localizationName];
+        candidatePath = [projectHelpRootPath stringByAppendingPathComponent:relativePath];
+
+        if ([fileManager fileExistsAtPath:candidatePath]) {
+            return candidatePath;
+        }
+    }
+
+    candidatePath = [projectHelpRootPath stringByAppendingPathComponent:@"LeoCol Help/index.html"];
+
+    if ([fileManager fileExistsAtPath:candidatePath]) {
+        return candidatePath;
     }
 
     return nil;
 }
 
-- (void)showHelp:(id)sender
+- (void)openLeoColHelp:(id)sender
 {
     NSString *path;
+    NSURL *url;
+    NSURLRequest *request;
+    NSView *contentView;
+    WebView *webView;
 
     (void)sender;
 
@@ -1183,7 +1252,34 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
         return;
     }
 
-    [[NSWorkspace sharedWorkspace] openFile:path];
+    if (_helpWindow == nil) {
+        _helpWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(180, 140, 820, 620)
+                                                  styleMask:(NSTitledWindowMask |
+                                                             NSClosableWindowMask |
+                                                             NSMiniaturizableWindowMask |
+                                                             NSResizableWindowMask)
+                                                    backing:NSBackingStoreBuffered
+                                                      defer:NO];
+
+        [_helpWindow setReleasedWhenClosed:NO];
+        [_helpWindow setTitle:LCString(@"Window.HelpTitle")];
+
+        contentView = [_helpWindow contentView];
+
+        webView = [[[WebView alloc] initWithFrame:[contentView bounds]] autorelease];
+        [webView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+
+        [contentView addSubview:webView];
+        _helpWebView = [webView retain];
+    }
+
+    url = [NSURL fileURLWithPath:path];
+    request = [NSURLRequest requestWithURL:url];
+
+    [[_helpWebView mainFrame] loadRequest:request];
+
+    [_helpWindow makeKeyAndOrderFront:nil];
+    [self setStatusString:LCString(@"Status.HelpOpenedFromFile")];
 }
 
 - (void)showAboutPanel:(id)sender
@@ -1443,8 +1539,8 @@ LeoColCompareRows(id leftObject, id rightObject, void *contextPointer)
     helpMenu = [[[NSMenu alloc] initWithTitle:LCString(@"Menu.Help")] autorelease];
 
     leoColHelpItem = [[[NSMenuItem alloc] initWithTitle:LCString(@"Menu.LeoColHelp")
-                                                 action:@selector(showHelp:)
-                                          keyEquivalent:@"?"] autorelease];
+                                                 action:@selector(openLeoColHelp:)
+                                          keyEquivalent:@""] autorelease];
     [leoColHelpItem setTarget:self];
     [helpMenu addItem:leoColHelpItem];
 
@@ -1826,6 +1922,8 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     [_operationPanel release];
     [_snapshotRows release];
     [_snapshotPanel release];
+    [_helpWebView release];
+    [_helpWindow release];
     [_evidenceRows release];
     [_evidencePanel release];
     [_visibleRows release];

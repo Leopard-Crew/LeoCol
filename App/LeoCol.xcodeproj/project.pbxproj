@@ -324,7 +324,7 @@
 				HEADER_SEARCH_PATHS = ../bricks/LeoRM/Sources;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-lsqlite3";
+				OTHER_LDFLAGS = "-lsqlite3 -framework WebKit";
 				PRODUCT_NAME = LeoCol;
 			};
 			name = Debug;
@@ -340,7 +340,7 @@
 				HEADER_SEARCH_PATHS = ../bricks/LeoRM/Sources;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-lsqlite3";
+				OTHER_LDFLAGS = "-lsqlite3 -framework WebKit";
 				PRODUCT_NAME = LeoCol;
 			};
 			name = Release;
