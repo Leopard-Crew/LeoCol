@@ -31,6 +31,7 @@
 		A57000000000000000000003 /* LCSnapshotStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A57000000000000000000002 /* LCSnapshotStore.m */; };
 		A58000000000000000000003 /* LCOperationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A58000000000000000000002 /* LCOperationPanel.m */; };
 		A59000000000000000000003 /* LCStoreSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = A59000000000000000000002 /* LCStoreSupport.m */; };
+		A61000000000000000000001 /* LeoCol.icns in Resources */ = {isa = PBXBuildFile; fileRef = A61000000000000000000002 /* LeoCol.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		A58000000000000000000002 /* LCOperationPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCOperationPanel.m; sourceTree = "<group>"; };
 		A59000000000000000000001 /* LCStoreSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCStoreSupport.h; sourceTree = "<group>"; };
 		A59000000000000000000002 /* LCStoreSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCStoreSupport.m; sourceTree = "<group>"; };
+		A61000000000000000000002 /* LeoCol.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = LeoCol.icns; path = ../assets/images/LeoCol.icns; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107310486CEB800E47090 /* Info.plist */,
+				A61000000000000000000002 /* LeoCol.icns */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				A40000000000000000000002 /* Localizable.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -245,6 +248,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				A40000000000000000000001 /* Localizable.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				A61000000000000000000001 /* LeoCol.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
