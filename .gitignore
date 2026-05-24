@@ -81,3 +81,12 @@ xcuserdata/
 
 # Xcode build output
 App/build/
+
+# LeoCol icon build artifacts
+assets/images/*.iconwork/
+assets/images/*-test.icns
+assets/images/*-test.iconwork/
+assets/images/*.local.bak
+
+# Local probe/report scratch artifacts
+docs/probes/LeoCol-Bericht.txt
