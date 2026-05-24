@@ -40,7 +40,7 @@ echo "package_release: building LeoCol $VERSION"
 
 cd "$ROOT_DIR"
 
-xcodebuild -project App/LeoCol.xcodeproj -configuration Release clean build
+xcodebuild -project App/LeoCol.xcodeproj -configuration Release clean build ARCHS=ppc VALID_ARCHS=ppc ONLY_ACTIVE_ARCH=NO
 
 App/copy_help_into_bundle.sh "$APP_BUNDLE"
 App/copy_v1_probes_into_bundle.sh "$APP_BUNDLE"
@@ -49,6 +49,22 @@ echo "package_release: checking bundle contents"
 
 test -f "$APP_BUNDLE/Contents/Info.plist"
 test -x "$APP_BUNDLE/Contents/MacOS/LeoCol"
+
+ARCH_INFO="$(/usr/bin/lipo -info "$APP_BUNDLE/Contents/MacOS/LeoCol")"
+echo "package_release: binary architecture: $ARCH_INFO"
+
+case "$ARCH_INFO" in
+    *"Non-fat file:"*"architecture: ppc"*|*"Non-fat file:"*"architecture: ppc7400"*)
+        ;;
+    *"Architectures in the fat file:"*)
+        echo "package_release: expected a PPC-only binary, got a fat binary" >&2
+        exit 1
+        ;;
+    *)
+        echo "package_release: expected a PPC-only binary" >&2
+        exit 1
+        ;;
+esac
 test -f "$APP_BUNDLE/Contents/Resources/LeoCol.icns"
 test -f "$APP_BUNDLE/Contents/Resources/English.lproj/LeoCol Help/index.html"
 test -f "$APP_BUNDLE/Contents/Resources/German.lproj/LeoCol Help/index.html"

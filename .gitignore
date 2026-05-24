@@ -90,3 +90,7 @@ assets/images/*.local.bak
 
 # Local probe/report scratch artifacts
 docs/probes/LeoCol-Bericht.txt
+
+# LeoCol release packaging artifacts
+dist/
+build/release/
