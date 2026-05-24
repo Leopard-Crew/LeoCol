@@ -119,9 +119,25 @@ These are not V1 blockers.
 
 ## Checksum
 
-Generate SHA256 when available.
+A GitHub release must include a SHA256 sidecar file for the published release
+artifact.
 
-Fallback to SHA1 or MD5 only if the target Leopard system lacks SHA256 tooling.
+Required GitHub release assets:
+
+~~~text
+LeoCol-<version>-Leopard-PPC.dmg
+LeoCol-<version>-Leopard-PPC.dmg.sha256
+~~~
+
+The `.sha256` file must use the standard format:
+
+~~~text
+<sha256>  LeoCol-<version>-Leopard-PPC.dmg
+~~~
+
+SHA1 or MD5 are not accepted for normal GitHub release publishing. They are only
+temporary local fallbacks if a Leopard machine lacks SHA256 tooling during
+diagnosis.
 
 ## Release notes
 
