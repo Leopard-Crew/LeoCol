@@ -13,7 +13,7 @@ or without long-term context.
 
 ```text
 Mac OS X Leopard 10.5.8 PowerPC
-````
+```
 
 The public release artifact is PowerPC-only. The release packaging path rejects  
 accidental Intel/PowerPC universal binaries.
@@ -155,21 +155,14 @@ V1 probes
 
 ## Documents
 
-- Scope
-    
-- Architecture
-    
-- Collector Model
-    
-- Data Model
-    
-- V1 Roadmap
-    
-- Release Packaging Plan
-    
-- Release Package Findings
-    
-- Public Release Findings
+- [Scope](docs/scope.md)
+- [Architecture](docs/architecture.md)
+- [Collector Model](docs/collector-model.md)
+- [Data Model](docs/data-model.md)
+- [V1 Roadmap](docs/v1-roadmap.md)
+- [Release Packaging Plan](docs/release-packaging-plan.md)
+- [Release Package Findings](docs/release-package-findings.md)
+- [Public Release Findings](docs/public-release-findings.md)
     
 
 ## Project namespace
